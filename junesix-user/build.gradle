@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":junesix-common")
+    testCompile "junit:junit:4.11"
+}

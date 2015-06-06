@@ -5,7 +5,6 @@
 lib/
 logs/
 target/
-bin/
 .DS_Store
 .metadata
 *.log
@@ -20,10 +19,9 @@ matrix.ipr
 matrix.iws
 .lein*
 .nrepl*
-*.jar
 out/
 *.class
-build/*
+build/
 classes/*
 .gradle/
 include/

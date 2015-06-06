@@ -1,4 +1,4 @@
-package com.junesix.api.help.filters;
+package com.junesix.api.filters;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;

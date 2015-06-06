@@ -1,0 +1,30 @@
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url 'http://repo.spring.io/libs-release' }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+//    compile "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
+    compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
+    compile "javax.servlet:jstl:1.2"
+
+    compile project(":junesix-common")
+    compile project(":junesix-properties")
+    compile project(":junesix-frame")
+    compile project(":junesix-user")
+}
+
