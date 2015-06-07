@@ -1,6 +1,6 @@
 package com.junesix.api;
 
-import org.apache.commons.lang3.StringUtils;
+import com.junesix.common.config.DefaultConfigLoader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,14 +17,7 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("classpath*:spring/*.xml")
 public class Application {
     public static void main(String[] args) {
-        String profile = System.getProperty("spring.profiles.active");
-        if (StringUtils.isBlank(profile)) {
-            System.err.println("System Property spring.profiles.active not set");
-            System.setProperty("spring.profiles.active", "dev");
-            profile = System.getProperty("spring.profiles.active");
-        }
-        System.out.println("profile: " + profile);
-        System.out.println();
+        DefaultConfigLoader.getInstance().getEnv();
         SpringApplication.run(Application.class, args);
     }
 }

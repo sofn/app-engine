@@ -19,7 +19,7 @@ public class HeaderFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        ((HttpServletResponse)response).addHeader("X-Matrix-IP", request.getLocalAddr());
+        ((HttpServletResponse) response).addHeader("X-Matrix-IP", request.getLocalAddr());
         filterChain.doFilter(request, response);
     }
 }

@@ -2,7 +2,7 @@ package com.junesix.api.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
-import com.junesix.utils.collection.GlobalCollectionUtils;
+import com.junesix.common.utils.collection.GlobalCollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
