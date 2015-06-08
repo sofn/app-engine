@@ -16,7 +16,6 @@ public class HelpController {
 
     @RequestMapping(value = "/ping")
     public String ping() {
-        Integer.parseInt("fdsa");
         return "{\"apistatus\":1,\"result\":true}";
     }
 

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.exception.ExcepFactor;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 
 import java.util.LinkedHashMap;
@@ -15,7 +14,6 @@ import java.util.Map;
  * Authors: sofn
  * Version: 1.0  Created at 15-6-8 00:32.
  */
-@Component
 public class ErrorAttributesHandler implements ErrorAttributes, JSONAware {
 
     private ExcepFactor excepFactor = ExcepFactor.E_DEFAULT;

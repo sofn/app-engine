@@ -18,7 +18,7 @@ configurations {
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-//    compile "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
+    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
     compile "javax.servlet:jstl:1.2"
 

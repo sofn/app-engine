@@ -2,9 +2,9 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>junesix</title>
+    <title>welcome</title>
 </head>
 <body>
-this is index
+welcome you
 </body>
 </html>

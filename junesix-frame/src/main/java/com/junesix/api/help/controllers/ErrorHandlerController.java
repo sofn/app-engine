@@ -1,13 +1,14 @@
 package com.junesix.api.help.controllers;
 
-import com.junesix.api.filters.ErrorAttributesHandler;
+import com.junesix.api.filters.GlobalExceptionHandler;
 import com.junesix.common.exception.ExcepFactor;
+import com.junesix.common.exception.MatrixException;
+import com.junesix.common.exception.MatrixExceptionHelper;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 404处理
@@ -26,8 +27,21 @@ public class ErrorHandlerController implements ErrorController {
     }
 
     @RequestMapping(value = ERROR_PATH)
-    public String error(HttpServletRequest request, HttpServletResponse response) {
-        return new ErrorAttributesHandler(ExcepFactor.E_API_NOT_EXIST).toJSONString();
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    public String error(HttpServletRequest request) {
+        String path = (String) request.getAttribute("javax.servlet.error.request_uri");
+        int statusCode = (int) request.getAttribute("javax.servlet.error.status_code");
+
+        Exception exception = (Exception) request.getAttribute(GlobalExceptionHandler.GlobalExceptionAttribute);
+        String result;
+        if (exception != null && exception instanceof MatrixException) {
+            result = ((MatrixException) exception).formatException(path);
+        } else if (statusCode == 404) {
+            result = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_API_NOT_EXIST).formatException(path);
+        } else {
+            result = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_DEFAULT).formatException(path);
+        }
+        return result;
     }
 
 }
