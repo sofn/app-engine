@@ -1,6 +1,5 @@
 package com.junesix.api.filters;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -14,12 +13,11 @@ import java.io.IOException;
  * @author sofn
  * @version 1.0 Created at: 2015-04-30 18:46
  */
-@Component
-public class HeaderFilter extends GenericFilterBean {
+public class HeaderResponseFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        ((HttpServletResponse) response).addHeader("X-Matrix-IP", request.getLocalAddr());
+        ((HttpServletResponse) response).setHeader("X-Matrix-IP", request.getLocalAddr());
         filterChain.doFilter(request, response);
     }
 }

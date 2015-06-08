@@ -14,6 +14,7 @@ public class WelcomeController {
     @RequestMapping(value = "")
     public String welcome() {
 //        return "redirect:/index.jsp";
-        return "forward:/WEB-INF/jsp/welcome.jsp";
+//        return "forward:/WEB-INF/jsp/welcome.jsp";
+        return "welcome";
     }
 }

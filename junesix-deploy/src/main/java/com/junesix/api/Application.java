@@ -33,4 +33,5 @@ public class Application {
         DefaultConfigLoader.getInstance().getEnv();
         SpringApplication.run(Application.class, args);
     }
+
 }
