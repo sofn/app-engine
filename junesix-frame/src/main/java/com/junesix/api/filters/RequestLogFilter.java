@@ -1,14 +1,20 @@
 package com.junesix.api.filters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
  * @author sofn
  * @version 1.0 Created at: 2015-04-30 18:46
  */
-public class JsonResponseFilter implements Filter {
+public class RequestLogFilter implements Filter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger("REQUEST");
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res,
@@ -16,12 +22,14 @@ public class JsonResponseFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         chain.doFilter(req, res);
         String mediaType = response.getContentType();
-        try {
-            ServletOutputStream sos=response.getOutputStream();
+        /*try {
+            ServletOutputStream sos = response.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        System.out.println("json filter");
+        }*/
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        res.getOutputStream().write(baos.toByteArray());
+        LOGGER.info(baos.toString());
 //        if (MediaType.APPLICATION_JSON.includes(new MediaType(mediaType))) {
 //            JsonpAdapterWriter writer = new JsonpAdapterWriter(req, response.getWriter());
 //            res.writer(writer);

@@ -17,8 +17,8 @@ public class FilterConfigFactory extends WebMvcConfigurerAdapter {
     @Bean
     public FilterRegistrationBean jsonFilterChain() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        Filter jsonFilter = new JsonResponseFilter();
-        registration.setFilter(jsonFilter);
+        Filter requestLogFilter = new RequestLogFilter();
+        registration.setFilter(requestLogFilter);
         registration.setOrder(Integer.MAX_VALUE - 1);  //asc
         return registration;
     }

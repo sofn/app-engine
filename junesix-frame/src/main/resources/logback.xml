@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration error="true" scan="true" scanPeriod="2 seconds">
+
+    <contextName>JUNESIX-LOG</contextName>
+    <!--路径-->
+    <property name="logback.logs.path" value="../logs" />
+    <!--日志模块名-->
+    <property name="logback.logs.module.name" value="default" />
+
+    <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
+    <timestamp key="byHour" datePattern="yyyyMMdd-HH"/>
+
+    <!--appender 模块-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
+        </encoder>
+        <target>System.out</target>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+    <appender name="errconsole" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
+        </encoder>
+        <target>System.err</target>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="debugfile" class="ch.qos.logback.core.FileAppender">
+        <file>${logback.logs.path}/debug_${byHour}.log</file>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="infofile" class="ch.qos.logback.core.FileAppender">
+        <file>${logback.logs.path}/info_${byHour}.log</file>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="warnfile" class="ch.qos.logback.core.FileAppender">
+        <file>${logback.logs.path}/warn_${byHour}.log</file>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="errfile" class="ch.qos.logback.core.FileAppender">
+        <file>${logback.logs.path}/error_${byDay}.log</file>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="requestfile" class="ch.qos.logback.core.FileAppender">
+        <file>${logback.logs.path}/request_${byHour}.log</file>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.junesix.api" level="DEBUG"/>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="druid" level="WARN"/>
+    <logger name="org.apache" level="ERROR"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="debugfile" />
+    </root>
+    <root level="INFO">
+        <appender-ref ref="infofile" />
+        <appender-ref ref="console"/>
+    </root>
+    <root level="WARN">
+        <appender-ref ref="warnfile" />
+        <appender-ref ref="console"/>
+    </root>
+    <root level="ERROR">
+        <appender-ref ref="errfile" />
+        <appender-ref ref="errconsole"/>
+    </root>
+    <root level="REQUEST">
+        <appender-ref ref="requestfile" />
+    </root>
+</configuration>
