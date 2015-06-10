@@ -21,7 +21,7 @@ public class RequestLogFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        res = new HttpServletResponseWrapperURL((HttpServletResponse) res);
+        res = new HttpServletResponseJsonWrapper((HttpServletResponse) res);
         chain.doFilter(req, res);
     }
 
@@ -33,11 +33,11 @@ public class RequestLogFilter implements Filter {
     public void init(FilterConfig arg0) throws ServletException {
     }
 
-    private class HttpServletResponseWrapperURL extends HttpServletResponseWrapper {
+    private class HttpServletResponseJsonWrapper extends HttpServletResponseWrapper {
 
         private HttpServletResponse servletResponse;
 
-        public HttpServletResponseWrapperURL(HttpServletResponse response) {
+        public HttpServletResponseJsonWrapper(HttpServletResponse response) {
             super(response);
             this.servletResponse = response;
         }
@@ -45,16 +45,17 @@ public class RequestLogFilter implements Filter {
         //TODO json格式不走这块代码
         @Override
         public PrintWriter getWriter() throws IOException {
-            return new PrintWriterURL(servletResponse.getWriter());
+            return new PrintWriterJson(servletResponse.getWriter());
         }
     }
 
-    private class PrintWriterURL extends PrintWriter {
+    private class PrintWriterJson extends PrintWriter {
 
-        public PrintWriterURL(Writer out) {
+        public PrintWriterJson(Writer out) {
             super(out);
         }
 
+        @Override
         public void write(char buf[], int off, int len) {
             char[] newbuf = Arrays.copyOfRange(buf, off, off + len);
             String str = String.copyValueOf(newbuf);
