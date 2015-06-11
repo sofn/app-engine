@@ -6,9 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -46,6 +44,14 @@ public class RequestLogFilter implements Filter {
         @Override
         public PrintWriter getWriter() throws IOException {
             return new PrintWriterJson(servletResponse.getWriter());
+        }
+
+        @Override
+        public ServletOutputStream getOutputStream() throws IOException {
+            OutputStreamWriter writer = new OutputStreamWriter(super.getOutputStream());
+            writer.append("");
+            writer.flush();
+            return super.getOutputStream();
         }
     }
 
