@@ -40,6 +40,7 @@ subprojects {
     dependencies {
         compile "com.google.guava:guava:$guavaVersion"
         compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+        compile "commons-io:commons-io:$commonsIOVersion"
         testCompile "junit:junit:4.11"
     }
 

@@ -1,5 +1,6 @@
 package com.junesix.api.filters;
 
+import com.github.isrsal.logging.LoggingFilter;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +27,18 @@ public class FilterConfigFactory extends WebMvcConfigurerAdapter {
     @Bean
     public FilterRegistrationBean headerFilterChain() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        Filter headerFilter = new HeaderResponseFilter();
+        Filter headerFilter = new LoggingFilter();
         registration.setFilter(headerFilter);
         registration.setOrder(Integer.MAX_VALUE);
         return registration;
     }
+
+   /* @Bean
+    public FilterRegistrationBean headerFilterChain() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        Filter headerFilter = new HeaderResponseFilter();
+        registration.setFilter(headerFilter);
+        registration.setOrder(Integer.MAX_VALUE);
+        return registration;
+    }*/
 }

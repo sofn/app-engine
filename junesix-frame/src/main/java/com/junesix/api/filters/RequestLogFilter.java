@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Arrays;
 
 /**
@@ -15,12 +18,16 @@ import java.util.Arrays;
  */
 public class RequestLogFilter implements Filter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("REQUEST");
+    private static final Logger logger = LoggerFactory.getLogger("REQUEST");
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        res = new HttpServletResponseJsonWrapper((HttpServletResponse) res);
-        chain.doFilter(req, res);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+//        res = new HttpServletResponseJsonWrapper((HttpServletResponse) response);
+//        chain.doFilter(request, response);
+
+//        final CopyPrintWriter writer = new CopyPrintWriter(response.getWriter());
+        chain.doFilter(request, new CopyPrintWrapper((HttpServletResponse) response));
+
     }
 
     @Override
@@ -69,8 +76,53 @@ public class RequestLogFilter implements Filter {
             StringBuffer sb = new StringBuffer(str);
             sb.append("");
             newbuf = sb.toString().toCharArray();
-            LOGGER.info(sb.toString());
+            logger.info(sb.toString());
             super.write(newbuf, 0, newbuf.length);
         }
+    }
+
+    private class CopyPrintWrapper extends HttpServletResponseWrapper {
+        public CopyPrintWrapper(HttpServletResponse response) {
+            super(response);
+        }
+
+        @Override
+        public PrintWriter getWriter() throws IOException {
+            CopyPrintWriter writer = new CopyPrintWriter(super.getWriter());
+            logger.info(writer.getCopy());
+            return writer;
+        }
+    }
+
+    public class CopyPrintWriter extends PrintWriter {
+
+        private StringBuilder copy = new StringBuilder();
+
+        public CopyPrintWriter(Writer writer) {
+            super(writer);
+        }
+
+        @Override
+        public void write(int c) {
+            copy.append((char) c); // It is actually a char, not an int.
+            super.write(c);
+        }
+
+        @Override
+        public void write(char[] chars, int offset, int length) {
+            copy.append(chars, offset, length);
+            super.write(chars, offset, length);
+        }
+
+        @Override
+        public void write(String string, int offset, int length) {
+            copy.append(string, offset, length);
+            super.write(string, offset, length);
+        }
+
+        public String getCopy() {
+            return copy.toString();
+        }
+
     }
 }
