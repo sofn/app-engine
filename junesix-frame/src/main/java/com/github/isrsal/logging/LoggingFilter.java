@@ -35,8 +35,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class LoggingFilter extends OncePerRequestFilter {
 
     protected static final Logger logger = LoggerFactory.getLogger("REQUEST");
-    private static final String REQUEST_PREFIX = "Request: ";
-    private static final String RESPONSE_PREFIX = "Response: ";
     private AtomicLong id = new AtomicLong(1);
 
     @Override
