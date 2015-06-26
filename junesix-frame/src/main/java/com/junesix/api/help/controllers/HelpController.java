@@ -1,6 +1,7 @@
 package com.junesix.api.help.controllers;
 
 import com.alibaba.fastjson.JSONObject;
+import com.junesix.common.config.DefaultConfigLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,14 @@ public class HelpController {
 
     @RequestMapping(value = "/echo", method = RequestMethod.POST)
     public String echo(@RequestParam String msg) {
+        if (DefaultConfigLoader.getInstance().isDevEnv()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         JSONObject result = new JSONObject();
         result.put("apistatus", 1);
 

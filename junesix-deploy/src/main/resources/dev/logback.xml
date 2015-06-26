@@ -3,9 +3,9 @@
 
     <contextName>JUNESIX-LOG</contextName>
     <!--路径-->
-    <property name="logback.logs.path" value="../logs" />
+    <property name="logback.logs.path" value="../logs"/>
     <!--日志模块名-->
-    <property name="logback.logs.module.name" value="default" />
+    <property name="logback.logs.module.name" value="default"/>
 
     <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
     <timestamp key="byHour" datePattern="yyyyMMdd-HH"/>
@@ -83,6 +83,13 @@
         <encoder charset="UTF-8">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return logger.contains("REQUEST");</expression>
+            </evaluator>
+            <OnMatch>ACCEPT </OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
     </appender>
 
     <logger name="com.junesix.api" level="DEBUG"/>

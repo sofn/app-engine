@@ -21,6 +21,7 @@ dependencies {
     testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
     compile "javax.servlet:jstl:1.2"
+    compile "org.codehaus.janino:janino:2.7.8"
 
     compile project(":junesix-common")
     compile project(":junesix-properties")
@@ -28,3 +29,13 @@ dependencies {
     compile project(":junesix-user")
 }
 
+ext {
+    profile = project['profile']
+}
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/resources/${profile}"
+        }
+    }
+}

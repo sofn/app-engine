@@ -4,10 +4,10 @@
 package com.junesix.common.config;
 
 import com.junesix.common.utils.log.ApiLogger;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
 /**
  * @author jolestar
@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 public class DefaultConfigLoader implements ConfigLoader {
 
     public static final String APP_ENV_VAR = "spring.profiles.active";
-    public static final String APP_ENV_FILE = "/apps/conf/env";
 
     public static DefaultConfigLoader loader = new DefaultConfigLoader();
 
@@ -36,12 +35,10 @@ public class DefaultConfigLoader implements ConfigLoader {
                 //先通过环境变量判断
                 String env = System.getenv(APP_ENV_VAR);
                 if (env == null) {
-                    //再通过环境变量配置文件判断
-                    Path path = Paths.get(APP_ENV_FILE);
                     try {
-                        String fileEnv = new String(Files.readAllBytes(path));
-                        env = fileEnv.trim();
-                    } catch (Exception e) {
+                        env = PropertiesLoaderUtils.loadAllProperties("application.properties").getProperty("profile");
+                        env = StringUtils.strip(env);
+                    } catch (IOException e) {
                         ApiLogger.error(e.getMessage());
                     }
                 }
@@ -51,7 +48,7 @@ public class DefaultConfigLoader implements ConfigLoader {
                 } else {
                     envVar = Env.valueOf(env);
                 }
-                System.setProperty(APP_ENV_VAR, "dev");
+                System.setProperty(APP_ENV_VAR, envVar.name());
 
                 System.out.println("AppEnv :" + envVar);
                 ApiLogger.info("AppEnv :" + envVar);
