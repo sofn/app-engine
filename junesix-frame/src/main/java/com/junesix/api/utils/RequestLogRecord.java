@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.context.ClientVersion;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Collections;
 import java.util.Date;
@@ -15,7 +14,6 @@ import java.util.Map;
  * @version 1.0 Created at: 2015-06-26 12:19
  */
 public class RequestLogRecord {
-    static final String pattern = "yyyy-MM-dd HH:mm:ss,S";
     static final String SPLIT = "\t";
 
     private String requestId;
@@ -74,19 +72,7 @@ public class RequestLogRecord {
      */
     private long responseSize;
 
-    private String xpage;
-
-    private String xreferer;
-
     public RequestLogRecord() {
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getApi() {
@@ -155,10 +141,6 @@ public class RequestLogRecord {
         this.parameters = parameters;
     }
 
-    public String getParameterString() {
-        return parameterString;
-    }
-
     public void setParameterString(String parameterString) {
         this.parameterString = parameterString;
     }
@@ -190,6 +172,9 @@ public class RequestLogRecord {
     }
 
     public long getResponseSize() {
+        if (responseSize <= 0) {
+            responseSize = this.response.getBytes().length;
+        }
         return responseSize;
     }
 
@@ -203,19 +188,15 @@ public class RequestLogRecord {
 
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(DateFormatUtils.format(date, pattern));
-        buf.append(SPLIT);
         buf.append(this.requestId);
         buf.append(SPLIT);
         buf.append(api);
         buf.append(SPLIT);
         buf.append(this.method);
         buf.append(SPLIT);
-        buf.append(this.xpage);
+        buf.append(this.getParameterString());
         buf.append(SPLIT);
-        buf.append(this.xreferer);
-        buf.append(SPLIT);
-        buf.append(this.responseSize);
+        buf.append(this.getResponseSize());
         buf.append(SPLIT);
         buf.append(this.responseStatus);
         buf.append(SPLIT);
@@ -227,8 +208,6 @@ public class RequestLogRecord {
         buf.append(StringUtils.isBlank(source) ? "unknow" : source);
         buf.append(SPLIT);
         buf.append(uid);
-        buf.append(SPLIT);
-        buf.append(this.parameterString);
         buf.append(SPLIT);
         buf.append(this.ip);
         buf.append(SPLIT);
@@ -248,6 +227,29 @@ public class RequestLogRecord {
         return JSON.toJSONString(this);
     }
 
+    private String getParameterString() {
+        if (this.parameterString == null) {
+            if (this.parameters != null) {
+                StringBuilder paramBuf = new StringBuilder();
+                for (Map.Entry<String, String[]> e : this.parameters.entrySet()) {
+                    String key = e.getKey();
+                    String[] values = e.getValue();
+                    for (String value : values) {
+                        paramBuf.append(key).append("=").append(value);
+                        paramBuf.append("&");
+                    }
+                }
+                if (paramBuf.length() > 0 && paramBuf.charAt(paramBuf.length() - 1) == '&') {
+                    paramBuf.deleteCharAt(paramBuf.length() - 1);
+                }
+                this.parameterString = paramBuf.toString();
+            } else {
+                this.parameterString = "";
+            }
+        }
+        return parameterString;
+    }
+
     public String getRequestId() {
         return requestId;
     }
@@ -262,21 +264,5 @@ public class RequestLogRecord {
 
     public void setPlatform(String platform) {
         this.platform = platform;
-    }
-
-    public String getXpage() {
-        return xpage;
-    }
-
-    public void setXpage(String xpage) {
-        this.xpage = xpage;
-    }
-
-    public String getXreferer() {
-        return xreferer;
-    }
-
-    public void setXreferer(String xreferer) {
-        this.xreferer = xreferer;
     }
 }

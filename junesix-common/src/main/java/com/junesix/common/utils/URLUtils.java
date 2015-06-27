@@ -3,6 +3,8 @@
  */
 package com.junesix.common.utils;
 
+import com.junesix.common.utils.log.ApiLogger;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -84,5 +86,14 @@ public class URLUtils {
             params.put(name, values);
         }
         values.add(value);
+    }
+
+    public static final String encodeURL(String str) {
+        try {
+            return URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            ApiLogger.error(e);
+        }
+        return str;
     }
 }

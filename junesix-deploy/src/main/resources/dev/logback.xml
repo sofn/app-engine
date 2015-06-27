@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration error="true" scan="true" scanPeriod="2 seconds">
+<configuration error="true" scan="true" scanPeriod="2 seconds" debug="true">
 
     <contextName>JUNESIX-LOG</contextName>
     <!--路径-->
@@ -81,40 +81,19 @@
     <appender name="requestfile" class="ch.qos.logback.core.FileAppender">
         <file>${logback.logs.path}/request_${byHour}.log</file>
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator>
-                <expression>return logger.contains("REQUEST");</expression>
-            </evaluator>
-            <OnMatch>ACCEPT </OnMatch>
-            <OnMismatch>DENY</OnMismatch>
-        </filter>
     </appender>
 
     <logger name="com.junesix.api" level="DEBUG"/>
+
+    <logger name="REQUEST" level="INFO">
+        <appender-ref ref="requestfile"/>
+    </logger>
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.hibernate" level="WARN"/>
     <logger name="druid" level="WARN"/>
     <logger name="org.apache" level="ERROR"/>
 
-    <root level="DEBUG">
-        <appender-ref ref="debugfile" />
-    </root>
-    <root level="INFO">
-        <appender-ref ref="infofile" />
-        <appender-ref ref="console"/>
-    </root>
-    <root level="WARN">
-        <appender-ref ref="warnfile" />
-        <appender-ref ref="console"/>
-    </root>
-    <root level="ERROR">
-        <appender-ref ref="errfile" />
-        <appender-ref ref="errconsole"/>
-    </root>
-    <root level="REQUEST">
-        <appender-ref ref="requestfile" />
-    </root>
 </configuration>

@@ -28,8 +28,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class LoggingFilter extends OncePerRequestFilter {
@@ -40,7 +38,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         long requestId = id.incrementAndGet();
-        request = new RequestWrapper(requestId, request);
+        request = new RequestWrapper(request);
         response = new ResponseWrapper(requestId, response);
         long startTime = System.currentTimeMillis();
         try {
@@ -52,21 +50,8 @@ public class LoggingFilter extends OncePerRequestFilter {
             record.setIp(request.getRemoteHost());
             record.setUseTime(endTime - startTime);
             record.setApi(request.getRequestURI());
-            record.setDate(new Date());
             record.setMethod(request.getMethod());
             record.setParameters(request.getParameterMap());
-
-            if (!isMultipart(request)) {
-                RequestWrapper requestWrapper = (RequestWrapper) request;
-                try {
-                    String charEncoding = requestWrapper.getCharacterEncoding() != null ? requestWrapper.getCharacterEncoding() :
-                            "UTF-8";
-                    record.setParameterString(new String(requestWrapper.toByteArray(), charEncoding));
-                } catch (UnsupportedEncodingException e) {
-                    logger.warn("Failed to parse request payload", e);
-                }
-            }
-
             record.setResponseStatus(response.getStatus());
             record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
             logger.info(record.toString());

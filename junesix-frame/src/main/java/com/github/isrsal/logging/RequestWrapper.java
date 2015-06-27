@@ -30,12 +30,10 @@ import java.io.IOException;
 public class RequestWrapper extends HttpServletRequestWrapper {
 
     private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    private long id;
 
 
-    public RequestWrapper(Long requestId, HttpServletRequest request) {
+    public RequestWrapper(HttpServletRequest request) {
         super(request);
-        this.id = requestId;
     }
 
     @Override
@@ -67,13 +65,5 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
     public byte[] toByteArray(){
         return bos.toByteArray();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }
