@@ -13,15 +13,12 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         return super.preHandle(request, response, handler);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-
         super.afterCompletion(request, response, handler, ex);
     }
-
 }

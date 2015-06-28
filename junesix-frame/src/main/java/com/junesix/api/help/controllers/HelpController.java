@@ -2,6 +2,8 @@ package com.junesix.api.help.controllers;
 
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.config.DefaultConfigLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/help")
 public class HelpController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HelpController.class.getName());
+
     @RequestMapping(value = "/ping")
     public String ping() {
+        log();
         return "{\"apistatus\":1,\"result\":true}";
     }
 
@@ -29,6 +34,7 @@ public class HelpController {
                 e.printStackTrace();
             }
         }
+        log();
 
         JSONObject result = new JSONObject();
         result.put("apistatus", 1);
@@ -38,5 +44,12 @@ public class HelpController {
         result.put("result", msgJson);
 
         return result.toJSONString();
+    }
+
+    public void log() {
+        logger.debug("debug test");
+        logger.info("info test");
+        logger.warn("warn test");
+        logger.error("error test");
     }
 }

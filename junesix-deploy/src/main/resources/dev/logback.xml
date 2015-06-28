@@ -15,7 +15,6 @@
         <encoder charset="UTF-8">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
         </encoder>
-        <target>System.out</target>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>DENY</onMatch>
@@ -26,7 +25,6 @@
         <encoder charset="UTF-8">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
         </encoder>
-        <target>System.err</target>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -52,9 +50,10 @@
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
+            <onMatch>NEUTRAL</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
+        <filter class="com.junesix.api.filters.utils.RequestLogBackFilter"/>
     </appender>
     <appender name="warnfile" class="ch.qos.logback.core.FileAppender">
         <file>${logback.logs.path}/warn_${byHour}.log</file>
@@ -81,19 +80,34 @@
     <appender name="requestfile" class="ch.qos.logback.core.FileAppender">
         <file>${logback.logs.path}/request_${byHour}.log</file>
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <logger name="com.junesix.api" level="DEBUG"/>
-
-    <logger name="REQUEST" level="INFO">
-        <appender-ref ref="requestfile"/>
-    </logger>
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.hibernate" level="WARN"/>
     <logger name="druid" level="WARN"/>
     <logger name="org.apache" level="ERROR"/>
 
+    <logger name="com.junesix.api" level="DEBUG"/>
+    <logger name="REQUEST" level="INFO">
+        <appender-ref ref="requestfile"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="debugfile"/>
+    </root>
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="infofile"/>
+    </root>
+    <root level="WARN">
+        <appender-ref ref="console"/>
+        <appender-ref ref="warnfile"/>
+    </root>
+    <root level="ERROR">
+        <appender-ref ref="errconsole"/>
+        <appender-ref ref="errfile"/>
+    </root>
 </configuration>
