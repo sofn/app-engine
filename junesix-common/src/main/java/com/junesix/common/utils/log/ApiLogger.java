@@ -3,8 +3,8 @@ package com.junesix.common.utils.log;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.common.context.ThreadLocalContext;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Authors: sofn
@@ -17,27 +17,12 @@ public class ApiLogger {
 
     public static long REDIS_FIRE_TIME = 300; // Redis操作超时
 
-    private static Logger log = Logger.getLogger("debug");
-    private static Logger infoLog = Logger.getLogger("info");
-    private static Logger warnLog = Logger.getLogger("warn");
-    private static Logger errorLog = Logger.getLogger("error");
-    private static Logger paymentLog = Logger.getLogger("payment");
+    private static Logger log = LoggerFactory.getLogger("debug");
+    private static Logger infoLog = LoggerFactory.getLogger("info");
+    private static Logger warnLog = LoggerFactory.getLogger("warn");
+    private static Logger errorLog = LoggerFactory.getLogger("error");
 
-    private static Logger fireLog = Logger.getLogger("fire");
-
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                LogManager.shutdown();
-            }
-        });
-    }
-
-    /**
-     * perf4j log
-     */
-    private static final Logger prefLogger = Logger.getLogger("perf4j");
+    private static Logger fireLog = LoggerFactory.getLogger("fire");
 
     public static boolean isTraceEnabled() {
         return log.isTraceEnabled() && !DefaultConfigLoader.getInstance().isProdEnv();
@@ -111,13 +96,6 @@ public class ApiLogger {
         }
     }
 
-    public static void payment(Object msg) {
-        if (msg == null) {
-            return;
-        }
-        paymentLog.info(formatMsg(msg));
-    }
-
     public static void info(String tag, Object msg) {
         if (msg == null) {
             return;
@@ -130,17 +108,6 @@ public class ApiLogger {
     public static void warn(Object msg) {
         warnLog.warn(formatMsg(msg));
     }
-
-    // public static void warn(String tag,Object msg) {
-    // if(msg == null){
-    // return;
-    // }
-    // warnLog.warn(tag+"\t"+msg.toString());
-    // }
-
-    // public static void warn(Object msg, Throwable e) {
-    // warnLog.warn(formatMsg(msg), e);
-    // }
 
     public static void error(Object msg) {
         if (msg instanceof Throwable) {

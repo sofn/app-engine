@@ -40,7 +40,7 @@ public class RequestContext implements Serializable, JSONAware {
 
     public RequestContext() {
         clientVersion = ClientVersion.NULL;
-        attribute = new HashMap<String, Object>();
+        attribute = new HashMap<>();
         readMasterDB = false;
     }
 

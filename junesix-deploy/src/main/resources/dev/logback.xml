@@ -13,17 +13,23 @@
     <!--appender 模块-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level in %logger#%line - %msg%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return !logger.equals("REQUEST");</expression>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
     <appender name="errconsole" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%level in %logger#%line - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level in %logger#%line - %msg%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -53,7 +59,13 @@
             <onMatch>NEUTRAL</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <filter class="com.junesix.api.filters.utils.RequestLogBackFilter"/>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return !logger.equals("REQUEST");</expression>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
     <appender name="warnfile" class="ch.qos.logback.core.FileAppender">
         <file>${logback.logs.path}/warn_${byHour}.log</file>
@@ -80,7 +92,7 @@
     <appender name="requestfile" class="ch.qos.logback.core.FileAppender">
         <file>${logback.logs.path}/request_${byHour}.log</file>
         <encoder charset="UTF-8">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %logger#%line - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -96,18 +108,10 @@
 
     <root level="DEBUG">
         <appender-ref ref="console"/>
-        <appender-ref ref="debugfile"/>
-    </root>
-    <root level="INFO">
-        <appender-ref ref="console"/>
-        <appender-ref ref="infofile"/>
-    </root>
-    <root level="WARN">
-        <appender-ref ref="console"/>
-        <appender-ref ref="warnfile"/>
-    </root>
-    <root level="ERROR">
         <appender-ref ref="errconsole"/>
+        <appender-ref ref="debugfile"/>
+        <appender-ref ref="infofile"/>
+        <appender-ref ref="warnfile"/>
         <appender-ref ref="errfile"/>
     </root>
 </configuration>

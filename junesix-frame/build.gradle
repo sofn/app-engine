@@ -1,5 +1,6 @@
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
 //    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     compile "com.alibaba:druid:1.0.12"
     compile 'mysql:mysql-connector-java:5.1.34'
