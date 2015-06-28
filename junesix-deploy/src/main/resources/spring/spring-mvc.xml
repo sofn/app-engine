@@ -15,19 +15,4 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <set>
-                <bean class="com.junesix.api.frame.converter.RequextContextConverter"/>
-            </set>
-        </property>
-    </bean>
-    <!-- ②使用ConfigurableWebBindingInitializer注册conversionService -->
-    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-        <property name="conversionService" ref="conversionService"/>
-    </bean>
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="webBindingInitializer" ref="webBindingInitializer"/>
-    </bean>
 </beans>
