@@ -9,9 +9,8 @@ package com.junesix.common.context;
  */
 public class ThreadLocalContext extends InheritableThreadLocal<RequestContext> {
 
-    private static RequestIDGenerator requestIdGenerator = DefaultRequestIdGenerator.getInstance();
-    private static ThreadLocalContext instance = new ThreadLocalContext() {
-
+    private static final RequestIDGenerator requestIdGenerator = DefaultRequestIdGenerator.getInstance();
+    private static final ThreadLocalContext instance = new ThreadLocalContext() {
         @Override
         protected RequestContext initialValue() {
             RequestContext rc = new RequestContext();

@@ -20,8 +20,7 @@ public class DefaultRequestIdGenerator implements RequestIDGenerator {
 
     private DefaultRequestIdGenerator() {
         try {
-            // hostname 一般是 machineName +"."+ domain
-            // 这里只取machineName 即可
+            // 取machineName
             this.hostName = java.net.InetAddress.getLocalHost().getHostName();
             int idx = this.hostName.indexOf('.');
             if (idx > 0) {
@@ -36,11 +35,6 @@ public class DefaultRequestIdGenerator implements RequestIDGenerator {
         return InstanceHolder.idGenerator;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see me.weimi.api.commons.context.RequestIDGenerator#nextId()
-     */
     @Override
     public String nextId() {
         return this.hostName + "-" + requestId.getAndIncrement();

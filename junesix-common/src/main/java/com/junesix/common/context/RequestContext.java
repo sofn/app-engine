@@ -175,10 +175,6 @@ public class RequestContext implements Serializable, JSONAware {
         return true;
     }
 
-    public String toString() {
-        return this.toJSONString();
-    }
-
     @Override
     public String toJSONString() {
         return JSON.toJSONString(this);

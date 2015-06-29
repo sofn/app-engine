@@ -14,9 +14,9 @@ public class HeaderResponseFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        filterChain.doFilter(request, response);
         ((HttpServletResponse) response).setHeader("X-Matrix-IP", request.getLocalAddr());
         ((HttpServletResponse) response).setHeader("X-Matrix-RequestID", ThreadLocalContext.getInstance().get().getRequestId());
+        filterChain.doFilter(request, response);
     }
 
     @Override

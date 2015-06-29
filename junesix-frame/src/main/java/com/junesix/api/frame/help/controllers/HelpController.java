@@ -3,7 +3,6 @@ package com.junesix.api.frame.help.controllers;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.common.context.RequestContext;
-import com.junesix.common.context.ThreadLocalContext;
 import com.junesix.common.utils.log.ApiLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +22,7 @@ public class HelpController {
     private static final Logger logger = LoggerFactory.getLogger(HelpController.class.getName());
 
     @RequestMapping(value = "/ping")
-    public String ping() {
-        RequestContext rc = ThreadLocalContext.getInstance().get();
+    public String ping(RequestContext rc) {
         ApiLogger.info(rc.getRequestId());
         return "{\"apistatus\":1,\"result\":true}";
     }
