@@ -3,13 +3,14 @@ package com.junesix.api.frame.help.controllers;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.common.context.RequestContext;
-import com.junesix.common.utils.log.ApiLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author sofn
@@ -22,8 +23,14 @@ public class HelpController {
     private static final Logger logger = LoggerFactory.getLogger(HelpController.class.getName());
 
     @RequestMapping(value = "/ping")
-    public String ping(RequestContext rc) {
-        ApiLogger.info(rc.getRequestId());
+    public String ping(RequestContext request) {
+//        ApiLogger.info(rc.getRequestId());
+        return "{\"apistatus\":1,\"result\":true}";
+    }
+
+    @RequestMapping(value = "/ping2")
+    public String ping2(HttpServletRequest request) {
+//        ApiLogger.info(rc.getRequestId());
         return "{\"apistatus\":1,\"result\":true}";
     }
 

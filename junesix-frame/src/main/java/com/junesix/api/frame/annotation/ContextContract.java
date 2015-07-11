@@ -4,7 +4,6 @@ import com.junesix.common.context.RequestContext;
 import com.junesix.common.context.ThreadLocalContext;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class ContextContract {
-    @Before("@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
-            "&& args(com.junesix.common.context.RequestContext,..)")
+//    @Before("@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+//            "&& args(com.junesix.common.context.RequestContext,..)")
     public void setContext(final JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {

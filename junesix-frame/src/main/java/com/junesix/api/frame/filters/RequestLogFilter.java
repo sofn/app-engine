@@ -20,7 +20,6 @@ public class RequestLogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        ThreadLocalContext.clear();
         RequestContext context = ThreadLocalContext.getInstance().get();
         context.setOriginRequest(request);
         response = new ResponseWrapper(response);
@@ -39,6 +38,7 @@ public class RequestLogFilter extends OncePerRequestFilter {
             record.setResponseStatus(response.getStatus());
             record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
             logger.info(record.toString());
+            ThreadLocalContext.clear();
         }
     }
 

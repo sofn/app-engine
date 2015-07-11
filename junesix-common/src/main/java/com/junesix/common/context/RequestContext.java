@@ -6,6 +6,7 @@ package com.junesix.common.context;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * @author jolestar
  */
+@Component
 public class RequestContext implements Serializable, JSONAware {
 
     private static final long serialVersionUID = -402232948972687045L;
@@ -38,7 +40,12 @@ public class RequestContext implements Serializable, JSONAware {
     // 直接从主库中读取数据
     private boolean readMasterDB;
 
-    public RequestContext() {
+    private RequestContext() {
+        System.out.println(Thread.currentThread().getId() + " " + Thread.currentThread().getName());
+    }
+
+    public RequestContext(String requestId) {
+        this.requestId = requestId;
         clientVersion = ClientVersion.NULL;
         attribute = new HashMap<>();
         readMasterDB = false;

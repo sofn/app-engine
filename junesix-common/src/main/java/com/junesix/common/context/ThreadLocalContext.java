@@ -13,9 +13,7 @@ public class ThreadLocalContext extends InheritableThreadLocal<RequestContext> {
     private static final ThreadLocalContext instance = new ThreadLocalContext() {
         @Override
         protected RequestContext initialValue() {
-            RequestContext rc = new RequestContext();
-            rc.setRequestId(requestIdGenerator.nextId());
-            return rc;
+            return new RequestContext(requestIdGenerator.nextId());
         }
     };
 
