@@ -1,0 +1,10 @@
+sourceSets {
+    main {
+        resources {
+            srcDir {
+                "src/main/resources"
+                "src/main/resources_local"
+            }
+        }
+    }
+}

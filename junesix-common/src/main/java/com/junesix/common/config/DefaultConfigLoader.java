@@ -44,7 +44,7 @@ public class DefaultConfigLoader implements ConfigLoader {
                 }
                 // 默认为本地环境
                 if (env == null) {
-                    envVar = Env.dev;
+                    envVar = Env.test;
                 } else {
                     envVar = Env.valueOf(env);
                 }

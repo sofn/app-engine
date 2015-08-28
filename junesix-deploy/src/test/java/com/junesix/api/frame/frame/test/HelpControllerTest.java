@@ -1,6 +1,7 @@
 package com.junesix.api.frame.frame.test;
 
 import com.junesix.api.frame.Application;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.IntegrationTest;
@@ -21,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 @DirtiesContext
+@Ignore
 public class HelpControllerTest {
     RestTemplate template = new TestRestTemplate();
 

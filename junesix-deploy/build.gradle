@@ -29,13 +29,3 @@ dependencies {
     compile project(":junesix-user")
 }
 
-ext {
-    profile = project['profile']
-}
-sourceSets {
-    main {
-        resources {
-            srcDir "src/main/resources/${profile}"
-        }
-    }
-}
