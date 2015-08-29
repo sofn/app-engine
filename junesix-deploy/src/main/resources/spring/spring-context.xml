@@ -6,14 +6,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
        default-lazy-init="true">
 
-    <beans profile="dev">
-        <context:property-placeholder location="classpath*:properties_dev/*.properties" ignore-unresolvable="true"/>
-    </beans>
-    <beans profile="test">
-        <context:property-placeholder location="classpath*:properties/*.properties" ignore-unresolvable="true"/>
-    </beans>
-    <beans profile="prod">
-        <context:property-placeholder location="classpath*:properties/*.properties" ignore-unresolvable="true"/>
-    </beans>
+    <context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>
 
 </beans>

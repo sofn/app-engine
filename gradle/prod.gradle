@@ -1,7 +1,0 @@
-sourceSets {
-    main {
-        resources {
-            srcDir "src/main/resources_prod"
-        }
-    }
-}

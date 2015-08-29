@@ -27,3 +27,4 @@ classes/*
 include/
 *.o
 *.out
+rebel.xml

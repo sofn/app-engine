@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class DefaultConfigLoader implements ConfigLoader {
 
-    public static final String APP_ENV_VAR = "spring.profiles.active";
+    public static final String APP_ENV_VAR = "profile";
 
     public static DefaultConfigLoader loader = new DefaultConfigLoader();
 

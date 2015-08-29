@@ -4,6 +4,8 @@
 package com.junesix.common.context;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author jolestar
  */
@@ -20,6 +22,11 @@ public class ThreadLocalContext extends InheritableThreadLocal<RequestContext> {
     public static ThreadLocalContext getInstance() {
         return instance;
     }
+
+    public static HttpServletRequest getServletRequest() {
+        return ThreadLocalContext.getInstance().get().getOriginRequest();
+    }
+
 
     public static void clear() {
         instance.remove();
