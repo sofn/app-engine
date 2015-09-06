@@ -37,7 +37,7 @@ public class AuthResourceFilter extends OncePerRequestFilter {
 //        ServletContext servletContext = request.getSession().getServletContext();
 //        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 //        authService = ctx.getBean(AuthService.class);
-        System.out.println(getAuthService().getAuth());
+//        System.out.println(getAuthService().getAuth());
 //        AuthRequest authRequest = new HttpServletAuthRequest(httpRequest);
 //        AuthResponse response = this.authService.auth(authRequest, authType);
 //        RequestContext context = ThreadLocalContext.getInstance().get();

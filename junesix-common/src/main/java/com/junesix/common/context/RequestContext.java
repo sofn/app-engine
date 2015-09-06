@@ -40,15 +40,14 @@ public class RequestContext implements Serializable, JSONAware {
     // 直接从主库中读取数据
     private boolean readMasterDB;
 
-    private RequestContext() {
-        System.out.println(Thread.currentThread().getId() + " " + Thread.currentThread().getName());
-    }
-
     public RequestContext(String requestId) {
         this.requestId = requestId;
         clientVersion = ClientVersion.NULL;
         attribute = new HashMap<>();
         readMasterDB = false;
+    }
+
+    public RequestContext() {
     }
 
     public RequestContext(long currentUid) {
