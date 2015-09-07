@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration error="true" scan="true" scanPeriod="2 seconds" debug="true">
+<configuration error="true" scan="false" debug="true">
 
     <contextName>JUNESIX-LOG</contextName>
     <!--路径-->
@@ -119,8 +119,6 @@
     </logger>
 
     <root level="DEBUG">
-        <appender-ref ref="console"/>
-        <appender-ref ref="errconsole"/>
         <appender-ref ref="debugfile"/>
         <appender-ref ref="infofile"/>
         <appender-ref ref="warnfile"/>

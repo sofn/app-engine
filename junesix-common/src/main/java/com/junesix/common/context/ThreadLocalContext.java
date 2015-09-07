@@ -27,6 +27,9 @@ public class ThreadLocalContext extends InheritableThreadLocal<RequestContext> {
         return ThreadLocalContext.getInstance().get().getOriginRequest();
     }
 
+    public static RequestContext getRequestContext() {
+        return instance.get();
+    }
 
     public static void clear() {
         instance.remove();

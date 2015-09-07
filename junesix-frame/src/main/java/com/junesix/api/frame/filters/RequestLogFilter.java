@@ -20,7 +20,7 @@ public class RequestLogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-        RequestContext context = ThreadLocalContext.getInstance().get();
+        RequestContext context = ThreadLocalContext.getRequestContext();
         context.setOriginRequest(request);
         response = new ResponseWrapper(response);
         long startTime = System.currentTimeMillis();

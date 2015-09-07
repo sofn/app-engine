@@ -47,13 +47,6 @@ public class RequestContext implements Serializable, JSONAware {
         readMasterDB = false;
     }
 
-    public RequestContext() {
-    }
-
-    public RequestContext(long currentUid) {
-        this.currentUid = currentUid;
-    }
-
     public String getRequestId() {
         return requestId;
     }

@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class DefaultRequestIdGenerator implements RequestIDGenerator {
 
-    private final AtomicLong requestId = new AtomicLong(0);
+    private final AtomicLong requestId = new AtomicLong(1);
     private String hostName;
 
     static class InstanceHolder {

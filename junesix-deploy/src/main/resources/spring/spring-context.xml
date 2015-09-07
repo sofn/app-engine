@@ -9,12 +9,13 @@
     <context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="synchronizeOnSession" value="true" />
+        <property name="synchronizeOnSession" value="true"/>
         <property name="customArgumentResolvers">
             <list>
-                <bean class="com.junesix.api.frame.annotation.MyMethodArgumentsResolver" />
+                <bean class="com.junesix.api.frame.spring.RequestContextMethodArgumentResolver"/>
             </list>
         </property>
     </bean>
+    <context:component-scan base-package="com.junesix.api"/>
 
 </beans>
