@@ -1,7 +1,10 @@
 package com.junesix.api.auth.service;
 
 import com.junesix.api.auth.annotation.BaseInfo;
-import com.junesix.api.frame.annotation.Context;
+import com.junesix.api.auth.model.AuthRequest;
+import com.junesix.api.auth.model.AuthResponse;
+import com.junesix.common.context.RequestContext;
+import com.junesix.common.context.ThreadLocalContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.util.Optional;
 
 /**
  * Authors: sofn
@@ -20,26 +23,28 @@ import java.lang.reflect.Parameter;
 public class DefaultAuthService extends RequestMappingHandlerAdapter implements AuthService {
 
     @Override
-    public String getAuth() {
-        return "auth";
+    public AuthResponse auth(AuthRequest request, Optional<BaseInfo> baseInfo) {
+        //TODO
+        return null;
     }
 
 
     @Override
-    protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
+    protected ModelAndView handleInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod) throws Exception {
+        RequestContext context = ThreadLocalContext.getRequestContext();
+        AuthRequest request = new AuthRequest(httpServletRequest);
+
         Method method = handlerMethod.getMethod();
+        BaseInfo baseInfo = null;
         if (method.isAnnotationPresent(BaseInfo.class)) {
-            BaseInfo baseInfo = method.getAnnotation(BaseInfo.class);
-            System.out.println("DefaultAuthService: " + baseInfo.desc());
+            baseInfo = method.getAnnotation(BaseInfo.class);
         }
+        AuthResponse response = this.auth(request, Optional.ofNullable(baseInfo));
 
-        Parameter[] parameters = method.getParameters();
-        for (Parameter parameter : parameters) {
-            if (parameter.isAnnotationPresent(Context.class)) {
-                //TODO
-            }
-        }
 
-        return super.handleInternal(request, response, handlerMethod);
+
+
+
+        return super.handleInternal(httpServletRequest, httpServletResponse, handlerMethod);
     }
 }
