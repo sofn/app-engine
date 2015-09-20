@@ -41,10 +41,6 @@ public class DefaultAuthService extends RequestMappingHandlerAdapter implements 
         }
         AuthResponse response = this.auth(request, Optional.ofNullable(baseInfo));
 
-
-
-
-
         return super.handleInternal(httpServletRequest, httpServletResponse, handlerMethod);
     }
 }

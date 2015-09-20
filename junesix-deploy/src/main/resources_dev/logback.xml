@@ -3,7 +3,7 @@
 
     <contextName>JUNESIX-LOG</contextName>
     <!--路径-->
-    <property name="logback.logs.path" value="logs"/>
+    <property name="logback.logs.path" value="../logs"/>
     <!--日志模块名-->
     <property name="logback.logs.module.name" value="default"/>
 
@@ -16,13 +16,13 @@
             <level>ERROR</level>
             <onMatch>DENY</onMatch>
         </filter>
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+       <!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
             <evaluator>
                 <expression>return !logger.equals("REQUEST");</expression>
             </evaluator>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
-        </filter>
+        </filter>-->
     </appender>
     <appender name="errconsole" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
         <encoder charset="UTF-8">
@@ -106,6 +106,13 @@
         <encoder charset="UTF-8">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return logger.equals("REQUEST");</expression>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
 
     <logger name="org.springframework" level="OFF"/>

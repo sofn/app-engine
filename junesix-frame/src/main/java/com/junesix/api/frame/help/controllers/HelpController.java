@@ -8,6 +8,7 @@ import com.junesix.api.frame.annotation.Context;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.common.context.RequestContext;
 import com.junesix.common.utils.log.ApiLogger;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +42,12 @@ public class HelpController {
     public String echo(@RequestParam String msg) {
         if (DefaultConfigLoader.getInstance().isDevEnv()) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(RandomUtils.nextInt(1, 100));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        log();
+//        log();
 
         JSONObject result = new JSONObject();
         result.put("apistatus", 1);
