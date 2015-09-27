@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.junesix.common.utils;
 
 import com.junesix.common.utils.log.ApiLogger;
@@ -208,23 +205,20 @@ public class IPUtils {
     public static int ipToInt(final String address, final boolean isSegment) {
         final String[] addressBytes = address.split("\\.");
         int length = addressBytes.length;
-        if (length < 3) {
-            return 0;
-        }
         int ip = 0;
-        try {
-            for (int i = 0; i < 3; i++) {
+        if (length >= 3) {
+            try {
+                for (int i = 0; i < 3; i++) {
+                    ip <<= 8;
+                    ip |= Integer.parseInt(addressBytes[i]);
+                }
                 ip <<= 8;
-                ip |= Integer.parseInt(addressBytes[i]);
+                if (!isSegment && length != 3) {
+                    ip |= Integer.parseInt(addressBytes[3]);
+                }
+            } catch (Exception e) {
+                ApiLogger.warn("Warn ipToInt address is wrong: address=" + address);
             }
-            ip <<= 8;
-            if (isSegment || length == 3) {
-                ip |= 0;
-            } else {
-                ip |= Integer.parseInt(addressBytes[3]);
-            }
-        } catch (Exception e) {
-            ApiLogger.warn("Warn ipToInt address is wrong: address=" + address);
         }
 
         return ip;

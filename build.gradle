@@ -17,6 +17,9 @@ allprojects {
 subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+    apply plugin: 'jacoco'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -41,7 +44,14 @@ subprojects {
         compile "com.google.guava:guava:$guavaVersion"
         compile "org.apache.commons:commons-lang3:$commonsLangVersion"
         compile "commons-io:commons-io:$commonsIOVersion"
+        compile 'org.javatuples:javatuples:1.2'
         testCompile "junit:junit:4.11"
+
+        if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_7) >= 0) {
+            compile 'com.google.code.findbugs:annotations:3.0.0'
+        } else {
+            compile 'com.google.code.findbugs:annotations:2.0.3'
+        }
     }
 
     ext {
@@ -55,9 +65,37 @@ subprojects {
         }
     }
 
+    checkstyle {
+        configFile = file("$rootDir/config/checkstyle.xml")
+        configProperties = ['projectDir':projectDir, 'rootDir':rootDir]
+        toolVersion = '6.10.1'
+    }
+
+    findbugs {
+        ignoreFailures = false
+        sourceSets = [sourceSets.main]
+        if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_7) >= 0) {
+            findbugs.toolVersion = '3.0.1'
+        } else {
+            findbugs.toolVersion = '2.0.3'
+        }
+    }
+
+    //覆盖率检查 自动绑定在task test上，报告路径:build/reports/tests
+    jacoco {
+        toolVersion = '0.7.5.201505241946'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+        }
+    }
+
 }
 
 //执行gradle wrapper自动生成gradlew脚本及配置
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+    gradleVersion = '2.7'
 }

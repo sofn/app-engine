@@ -14,3 +14,7 @@
 1、执行 gradle run
 2、执行运行Application
 3、执行 ./gradlew run 不用安装gradle
+
+### checkstyle findbugs
+1、指定 gradle check 
+2、在build/reports目录会生成相关报告文件

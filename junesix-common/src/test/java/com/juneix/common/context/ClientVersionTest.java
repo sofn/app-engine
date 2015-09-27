@@ -5,7 +5,7 @@ package com.juneix.common.context;
 
 import com.junesix.common.context.ClientVersion;
 import com.junesix.common.context.ClientVersion.Version;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

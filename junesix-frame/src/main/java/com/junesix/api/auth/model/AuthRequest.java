@@ -1,8 +1,8 @@
 package com.junesix.api.auth.model;
 
-import com.junesix.common.collections.tuple.Tuple2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.javatuples.KeyValue;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -86,17 +86,17 @@ public class AuthRequest {
         };
     }
 
-    private List<Tuple2<String, String>> cacheCookies;
+    private List<KeyValue<String, String>> cacheCookies;
 
-    public List<Tuple2<String, String>> getCookies() {
+    public List<KeyValue<String, String>> getCookies() {
         if (cacheCookies != null) {
             return cacheCookies;
         }
-        List<Tuple2<String, String>> ret = new ArrayList<>();
+        List<KeyValue<String, String>> ret = new ArrayList<>();
         Cookie[] cookieArr = request.getCookies();
         if (cookieArr != null) {
             for (Cookie acookie : cookieArr) {
-                ret.add(new Tuple2<>(acookie.getName(),
+                ret.add(new KeyValue<>(acookie.getName(),
                         acookie.getValue()));
             }
         }
@@ -108,10 +108,10 @@ public class AuthRequest {
         if (name == null) {
             return null;
         }
-        List<Tuple2<String, String>> cookies = getCookies();
-        for (Tuple2<String, String> pair : cookies) {
-            if (name.equals(pair.get1()))
-                return pair.get2();
+        List<KeyValue<String, String>> cookies = getCookies();
+        for (KeyValue<String, String> pair : cookies) {
+            if (name.equals(pair.getKey()))
+                return pair.getValue();
         }
         return null;
     }
