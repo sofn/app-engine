@@ -28,9 +28,7 @@ public class RSAEncrypter {
             byte[] buffer = Base64.decodeBase64(privateKeyStr);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory
-                    .generatePrivate(keySpec);
-            return privateKey;
+            return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
         } catch (Exception e) {
             throw new EncrypterException(e);
         }
@@ -41,9 +39,7 @@ public class RSAEncrypter {
             byte[] buffer = Base64.decodeBase64(publicKeyStr);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
-            RSAPublicKey publicKey = (RSAPublicKey) keyFactory
-                    .generatePublic(keySpec);
-            return publicKey;
+            return (RSAPublicKey) keyFactory.generatePublic(keySpec);
         } catch (Exception e) {
             throw new EncrypterException(e);
         }
