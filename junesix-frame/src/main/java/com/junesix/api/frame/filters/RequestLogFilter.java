@@ -2,8 +2,8 @@ package com.junesix.api.frame.filters;
 
 import com.junesix.api.frame.filters.utils.RequestLogRecord;
 import com.junesix.api.frame.filters.utils.ResponseWrapper;
-import com.junesix.common.context.RequestContext;
-import com.junesix.common.context.ThreadLocalContext;
+import com.junesix.api.frame.context.RequestContext;
+import com.junesix.api.frame.context.ThreadLocalContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;

@@ -1,11 +1,14 @@
 package com.juneix.common.context;
 
-import com.junesix.common.context.RequestContext;
-import com.junesix.common.context.ThreadLocalContext;
+import com.junesix.api.frame.context.RequestContext;
+import com.junesix.api.frame.context.ThreadLocalContext;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Authors: sofn

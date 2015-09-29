@@ -1,10 +1,8 @@
-/**
- *
- */
 package com.junesix.common.config;
 
-import com.junesix.common.utils.log.ApiLogger;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.IOException;
@@ -14,6 +12,7 @@ import java.io.IOException;
  */
 public class DefaultConfigLoader implements ConfigLoader {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigLoader.class);
     public static final String APP_ENV_VAR = "profile";
 
     public static DefaultConfigLoader loader = new DefaultConfigLoader();
@@ -39,7 +38,7 @@ public class DefaultConfigLoader implements ConfigLoader {
                         env = PropertiesLoaderUtils.loadAllProperties("application.properties").getProperty("profile");
                         env = StringUtils.strip(env);
                     } catch (IOException e) {
-                        ApiLogger.error(e.getMessage());
+                        LOGGER.error(e.getMessage());
                     }
                 }
                 // 默认为本地环境
@@ -51,7 +50,7 @@ public class DefaultConfigLoader implements ConfigLoader {
                 System.setProperty(APP_ENV_VAR, envVar.name());
 
                 System.out.println("AppEnv :" + envVar);
-                ApiLogger.info("AppEnv :" + envVar);
+                LOGGER.info("AppEnv :" + envVar);
             }
         }
         return envVar;

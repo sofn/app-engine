@@ -3,7 +3,7 @@ package com.junesix.api.auth.spi;
 import com.junesix.api.auth.model.AuthException;
 import com.junesix.api.auth.model.AuthRequest;
 import com.junesix.api.auth.provider.UserProvider;
-import com.junesix.common.utils.log.ApiLogger;
+import com.junesix.api.utils.log.ApiLogger;
 
 import javax.annotation.Resource;
 

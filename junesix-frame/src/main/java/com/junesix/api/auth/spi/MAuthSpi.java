@@ -7,7 +7,7 @@ import com.junesix.api.auth.model.AuthRequest;
 import com.junesix.common.encrypt.AESEncrypter;
 import com.junesix.common.encrypt.EncrypterException;
 import com.junesix.common.exception.MatrixException;
-import com.junesix.common.utils.log.ApiLogger;
+import com.junesix.api.utils.log.ApiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;

@@ -12,7 +12,7 @@
         <property name="synchronizeOnSession" value="true"/>
         <property name="customArgumentResolvers">
             <list>
-                <bean class="com.junesix.api.frame.annotation.RequestContextMethodArgumentResolver"/>
+                <bean class="com.junesix.api.frame.spring.context.RequestContextMethodArgumentResolver"/>
             </list>
         </property>
     </bean>

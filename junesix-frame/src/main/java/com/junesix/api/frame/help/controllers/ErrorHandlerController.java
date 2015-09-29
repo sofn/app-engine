@@ -4,7 +4,7 @@ import com.junesix.api.frame.filters.GlobalExceptionHandler;
 import com.junesix.common.exception.ExcepFactor;
 import com.junesix.common.exception.MatrixException;
 import com.junesix.common.exception.MatrixExceptionHelper;
-import com.junesix.common.utils.log.ApiLogger;
+import com.junesix.api.utils.log.ApiLogger;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

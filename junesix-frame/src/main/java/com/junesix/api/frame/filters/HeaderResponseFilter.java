@@ -1,6 +1,6 @@
 package com.junesix.api.frame.filters;
 
-import com.junesix.common.context.ThreadLocalContext;
+import com.junesix.api.frame.context.ThreadLocalContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

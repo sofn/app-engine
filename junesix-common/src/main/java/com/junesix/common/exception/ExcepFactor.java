@@ -1,6 +1,8 @@
 package com.junesix.common.exception;
 
-import com.junesix.common.utils.log.ApiLogger;
+import com.junesix.common.utils.IPUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import java.io.PrintWriter;
@@ -9,6 +11,7 @@ import java.util.*;
 
 public class ExcepFactor implements Serializable {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(IPUtils.class);
 
     private static final long serialVersionUID = 4826765296261100979L;
     // 系统级异常
@@ -17,6 +20,7 @@ public class ExcepFactor implements Serializable {
     public static final int ERROR_LEVEL_SERVICE = 2;
 
     private static final Set<ExcepFactor> excepFactors = new HashSet<>();
+
 
     /**
      * 默认错误
@@ -247,7 +251,7 @@ public class ExcepFactor implements Serializable {
         try {
             return String.format(errorMsg, args);
         } catch (Exception e) {
-            ApiLogger.error(e);
+            LOGGER.error("getErrorMsg", e);
             return errorMsg;
         }
     }
@@ -263,7 +267,7 @@ public class ExcepFactor implements Serializable {
         try {
             return String.format(errorMsgCn, args);
         } catch (Exception e) {
-            ApiLogger.error(e);
+            LOGGER.error("getErrorMsgCn", e);
             return errorMsgCn;
         }
     }

@@ -1,10 +1,7 @@
-/**
- *
- */
 package com.junesix.common.exception;
 
-
-import com.junesix.common.utils.log.ApiLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -16,6 +13,7 @@ import java.util.Map;
  */
 public class MatrixException extends RuntimeException {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(MatrixException.class);
     public static final String DEFAULT_ENCODING = "UTF-8";
 
     private final Map<String, Object> parameters = new HashMap<String, Object>();
@@ -114,7 +112,7 @@ public class MatrixException extends RuntimeException {
         try {
             writer.write(result);
         } catch (IOException e) {
-            ApiLogger.error(e);
+            LOGGER.error("formatException", e);
         }
     }
 }

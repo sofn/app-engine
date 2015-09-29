@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.junesix.common.context;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

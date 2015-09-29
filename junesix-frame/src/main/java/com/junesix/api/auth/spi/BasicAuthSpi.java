@@ -4,7 +4,7 @@ import com.junesix.api.auth.model.AuthExcepFactor;
 import com.junesix.api.auth.model.AuthException;
 import com.junesix.api.auth.model.AuthRequest;
 import com.junesix.api.auth.provider.UserProvider;
-import com.junesix.common.utils.log.ApiLogger;
+import com.junesix.api.utils.log.ApiLogger;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

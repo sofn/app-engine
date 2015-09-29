@@ -1,7 +1,4 @@
-/**
- *
- */
-package com.junesix.common.context;
+package com.junesix.api.frame.context;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ThreadLocalContext extends InheritableThreadLocal<RequestContext> {
 
-    private static final RequestIDGenerator requestIdGenerator = DefaultRequestIdGenerator.getInstance();
+    private static final RequestIDGenerator requestIdGenerator = RequestIDGenerator.getInstance();
     private static final ThreadLocalContext instance = new ThreadLocalContext() {
         @Override
         protected RequestContext initialValue() {

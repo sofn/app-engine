@@ -1,8 +1,8 @@
-package com.junesix.common.utils.log;
+package com.junesix.api.utils.log;
 
 import com.alibaba.fastjson.JSONObject;
+import com.junesix.api.frame.context.ThreadLocalContext;
 import com.junesix.common.config.DefaultConfigLoader;
-import com.junesix.common.context.ThreadLocalContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

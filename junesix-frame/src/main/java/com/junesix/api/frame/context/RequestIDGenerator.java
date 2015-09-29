@@ -1,7 +1,4 @@
-/**
- *
- */
-package com.junesix.common.context;
+package com.junesix.api.frame.context;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -9,16 +6,16 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author jolestar
  */
-public class DefaultRequestIdGenerator implements RequestIDGenerator {
+public class RequestIDGenerator {
 
     private final AtomicLong requestId = new AtomicLong(1);
     private String hostName;
 
     static class InstanceHolder {
-        static DefaultRequestIdGenerator idGenerator = new DefaultRequestIdGenerator();
+        static RequestIDGenerator idGenerator = new RequestIDGenerator();
     }
 
-    private DefaultRequestIdGenerator() {
+    private RequestIDGenerator() {
         try {
             // 取machineName
             this.hostName = java.net.InetAddress.getLocalHost().getHostName();
@@ -31,11 +28,10 @@ public class DefaultRequestIdGenerator implements RequestIDGenerator {
         }
     }
 
-    public static DefaultRequestIdGenerator getInstance() {
+    public static RequestIDGenerator getInstance() {
         return InstanceHolder.idGenerator;
     }
 
-    @Override
     public String nextId() {
         return this.hostName + "-" + requestId.getAndIncrement();
     }

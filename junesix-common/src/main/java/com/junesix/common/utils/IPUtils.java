@@ -1,7 +1,8 @@
 package com.junesix.common.utils;
 
-import com.junesix.common.utils.log.ApiLogger;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class IPUtils {
 
     public static String ipRegix = "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
     public static Pattern ipPattern = Pattern.compile(ipRegix);
+    public static final Logger LOGGER = LoggerFactory.getLogger(IPUtils.class);
 
     public static boolean isIp(String in) {
         return in != null && ipPattern.matcher(in).matches();
@@ -46,7 +48,7 @@ public class IPUtils {
             }
             return result;
         } catch (SocketException e) {
-            ApiLogger.error("getLocalIP error", e);
+            LOGGER.error("getLocalIP error", e);
             return Collections.emptyMap();
         }
     }
@@ -155,7 +157,7 @@ public class IPUtils {
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
-        ApiLogger.debug("x-forwarded-for:" + request.getHeader("x-forwarded-for") +
+        LOGGER.debug("x-forwarded-for:" + request.getHeader("x-forwarded-for") +
                 ",Proxy-Client-IP:" + request.getHeader("Proxy-Client-IP") +
                 ",WL-Proxy-Client-IP:" + request.getHeader("WL-Proxy-Client-IP") +
                 ",ip:" + ip);
@@ -217,7 +219,7 @@ public class IPUtils {
                     ip |= Integer.parseInt(addressBytes[3]);
                 }
             } catch (Exception e) {
-                ApiLogger.warn("Warn ipToInt address is wrong: address=" + address);
+                LOGGER.warn("Warn ipToInt address is wrong: address=" + address);
             }
         }
 

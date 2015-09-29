@@ -7,7 +7,7 @@ package com.junesix.api.frame.filters;
 import com.junesix.api.auth.annotation.AuthType;
 import com.junesix.api.auth.service.AuthService;
 import com.junesix.api.frame.spring.ApplicationContextHolder;
-import com.junesix.common.context.ThreadLocalContext;
+import com.junesix.api.frame.context.ThreadLocalContext;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

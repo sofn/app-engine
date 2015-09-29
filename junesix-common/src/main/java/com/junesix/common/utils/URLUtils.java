@@ -1,9 +1,7 @@
-/**
- *
- */
 package com.junesix.common.utils;
 
-import com.junesix.common.utils.log.ApiLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -19,6 +17,7 @@ import java.util.Map;
 public class URLUtils {
 
     public static final String DEFAULT_CHARSET = "utf-8";
+    public static final Logger LOGGER = LoggerFactory.getLogger(URLUtils.class);
 
     public static String encode(String src) {
         try {
@@ -92,7 +91,7 @@ public class URLUtils {
         try {
             return URLEncoder.encode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            ApiLogger.error(e);
+            LOGGER.error("encodeUrl", e);
         }
         return str;
     }
