@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.junesix.api.auth.provider;
 
 
@@ -33,9 +30,8 @@ public interface UserProvider {
      *
      * @param loginName     不能为空
      * @param password      不能为空
-     * @param ip
      * @return uid
      */
-    public long authUser(String loginName, String password, String ip);
+    public long authUser(String loginName, String password);
 
 }

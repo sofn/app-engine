@@ -4,14 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.junesix.api.auth.annotation.ApiStatus;
 import com.junesix.api.auth.annotation.AuthType;
 import com.junesix.api.auth.annotation.BaseInfo;
-import com.junesix.api.frame.annotation.Context;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.common.context.RequestContext;
 import com.junesix.common.utils.log.ApiLogger;
 import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +29,7 @@ public class HelpController {
 
     @BaseInfo(desc = "help-ping", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
     @RequestMapping(value = "/ping")
-    public String ping(@Context RequestContext rc) {
+    public String ping(RequestContext rc) {
         ApiLogger.info(rc.getRequestId());
         return "{\"apistatus\":1,\"result\":true}";
     }

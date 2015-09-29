@@ -27,7 +27,7 @@ public class AuthRequest {
         this.request = request;
     }
 
-    enum RequestFrom {
+    public enum RequestFrom {
         // 内网
         INNER,
         // 外网

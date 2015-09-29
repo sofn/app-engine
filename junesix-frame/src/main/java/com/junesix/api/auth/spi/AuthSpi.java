@@ -4,20 +4,17 @@ package com.junesix.api.auth.spi;
 import com.junesix.api.auth.model.AuthException;
 import com.junesix.api.auth.model.AuthRequest;
 
-import java.util.concurrent.TimeUnit;
-
 /**
- * @author jolestar@gmail.com
+ * @author sofn
  */
 public interface AuthSpi {
 
-    public static final String AUTH_HEADER = "Authorization";
+    String AUTH_HEADER = "Authorization";
+    String COOKIE_NAME = "AUTH_COOKIE";
 
-    public static final long DEFAULT_CACHE_TIME = TimeUnit.HOURS.toMillis(1);
+    String getName();
 
-    public String getName();
-
-    public boolean canAuth(AuthRequest request);
+    boolean canAuth(AuthRequest request);
 
     /**
      * 验证失败则抛出异常
@@ -26,12 +23,10 @@ public interface AuthSpi {
      * @return uid
      * @throws AuthException
      */
-    public long auth(AuthRequest request) throws AuthException;
+    long auth(AuthRequest request) throws AuthException;
 
     /**
      * 认证后的额外检查
-     *
-     * @return uid 如果额外检查失败，抛出 AuthException
      */
-    public void afterAuth(long uid, AuthRequest request) throws AuthException;
+    void afterAuth(long uid, AuthRequest request) throws AuthException;
 }
