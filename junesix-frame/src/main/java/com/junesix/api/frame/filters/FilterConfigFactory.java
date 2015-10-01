@@ -31,7 +31,7 @@ public class FilterConfigFactory extends WebMvcConfigurerAdapter {
         registration.setOrder(Integer.MAX_VALUE);
         return registration;
     }
-
+/*
     @Bean
     public FilterRegistrationBean authFilterChain() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -39,5 +39,5 @@ public class FilterConfigFactory extends WebMvcConfigurerAdapter {
         registration.setFilter(filter);
         registration.setOrder(Integer.MAX_VALUE);
         return registration;
-    }
+    }*/
 }

@@ -14,8 +14,6 @@ public class NullAuthSpi extends AbstractAuthSpi {
 
     public static final String SPI_NAME = "Null";
 
-    public static final NullAuthSpi NULL_AUTH_SPI = new NullAuthSpi();
-
     @Override
     public String getName() {
         return SPI_NAME;

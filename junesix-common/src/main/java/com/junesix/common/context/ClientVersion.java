@@ -16,6 +16,9 @@ public class ClientVersion implements Serializable {
 
     public static final String VERSION_HEADER = "X-WVersion";
 
+    public static final String SPLIT = "-";
+
+
     public static class Version implements Comparable<Version>, Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -83,7 +86,7 @@ public class ClientVersion implements Serializable {
         }
 
         public String toString() {
-            return new StringBuilder().append(this.major).append(SPLIT).append(this.minor).append(SPLIT).append(this.revision).append(SPLIT).append(build).toString();
+            return this.major + SPLIT + this.minor + SPLIT + this.revision + SPLIT + build;
         }
 
         @Override
@@ -129,7 +132,6 @@ public class ClientVersion implements Serializable {
         this.channel = channel;
     }
 
-    public static final String SPLIT = "-";
 
     @JsonCreator
     public static ClientVersion valueOf(String versionHeader) {
@@ -157,8 +159,7 @@ public class ClientVersion implements Serializable {
     }
 
     public String toString() {
-        return new StringBuilder().append(sdkVersion.toString()).append(SPLIT).append(clientVersion.toString()).append(SPLIT).append(udid).append(SPLIT)
-                .append(device).append(SPLIT).append(channel).toString();
+        return sdkVersion + SPLIT + clientVersion + SPLIT + udid + SPLIT + device + SPLIT + channel;
     }
 
     @Override

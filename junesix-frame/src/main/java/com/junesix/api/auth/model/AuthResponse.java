@@ -17,12 +17,10 @@ public class AuthResponse implements Serializable {
     private final String ip;
     private final String authedBy;
     private final String platform;
-    private final long mid;
 
-    public AuthResponse(String platform, long uid, String ip, String authedBy, long mid) {
+    public AuthResponse(String platform, long uid, String ip, String authedBy) {
         this.platform = platform;
         this.uid = uid;
-        this.mid = mid;
         this.attributes = new HashMap<>();
         this.ip = ip;
         this.authedBy = authedBy;
@@ -54,9 +52,5 @@ public class AuthResponse implements Serializable {
 
     public String getPlatform() {
         return platform;
-    }
-
-    public long getMid() {
-        return mid;
     }
 }

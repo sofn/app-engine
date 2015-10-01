@@ -1,5 +1,6 @@
 package com.junesix.api.auth.model;
 
+import com.junesix.common.utils.IPUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.KeyValue;
@@ -147,6 +148,9 @@ public class AuthRequest {
         return request.getRequestURI();
     }
 
+    public String getRemoteIp(){
+        return IPUtils.getRealIpAddr(this.request);
+    }
 
     public String getApiPath() {
         String path = this.getRequestURI();

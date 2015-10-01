@@ -1,39 +1,50 @@
-/**
- *
- */
 package com.junesix.api.frame.filters;
 
-
-import com.junesix.api.auth.annotation.AuthType;
+import com.junesix.api.auth.annotation.BaseInfo;
+import com.junesix.api.auth.model.AuthRequest;
+import com.junesix.api.auth.model.AuthResponse;
 import com.junesix.api.auth.service.AuthService;
-import com.junesix.api.frame.spring.ApplicationContextHolder;
+import com.junesix.api.frame.context.RequestContext;
 import com.junesix.api.frame.context.ThreadLocalContext;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Optional;
 
-/**
- * @author jolestar
+/** TODO 拦截不生效
+ * @author sofn
  */
-public class AuthResourceFilter extends OncePerRequestFilter {
-
-    public static final String MULTIPART = "multipart/";
-
-    private AuthType authType;
+@Service
+public class AuthResourceFilter extends RequestMappingHandlerAdapter {
 
     private AuthService authService;
 
-    public AuthResourceFilter() {
-//        this.authType = authType;
+    @Override
+    protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
+                                          HandlerMethod handlerMethod) throws Exception {
+        RequestContext context = ThreadLocalContext.getRequestContext();
+        AuthRequest authRequest = new AuthRequest(request);
+
+        Method method = handlerMethod.getMethod();
+        BaseInfo baseInfo = null;
+        if (method.isAnnotationPresent(BaseInfo.class)) {
+            baseInfo = method.getAnnotation(BaseInfo.class);
+        }
+        AuthResponse authResponse = authService.auth(authRequest, Optional.ofNullable(baseInfo));
+
+        System.out.println("handle auth");
+
+        return super.handleInternal(request, response, handlerMethod);
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        HttpServletRequest httpRequest = ThreadLocalContext.getServletRequest();
+    //    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        HttpServletRequest httpRequest = ThreadLocalContext.getServletRequest();
 //        ServletContext servletContext = request.getSession().getServletContext();
 //        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 //        authService = ctx.getBean(AuthService.class);
@@ -51,13 +62,11 @@ public class AuthResourceFilter extends OncePerRequestFilter {
 //            ApiLogger.debug("ContainerRequest.filter:request.getHeaderValue(ClientVersion.VERSION_HEADER) =" + request.getHeaderValue(ClientVersion.VERSION_HEADER));
 //        }
 //        context.setClientVersion(ClientVersion.valueOf(request.getHeaderValue(ClientVersion.VERSION_HEADER)));
-        filterChain.doFilter(request, response);
-    }
+//        filterChain.doFilter(request, response);
+//    }
 
-    public AuthService getAuthService() {
-        if (this.authService == null) {
-            this.authService = ApplicationContextHolder.getBean(AuthService.class);
-        }
-        return this.authService;
-    }
+    /*@Override
+    public void afterPropertiesSet() {
+        this.authService = getApplicationContext().getBean(AuthService.class);
+    }*/
 }
