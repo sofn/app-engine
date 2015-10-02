@@ -6,5 +6,6 @@ package com.junesix.common.utils;
  */
 public class GlobalConstants {
 
+    public static final int DEFAULT_APPID = 1;
     public static final int SERVICE_ID_AUTH = 1;
 }

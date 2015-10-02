@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":junesix-common")
+    compile project(":junesix-frame")
     testCompile "junit:junit:4.11"
 }

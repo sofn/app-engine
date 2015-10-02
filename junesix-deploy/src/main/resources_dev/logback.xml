@@ -16,13 +16,13 @@
             <level>ERROR</level>
             <onMatch>DENY</onMatch>
         </filter>
-       <!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator>
-                <expression>return !logger.equals("REQUEST");</expression>
-            </evaluator>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>-->
+        <!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+             <evaluator>
+                 <expression>return !logger.equals("REQUEST");</expression>
+             </evaluator>
+             <onMatch>ACCEPT</onMatch>
+             <onMismatch>DENY</onMismatch>
+         </filter>-->
     </appender>
     <appender name="errconsole" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
         <encoder charset="UTF-8">
@@ -115,10 +115,10 @@
         </filter>
     </appender>
 
-    <logger name="org.springframework" level="OFF"/>
-    <logger name="org.hibernate" level="OFF"/>
-    <logger name="druid" level="OFF"/>
-    <logger name="org.apache" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="druid" level="ERROR"/>
+    <logger name="org.apache.catalina" level="OFF"/>
 
     <logger name="com.junesix" level="DEBUG"/>
     <logger name="REQUEST" level="INFO" additivity="false">

@@ -1,7 +1,7 @@
 package com.juneix.common.context;
 
-import com.junesix.api.frame.context.RequestContext;
-import com.junesix.api.frame.context.ThreadLocalContext;
+import com.junesix.frame.context.RequestContext;
+import com.junesix.frame.context.ThreadLocalContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,58 +18,50 @@ public class ThreadLocalContextTest {
 
     @Test
     public void testThreadLocalContext() {
-        ThreadLocalContext threadLocal = ThreadLocalContext.getInstance();
-        RequestContext context = threadLocal.get();
+        RequestContext context = ThreadLocalContext.getRequestContext();
         System.out.println(context.getRequestId());
         ThreadLocalContext.clear();
-        RequestContext context2 = threadLocal.get();
+        RequestContext context2 = ThreadLocalContext.getRequestContext();
         System.out.println(context2.getRequestId());
         Assert.assertNotSame(context.getRequestId(), context2.getRequestId());
     }
 
     @Test
     public void testThreadLocalContextMultiThread() {
-        ThreadLocalContext threadLocal = ThreadLocalContext.getInstance();
-        final RequestContext context = threadLocal.get();
+        final RequestContext context = ThreadLocalContext.getRequestContext();
         System.out.println(context.getRequestId());
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                RequestContext context2 = ThreadLocalContext.getInstance().get();
-                System.out.println(context2.getRequestId());
-                Assert.assertEquals(context.getRequestId(), context2.getRequestId());
-            }
+        Thread thread = new Thread(() -> {
+            RequestContext context2 = ThreadLocalContext.getRequestContext();
+            System.out.println(context2.getRequestId());
+            Assert.assertEquals(context.getRequestId(), context2.getRequestId());
         });
         thread.start();
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 
     @Test
     public void testThreadLocalContextThreadPool() throws InterruptedException, ExecutionException {
-        ThreadLocalContext threadLocal = ThreadLocalContext.getInstance();
-        final RequestContext context = threadLocal.get();
+        final RequestContext context = ThreadLocalContext.getRequestContext();
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<RequestContext> future = executor.submit(() -> {
             Thread.sleep(1000);
-            return ThreadLocalContext.getInstance().get();
+            return ThreadLocalContext.getRequestContext();
         });
         ThreadLocalContext.clear();
 
-        threadLocal = ThreadLocalContext.getInstance();
-        RequestContext context2 = threadLocal.get();
+        RequestContext context2 = ThreadLocalContext.getRequestContext();
 
         Future<RequestContext> future2 = executor.submit(() -> {
             Thread.sleep(1000);
-            return ThreadLocalContext.getInstance().get();
+            return ThreadLocalContext.getRequestContext();
         });
         Future<RequestContext> future3 = executor.submit(() -> {
             Thread.sleep(1000);
-            return ThreadLocalContext.getInstance().get();
+            return ThreadLocalContext.getRequestContext();
         });
         RequestContext context3 = future.get();
         RequestContext context4 = future2.get();
