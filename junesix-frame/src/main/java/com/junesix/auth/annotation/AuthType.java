@@ -10,8 +10,6 @@ public enum AuthType {
     REQUIRED(true),
     // 外部认证，内部不需要
     OUTER(true),
-    // 商户验证，独立验证模式
-    MERCHANT(true),
     //访客模式，用户信息验证失败不报错，增加设备号验证
     GUEST(true);
 

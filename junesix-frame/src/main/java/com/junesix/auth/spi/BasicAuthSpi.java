@@ -38,7 +38,7 @@ public class BasicAuthSpi extends AbstractAuthSpi {
     }
 
     @Override
-    protected long doAuth(AuthRequest request) {
+    public long auth(AuthRequest request) {
         String authString = request.getHeader("Authorization");
         if (StringUtils.isBlank(authString)) {
             throw new AuthException(AuthExcepFactor.E_USER_AUTHFAIL);

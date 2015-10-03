@@ -1,6 +1,5 @@
 package com.junesix.auth.spi;
 
-import com.junesix.auth.model.AuthException;
 import com.junesix.auth.model.AuthRequest;
 import com.junesix.auth.provider.UserProvider;
 import com.junesix.frame.utils.log.ApiLogger;
@@ -30,16 +29,6 @@ public abstract class AbstractAuthSpi implements AuthSpi {
     }
 
     protected abstract boolean checkCanAuth(AuthRequest request);
-
-    @Override
-    public long auth(AuthRequest request) throws AuthException {
-        return this.doAuth(request);
-    }
-
-    /**
-     * 子类需要实现本方法 认证失败抛异常
-     */
-    protected abstract long doAuth(AuthRequest request) throws AuthException;
 
     @Override
     public void afterAuth(long uid, AuthRequest request) {

@@ -26,7 +26,6 @@ public class HelpController {
 
     @BaseInfo(desc = "help-ping", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
     @RequestMapping(value = "/ping")
-    @ResponseBody
     public boolean ping(RequestContext rc) {
         ApiLogger.info(rc.getRequestId());
         return true;

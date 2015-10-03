@@ -1,5 +1,7 @@
 package com.junesix.frame.help.controllers;
 
+import com.junesix.auth.annotation.AuthType;
+import com.junesix.auth.annotation.BaseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WelcomeController {
 
     @RequestMapping(value = "")
+    @BaseInfo(desc = "welcome", needAuth = AuthType.OPTION)
     public String welcome() {
 //        return "redirect:/index.jsp";
 //        return "forward:/WEB-INF/jsp/welcome.jsp";

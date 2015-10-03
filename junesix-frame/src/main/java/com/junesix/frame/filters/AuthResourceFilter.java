@@ -44,6 +44,8 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         }
 
         RequestContext context = ThreadLocalContext.getRequestContext();
+        context.setOriginRequest(request);
+
         AuthRequest authRequest = new AuthRequest(request);
 
         Method method = handlerMethod.getMethod();

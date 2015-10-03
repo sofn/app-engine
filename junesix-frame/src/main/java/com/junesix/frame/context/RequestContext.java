@@ -22,7 +22,6 @@ public class RequestContext implements Serializable, JSONAware {
     private String requestId;
     @JSONField(name = "current_uid")
     private long currentUid;
-    private long merchantId;
     private String ip;
     @JSONField(name = "app_id")
     private int appId;
@@ -119,14 +118,6 @@ public class RequestContext implements Serializable, JSONAware {
 
     public void setReadMasterDB(boolean readMasterDB) {
         this.readMasterDB = readMasterDB;
-    }
-
-    public long getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(long merchantId) {
-        this.merchantId = merchantId;
     }
 
     @Override

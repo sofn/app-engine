@@ -7,6 +7,7 @@ import com.junesix.auth.model.AuthException;
 import com.junesix.auth.model.AuthRequest;
 import com.junesix.auth.model.AuthResponse;
 import com.junesix.auth.spi.AuthSpi;
+import com.junesix.auth.spi.GuestAuthSpi;
 import com.junesix.auth.spi.NullAuthSpi;
 import com.junesix.common.context.ClientVersion;
 import com.junesix.common.exception.MatrixExceptionHelper;
@@ -19,10 +20,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Authors: sofn
@@ -46,13 +45,13 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
             type = AuthType.REQUIRED;
         }
         AuthSpi spi = this.findAuthServiceSpi(request, type);
-        long uid = spi.auth(request);
+        long uid = 0;
         try {
-            if (uid <= 0 && type.authFailThrowException() && !(type.equals(AuthType.GUEST))) {
+            uid = spi.auth(request);
+            if (uid <= 0 && type.authFailThrowException()) {
                 throw MatrixExceptionHelper.localMatrixException(AuthExcepFactor.E_USER_AUTHFAIL);
             }
         } catch (AuthException e) {
-            //TODO 全部抛出异常
             if (type.authFailThrowException() && (type != AuthType.OUTER || request.getFrom() != AuthRequest.RequestFrom.INNER)) {
                 throw e;
             }
@@ -83,10 +82,14 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
     private AuthSpi findAuthServiceSpi(AuthRequest request, AuthType type) {
         AuthSpi authSpi = null;
 
-        for (AuthSpi spi : this.authSpis) {
-            if (spi.canAuth(request)) {
-                authSpi = spi;
-                break;
+        if (type == AuthType.GUEST) {
+            authSpi = this.getAuthSpi(GuestAuthSpi.SPI_NAME);
+        } else {
+            for (AuthSpi spi : this.authSpis) {
+                if (spi.canAuth(request)) {
+                    authSpi = spi;
+                    break;
+                }
             }
         }
 
@@ -106,10 +109,12 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
     @Override
     public void afterPropertiesSet() throws Exception {
         Map<String, AuthSpi> spis = this.context.getBeansOfType(AuthSpi.class);
-        authSpis.addAll(spis.values().stream().collect(Collectors.toList()));
 
-        for (Map.Entry<String, AuthSpi> entry : spis.entrySet()) {
-            authSpiMap.put(StringUtils.lowerCase(entry.getKey()), entry.getValue());
+        for (AuthSpi spi : spis.values()) {
+            if (spi.getClass() != NullAuthSpi.class && spi.getClass() != GuestAuthSpi.class) {
+                authSpis.add(spi);
+            }
+            authSpiMap.put(StringUtils.lowerCase(spi.getName()), spi);
         }
 
     }

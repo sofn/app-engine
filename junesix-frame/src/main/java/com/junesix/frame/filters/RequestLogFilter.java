@@ -4,6 +4,7 @@ import com.junesix.frame.utils.RequestLogRecord;
 import com.junesix.frame.utils.ResponseWrapper;
 import com.junesix.frame.context.RequestContext;
 import com.junesix.frame.context.ThreadLocalContext;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,9 +20,10 @@ public class RequestLogFilter extends OncePerRequestFilter {
     protected static final Logger logger = LoggerFactory.getLogger("REQUEST");
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         RequestContext context = ThreadLocalContext.getRequestContext();
-        context.setOriginRequest(request);
+
         response = new ResponseWrapper(response);
         long startTime = System.currentTimeMillis();
         try {
@@ -37,6 +39,10 @@ public class RequestLogFilter extends OncePerRequestFilter {
             record.setParameters(request.getParameterMap());
             record.setResponseStatus(response.getStatus());
             record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
+            //text/html不打印body
+            if (!StringUtils.contains(response.getContentType(), "application/json")) {
+                record.setWriteBody(false);
+            }
             logger.info(record.toString());
             ThreadLocalContext.clear();
         }

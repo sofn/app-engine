@@ -71,6 +71,8 @@ public class RequestLogRecord {
      */
     private long responseSize;
 
+    private boolean writeBody = true;
+
     public RequestLogRecord() {
     }
 
@@ -181,6 +183,14 @@ public class RequestLogRecord {
         this.responseSize = responseSize;
     }
 
+    public boolean isWriteBody() {
+        return writeBody;
+    }
+
+    public void setWriteBody(boolean writeBody) {
+        this.writeBody = writeBody;
+    }
+
     public JSONObject toJSONObject() {
         return new JSONObject();
     }
@@ -218,7 +228,7 @@ public class RequestLogRecord {
         buf.append(SPLIT);
         buf.append(this.userAgent);
         buf.append(SPLIT);
-        buf.append(this.response);
+        buf.append(this.writeBody ? this.response : "");
         return buf.toString();
     }
 

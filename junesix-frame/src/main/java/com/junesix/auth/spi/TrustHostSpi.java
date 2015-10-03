@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.junesix.auth.spi;
 
 
@@ -19,7 +16,6 @@ public class TrustHostSpi extends AbstractAuthSpi {
 
     public static final String SPI_NAME = "TrustHost";
 
-
     @Override
     public String getName() {
         return SPI_NAME;
@@ -31,7 +27,7 @@ public class TrustHostSpi extends AbstractAuthSpi {
     }
 
     @Override
-    protected long doAuth(AuthRequest request) throws AuthException {
+    public long auth(AuthRequest request) throws AuthException {
         long uid = NumberUtils.toLong(request.getHeader(AuthService.MATRIX_UID_HEADER), 0);
         if (uid == 0) {
             throw new AuthException(AuthExcepFactor.E_USER_AUTHFAIL, "Matrix uid header is empty.");

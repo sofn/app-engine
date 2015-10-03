@@ -1,6 +1,5 @@
 package com.junesix.auth.spi;
 
-
 import com.junesix.auth.model.AuthExcepFactor;
 import com.junesix.auth.model.AuthException;
 import com.junesix.auth.model.AuthRequest;
@@ -57,7 +56,7 @@ public class MAuthSpi extends AbstractAuthSpi {
     }
 
     @Override
-    protected long doAuth(AuthRequest request) throws AuthException {
+    public long auth(AuthRequest request) throws AuthException {
         String authHeader = StringUtils.isBlank(request.getHeader(AUTH_HEADER)) ? request.getHeader(AUTH_HEADER_OTHER) : request.getHeader(AUTH_HEADER);
         if (StringUtils.isBlank(authHeader)) {
             authHeader = request.getParameter(AUTH_PARAM);
