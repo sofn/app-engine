@@ -1,4 +1,4 @@
-package com.juneix.common.context;
+package com.juneix.frame.context;
 
 import org.junit.Test;
 

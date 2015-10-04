@@ -18,3 +18,9 @@
 ### checkstyle findbugs
 1、指定 gradle check 
 2、在build/reports目录会生成相关报告文件
+
+### 指标监控(Spring Boot自带)
+访问接口： http://localhost:8080/metrics
+
+### 健康检查(Spring Boot自带)
+访问接口： http://localhost:8080/health

@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.juneix.common.context;
+package com.juneix.frame.context;
 
 import com.junesix.common.context.ClientVersion;
 import com.junesix.common.context.ClientVersion.Version;

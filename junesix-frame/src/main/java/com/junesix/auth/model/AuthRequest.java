@@ -3,6 +3,7 @@ package com.junesix.auth.model;
 import com.junesix.common.utils.IPUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.aspectj.runtime.internal.cflowstack.ThreadStackImpl11;
 import org.javatuples.KeyValue;
 
 import javax.servlet.http.Cookie;
@@ -148,7 +149,7 @@ public class AuthRequest {
         return request.getRequestURI();
     }
 
-    public String getRemoteIp(){
+    public String getRemoteIp() {
         return IPUtils.getRealIpAddr(this.request);
     }
 
@@ -190,7 +191,7 @@ public class AuthRequest {
     }
 
     public RequestFrom getFrom() {
-        return RequestFrom.INNER;
+        return RequestFrom.valueOf(this.request.getHeader(FROM_HEADER), RequestFrom.INNER);
     }
 
 }

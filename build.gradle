@@ -41,17 +41,9 @@ subprojects {
     }
 
     dependencies {
-        compile "com.google.guava:guava:$guavaVersion"
-        compile "org.apache.commons:commons-lang3:$commonsLangVersion"
-        compile "commons-io:commons-io:$commonsIOVersion"
-        compile 'org.javatuples:javatuples:1.2'
         testCompile "junit:junit:4.11"
-
-        if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_7) >= 0) {
-            compile 'com.google.code.findbugs:annotations:3.0.0'
-        } else {
-            compile 'com.google.code.findbugs:annotations:2.0.3'
-        }
+        testCompile 'org.assertj:assertj-core:3.2.0'
+        testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     }
 
     ext {

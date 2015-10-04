@@ -18,7 +18,7 @@ public class MatrixException extends RuntimeException {
 
     private final Map<String, Object> parameters = new HashMap<String, Object>();
     private ExcepFactor factor;
-    private static final String ERROR_FORMAT = "{\"apistatus\":0,\"result\":{\"error\":\"%s\",\"error_zh_CN\":\"%s\",\"error_code\":%s,\"request\":\"%s\"}}";
+    private static final String ERROR_FORMAT = "{\"error\":\"%s\",\"error_zh_CN\":\"%s\",\"error_code\":%s,\"request\":\"%s\"}";
     // TODO 多国语错误提示
     private String errorMsgCn;
 

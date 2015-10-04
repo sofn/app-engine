@@ -1,5 +1,6 @@
 package com.junesix.frame.help.controllers;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.auth.annotation.ApiStatus;
 import com.junesix.auth.annotation.AuthType;
@@ -26,9 +27,12 @@ public class HelpController {
 
     @BaseInfo(desc = "help-ping", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
     @RequestMapping(value = "/ping")
-    public boolean ping(RequestContext rc) {
-        ApiLogger.info(rc.getRequestId());
-        return true;
+    public JSONObject ping(RequestContext rc) {
+        JSONObject result = new JSONObject();
+        result.put("uid", rc.getCurrentUid());
+        result.put("app_id", rc.getAppId());
+        result.put("remote_ip", rc.getIp());
+        return result;
     }
 
     @RequestMapping(value = "/echo", method = RequestMethod.POST)

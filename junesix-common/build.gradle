@@ -1,8 +1,29 @@
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    //common
+    compile "commons-codec:commons-codec:1.10"
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+    compile "commons-io:commons-io:$commonsIOVersion"
+
+    //DB
     compile "com.alibaba:druid:$druidVersion"
     compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
+
+    //util
     compile "com.alibaba:fastjson:$fastjsonVersion"
-    compile "commons-codec:commons-codec:1.10"
+    compile 'org.javatuples:javatuples:1.2'
+
+    //log
+//    compile "ch.qos.logback:logback-classic:1.1.3"
+//    compile "ch.qos.logback:logback-core:1.1.3"
+    compile "org.codehaus.janino:janino:2.7.8"
+
+    //spring
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+
+    if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_7) >= 0) {
+        compile 'com.google.code.findbugs:annotations:3.0.0'
+    } else {
+        compile 'com.google.code.findbugs:annotations:2.0.3'
+    }
 }

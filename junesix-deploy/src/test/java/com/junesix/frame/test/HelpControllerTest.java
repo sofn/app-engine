@@ -1,4 +1,4 @@
-package com.junesix.frame.frame.test;
+package com.junesix.frame.test;
 
 import com.junesix.frame.Application;
 import org.junit.Ignore;

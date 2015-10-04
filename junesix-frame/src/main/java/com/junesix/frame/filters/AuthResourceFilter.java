@@ -10,10 +10,10 @@ import com.junesix.common.utils.GlobalConstants;
 import com.junesix.frame.context.RequestContext;
 import com.junesix.frame.context.ThreadLocalContext;
 import com.junesix.frame.help.controllers.ErrorHandlerController;
-import com.junesix.frame.spring.JsonResultValueHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +35,8 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
 
     @Resource(name = "defaultAuthService")
     private AuthService authService;
+    @Resource
+    private CounterService counterService;
 
     @Override
     protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
@@ -61,7 +63,7 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
                     + " version: " + ClientVersion.valueOf(request.getHeader(ClientVersion.VERSION_HEADER)));
             throw e;
         }
-
+        counterService.increment(StringUtils.substring(StringUtils.replace(request.getRequestURI(), "/", "."), 1));
         context.setCurrentUid(authResponse.getUid());
         context.setAppId(authResponse.getAppId());
         context.setOfficialApp(authResponse.getAppId() == GlobalConstants.DEFAULT_APPID);
