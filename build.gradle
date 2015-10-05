@@ -1,14 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'java'
 
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url "http://maven.oschina.net/content/groups/public/" }
-        mavenCentral()
-    }
-}
-
 allprojects {
     group = "com.junesix"
     version = "0.1.RELEASE"
@@ -23,6 +15,16 @@ subprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            maven { url "http://maven.oschina.net/content/groups/public/" }
+            maven { url "http://repo.spring.io/milestone" }
+            maven { url 'http://repo.spring.io/libs-release' }
+            mavenCentral()
+        }
+    }
 
     repositories {
         mavenLocal()

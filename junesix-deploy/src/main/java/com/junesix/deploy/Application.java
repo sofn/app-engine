@@ -1,4 +1,4 @@
-package com.junesix.frame;
+package com.junesix.deploy;
 
 import com.junesix.common.config.DefaultConfigLoader;
 import org.springframework.boot.SpringApplication;

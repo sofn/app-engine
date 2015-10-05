@@ -3,15 +3,9 @@ package com.junesix.frame.filters;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.Filter;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Authors: sofn
