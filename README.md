@@ -19,8 +19,15 @@
 1、指定 gradle check 
 2、在build/reports目录会生成相关报告文件
 
-### 指标监控(Spring Boot自带)
-访问接口： http://localhost:8080/metrics
+### Spring Boot自带监控
+健康检查： http://localhost:7002/health
+次数监控： http://localhost:7002/metrics
+APP信息： http://localhost:7002/info
+dump信息： http://localhost:7002/dump
+环境信息： http://localhost:7002/env
 
-### 健康检查(Spring Boot自带)
-访问接口： http://localhost:8080/health
+### 性能监控
+接口： http://localhost:8080/javasimon
+
+### Tomcat监控
+接口： http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080

@@ -8,6 +8,7 @@ dependencies {
     //DB
     compile "com.alibaba:druid:$druidVersion"
     compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
+    compile 'com.h2database:h2:1.4.189'
 
     //util
     compile "com.alibaba:fastjson:$fastjsonVersion"
