@@ -1,4 +1,4 @@
-package com.junesix.frame.help.controllers;
+package com.junesix.frame.help.resources;
 
 import com.alibaba.fastjson.JSONObject;
 import com.junesix.auth.annotation.ApiStatus;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Monitored
 @RestController
 @RequestMapping("/help")
-public class HelpController {
+public class HelpResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(HelpController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(HelpResource.class);
 
     @BaseInfo(desc = "help-ping", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
     @RequestMapping(value = "/ping")

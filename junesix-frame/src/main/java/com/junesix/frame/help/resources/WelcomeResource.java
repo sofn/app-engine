@@ -1,4 +1,4 @@
-package com.junesix.frame.help.controllers;
+package com.junesix.frame.help.resources;
 
 import com.junesix.auth.annotation.AuthType;
 import com.junesix.auth.annotation.BaseInfo;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/welcome")
-public class WelcomeController {
+public class WelcomeResource {
 
     @RequestMapping(value = "")
     @BaseInfo(desc = "welcome", needAuth = AuthType.OPTION)

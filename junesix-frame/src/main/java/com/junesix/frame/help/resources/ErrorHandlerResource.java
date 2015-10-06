@@ -1,4 +1,4 @@
-package com.junesix.frame.help.controllers;
+package com.junesix.frame.help.resources;
 
 import com.junesix.frame.filters.GlobalExceptionHandler;
 import com.junesix.common.exception.ExcepFactor;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0 Created at: 2015-04-29 16:19
  */
 @RestController
-public class ErrorHandlerController implements ErrorController {
+public class ErrorHandlerResource implements ErrorController {
 
     public static final String ERROR_PATH = "/error";
 

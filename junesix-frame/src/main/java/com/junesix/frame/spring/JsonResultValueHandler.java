@@ -3,7 +3,7 @@ package com.junesix.frame.spring;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.junesix.frame.help.controllers.ErrorHandlerController;
+import com.junesix.frame.help.resources.ErrorHandlerResource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -28,8 +28,9 @@ public class JsonResultValueHandler implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        //json保证apistatus在最前面
         JSONObject result = new JSONObject(true);
-        if (StringUtils.equals(request.getURI().getPath(), ErrorHandlerController.ERROR_PATH)) {
+        if (StringUtils.equals(request.getURI().getPath(), ErrorHandlerResource.ERROR_PATH)) {
             result.put("apistatus", 0);
             body = JSON.parse((String) body);
         } else {

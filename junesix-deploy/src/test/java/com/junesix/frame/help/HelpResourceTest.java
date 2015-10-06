@@ -1,7 +1,7 @@
 package com.junesix.frame.help;
 
 import com.alibaba.fastjson.JSONObject;
-import com.junesix.frame.Application;
+import com.junesix.deploy.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

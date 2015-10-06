@@ -9,7 +9,7 @@ import com.junesix.common.context.ClientVersion;
 import com.junesix.common.utils.GlobalConstants;
 import com.junesix.frame.context.RequestContext;
 import com.junesix.frame.context.ThreadLocalContext;
-import com.junesix.frame.help.controllers.ErrorHandlerController;
+import com.junesix.frame.help.resources.ErrorHandlerResource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
     @Override
     protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
                                           HandlerMethod handlerMethod) throws Exception {
-        if (StringUtils.equals(request.getRequestURI(), ErrorHandlerController.ERROR_PATH)) {
+        if (StringUtils.equals(request.getRequestURI(), ErrorHandlerResource.ERROR_PATH)) {
             return super.handleInternal(request, response, handlerMethod);
         }
 
