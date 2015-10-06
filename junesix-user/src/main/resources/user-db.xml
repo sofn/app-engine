@@ -78,7 +78,7 @@
     </bean>
 
     <!-- Spring Data Jpa配置 -->
-    <jpa:repositories base-package="com.junesix.api"
+    <jpa:repositories base-package="com.junesix"
                       repository-impl-postfix="Impl"
                       transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
