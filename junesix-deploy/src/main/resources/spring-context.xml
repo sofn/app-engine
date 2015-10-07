@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
        default-lazy-init="true">
 
-    <context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath*:dataSource.properties" ignore-unresolvable="true"/>
 
     <bean class="com.junesix.frame.filters.AuthResourceFilter">
         <property name="synchronizeOnSession" value="true"/>
@@ -27,6 +27,8 @@
             </list>
         </property>
     </bean>
+
+    <import resource="classpath*:spring/*.xml"/>
 
     <context:component-scan base-package="com.junesix"/>
 

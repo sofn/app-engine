@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Configuration
 @EnableAutoConfiguration
-@ImportResource("classpath*:spring/spring-context.xml")
+@ImportResource("classpath:spring-context.xml")
 public class Application {
 
     public static void main(String[] args) {
