@@ -1,9 +1,7 @@
 package com.junesix.frame.help.resources;
 
 import com.alibaba.fastjson.JSONObject;
-import com.junesix.auth.annotation.ApiStatus;
-import com.junesix.auth.annotation.AuthType;
-import com.junesix.auth.annotation.BaseInfo;
+import com.junesix.auth.annotation.*;
 import com.junesix.common.config.DefaultConfigLoader;
 import com.junesix.frame.context.RequestContext;
 import org.apache.commons.lang3.RandomUtils;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author sofn
@@ -27,6 +27,12 @@ public class HelpResource {
     private static final Logger logger = LoggerFactory.getLogger(HelpResource.class);
 
     @BaseInfo(desc = "help-ping", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
+    @RateLimit({
+            @RateLimitTypeConfig(value = RateLimitType.IP, rates = {@RateLimitRateConfig(100)}),
+            @RateLimitTypeConfig(value = RateLimitType.USER, rates = {
+                    @RateLimitRateConfig(value = 100, time = TimeUnit.MINUTES),
+                    @RateLimitRateConfig(value = 10000, time = TimeUnit.HOURS)})
+    })
     @RequestMapping(value = "/ping")
     public JSONObject ping(RequestContext rc) {
         JSONObject result = new JSONObject();

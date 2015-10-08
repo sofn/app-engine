@@ -6,18 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author x-spirit
- * @author jolestar
+ * @author sofn
+ * @version 1.0 Created at: 2015-10-08 12:03
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface BaseInfo {
+public @interface RateLimit {
 
-    String desc() default "";
+    RateLimitTypeConfig[] value();
 
-    ApiStatus status() default ApiStatus.PUBLIC;
-
-    AuthType needAuth() default AuthType.REQUIRED;
-
-    boolean needSSL() default false;
 }
