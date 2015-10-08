@@ -1,6 +1,7 @@
 package com.junesix.auth.service;
 
 import com.junesix.auth.annotation.BaseInfo;
+import com.junesix.auth.annotation.RateLimit;
 import com.junesix.auth.model.AuthRequest;
 import com.junesix.auth.model.AuthResponse;
 import org.springframework.web.servlet.ModelAndView;

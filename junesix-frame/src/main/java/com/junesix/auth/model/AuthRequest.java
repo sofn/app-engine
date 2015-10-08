@@ -21,6 +21,7 @@ public class AuthRequest {
     public static final String FROM_HEADER = "X-Matrix-From"; //用于判断内网外网（Nginx配置添加Header）
     public static final String SSL_HEADER = "X-Matrix-SSL";
     private HttpServletRequest request;
+    private List<KeyValue<String, String>> cacheCookies;
 
     public AuthRequest(HttpServletRequest request) {
         if (request == null) {
@@ -62,33 +63,25 @@ public class AuthRequest {
 
     public Iterable<String> getHeaderNames() {
         final Enumeration<String> e = request.getHeaderNames();
-        return new Iterable<String>() {
+        return () -> new Iterator<String>() {
+
             @Override
-            public Iterator<String> iterator() {
-
-                return new Iterator<String>() {
-
-                    @Override
-                    public boolean hasNext() {
-                        return e.hasMoreElements();
-                    }
-
-                    @Override
-                    public String next() {
-                        return e.nextElement();
-                    }
-
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-
-                };
+            public boolean hasNext() {
+                return e.hasMoreElements();
             }
+
+            @Override
+            public String next() {
+                return e.nextElement();
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
         };
     }
-
-    private List<KeyValue<String, String>> cacheCookies;
 
     public List<KeyValue<String, String>> getCookies() {
         if (cacheCookies != null) {

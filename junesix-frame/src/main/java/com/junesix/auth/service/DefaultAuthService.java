@@ -2,6 +2,7 @@ package com.junesix.auth.service;
 
 import com.junesix.auth.annotation.AuthType;
 import com.junesix.auth.annotation.BaseInfo;
+import com.junesix.auth.annotation.RateLimit;
 import com.junesix.auth.model.AuthExcepFactor;
 import com.junesix.auth.model.AuthException;
 import com.junesix.auth.model.AuthRequest;

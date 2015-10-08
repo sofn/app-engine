@@ -1,10 +1,12 @@
 package com.junesix.frame.filters;
 
 import com.junesix.auth.annotation.BaseInfo;
+import com.junesix.auth.annotation.RateLimit;
 import com.junesix.auth.model.AuthException;
 import com.junesix.auth.model.AuthRequest;
 import com.junesix.auth.model.AuthResponse;
 import com.junesix.auth.service.AuthService;
+import com.junesix.auth.service.RateLimitAuthService;
 import com.junesix.common.context.ClientVersion;
 import com.junesix.common.utils.GlobalConstants;
 import com.junesix.frame.context.RequestContext;
@@ -37,6 +39,8 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
     private AuthService authService;
     @Resource
     private CounterService counterService;
+    @Resource
+    private RateLimitAuthService rateLimitAuthService;
 
     @Override
     protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
@@ -55,6 +59,11 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         if (method.isAnnotationPresent(BaseInfo.class)) {
             baseInfo = method.getAnnotation(BaseInfo.class);
         }
+        RateLimit rateLimit = null;
+        if (method.isAnnotationPresent(RateLimit.class)) {
+            rateLimit = method.getAnnotation(RateLimit.class);
+        }
+
         AuthResponse authResponse;
         try {
             authResponse = authService.auth(authRequest, Optional.ofNullable(baseInfo));
@@ -71,6 +80,10 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         context.setPlatform(authResponse.getPlatform());
         context.setAttribute("auth_type", authResponse.getAuthedBy());
         context.setClientVersion(authResponse.getClientVersion());
+
+        if (rateLimit != null) {
+            rateLimitAuthService.auth(context, rateLimit);
+        }
 
         return super.handleInternal(request, response, handlerMethod);
     }

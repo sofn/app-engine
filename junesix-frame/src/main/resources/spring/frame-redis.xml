@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="rateLimitRedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="baseJedisPoolConfig"/>
+        <constructor-arg index="1" value="${frame.ratelimit.redis.host}" type="java.lang.String"/>
+        <constructor-arg index="2" value="${frame.ratelimit.redis.port}"/>
+    </bean>
+
+    <bean id="rateRedis" class="redis.clients.jedis.Jedis">
+        <property name="dataSource" ref="rateLimitRedisPool"/>
+    </bean>
+
+</beans>

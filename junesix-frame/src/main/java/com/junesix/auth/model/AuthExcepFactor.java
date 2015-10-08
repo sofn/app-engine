@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.junesix.auth.model;
 
 
@@ -70,14 +67,20 @@ public class AuthExcepFactor extends ExcepFactor {
     public static final AuthExcepFactor E_AUTH_CLIENT_DISABLED = new AuthExcepFactor(
             HttpStatus.UNAUTHORIZED, 19, "client disabled", "client 被禁用");
 
-    public static final AuthExcepFactor E_AUTH_AUTHORIZE_CODE_EXPIRED = new AuthExcepFactor(
-            HttpStatus.UNAUTHORIZED, 20, "Authorize Code 过期，过期时间1分钟", "client 被禁用");
-
-    public static final AuthExcepFactor E_MERCHANT_AUTH_AUTHORIZE_CODE_ILLEGAL = new AuthExcepFactor(
-            HttpStatus.UNAUTHORIZED, 21, "merchat mauth illegAL", "不合法商户mauth");
-
     public static final AuthExcepFactor E_ILLEGAL_GUEST = new AuthExcepFactor(
-            HttpStatus.UNAUTHORIZED, 22, "illegal guest", "不合法访客");
+            HttpStatus.UNAUTHORIZED, 20, "illegal guest", "不合法访客");
+
+    public static final AuthExcepFactor E_USER_RATE_LIMIT = new AuthExcepFactor(
+            HttpStatus.FORBIDDEN, 21, "User request limit", "用户请求限制");
+
+    public static final AuthExcepFactor E_IP_RATE_LIMIT = new AuthExcepFactor(
+            HttpStatus.FORBIDDEN, 22, "IP request limit", "IP请求限制");
+
+    public static final AuthExcepFactor E_USER_IP_RATE_LIMIT = new AuthExcepFactor(
+            HttpStatus.FORBIDDEN, 23, "User and IP request limit", "用户和IP请求限制");
+
+    public static final AuthExcepFactor E_API_RATE_LIMIT = new AuthExcepFactor(
+            HttpStatus.FORBIDDEN, 24, "Api request limit", "Api请求限制");
 
     /**
      * 用户名密码尝试受限
