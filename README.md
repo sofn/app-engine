@@ -4,6 +4,12 @@
 一共有三种环境dev、test、prod，不同环境会加载不同的配置文件
 1、gradle启动同时要加参数 -Pprofile=dev
 
+### 数据库配置 
+1.如果安装了docker，直接执行 junesix-deploy/docker/start.sh脚本
+2.手动安装
+  mysql: ip:127.0.0.1 port:3306 username:root  password:123
+  redis: ip:127.0.0.1 port:6379 password:无
+
 ### 可执行jar包
 运行 gradle bootRepackage 会自动打可执行war包，目录：junesix-deploy/build/libs/junesix-deploy-0.1.RELEASE.jar
 
