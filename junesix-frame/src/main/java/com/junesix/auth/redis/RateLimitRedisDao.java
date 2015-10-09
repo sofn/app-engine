@@ -1,9 +1,9 @@
 package com.junesix.auth.redis;
 
-import com.junesix.auth.annotation.RateLimitType;
-import com.sun.org.apache.xalan.internal.xsltc.dom.FilteredStepIterator;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
@@ -18,14 +18,16 @@ public class RateLimitRedisDao {
 
     private static final String RATE_KEY_PREFIX = "rate_";
 
-    @Resource
-    private Jedis redis;
+    @Resource(name = "rateRedis")
+    private StringRedisTemplate redis;
 
     public long incrCount(TimeUnit time, Calendar calendar, String params) {
-        String key = RATE_KEY_PREFIX + time.name() + "_" + getCurrentTimeNum(calendar, time) + params;
-        Long result = redis.incr(key);
+        String key = RATE_KEY_PREFIX + StringUtils.substring(time.name(), 0, 1).toLowerCase() + "_" + getCurrentTimeNum(calendar, time) + "_" + params;
+        Long result = redis.execute((RedisConnection redisConnection) -> {
+            return redisConnection.incr(key.getBytes());
+        });
         if (result != null && result <= 2) {
-            redis.expire(key, (int) time.toSeconds(1) + 10);
+            redis.expire(key, time.toSeconds(1) + 10, TimeUnit.SECONDS);
         }
         return result != null ? result : 0;
     }

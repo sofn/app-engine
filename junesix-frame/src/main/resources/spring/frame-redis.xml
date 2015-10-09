@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="rateLimitRedisPool" class="redis.clients.jedis.JedisPool">
-        <constructor-arg index="0" ref="baseJedisPoolConfig"/>
-        <constructor-arg index="1" value="${frame.ratelimit.redis.host}" type="java.lang.String"/>
-        <constructor-arg index="2" value="${frame.ratelimit.redis.port}"/>
-    </bean>
+    <bean id="rateRedisFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${frame.ratelimit.redis.host}"
+          p:port="${frame.ratelimit.redis.port}"
+          p:usePool="true"
+          p:timeout="1000"
+          p:poolConfig-ref="baseJedisPoolConfig"/>
 
-    <bean id="rateRedis" class="redis.clients.jedis.Jedis">
-        <property name="dataSource" ref="rateLimitRedisPool"/>
+    <bean id="rateRedis" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="rateRedisFactory"/>
     </bean>
 
 </beans>
