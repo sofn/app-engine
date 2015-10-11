@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/data/jpa
+						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <import resource="classpath*:spring/common-mysql.xml"/>
+
+    <!--TODO 多数据源问题-->
+
+    <!-- 数据源配置, 使用的druid数据库连接池 -->
+   <!-- <bean id="taskDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${task.jdbc.driver}"/>
+        <property name="url" value="${task.jdbc.url}"/>
+        <property name="username" value="${task.jdbc.taskname}"/>
+        <property name="password" value="${task.jdbc.password}"/>
+
+        &lt;!&ndash; 配置初始化大小连接 &ndash;&gt;
+        <property name="initialSize" value="0"/>
+        &lt;!&ndash; 连接池最大连接 &ndash;&gt;
+        <property name="maxActive" value="20"/>
+        &lt;!&ndash; 连接池空闲 &ndash;&gt;
+        <property name="minIdle" value="0"/>
+        <property name="maxIdle" value="20"/>
+
+
+        &lt;!&ndash; 配置获取连接等待超时的时间 &ndash;&gt;
+        <property name="maxWait" value="60000"/>
+
+        &lt;!&ndash; 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 &ndash;&gt;
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+
+        &lt;!&ndash; 配置一个连接在池中最小生存的时间，单位是毫秒 &ndash;&gt;
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        &lt;!&ndash; 打开PSCache，并且指定每个连接上PSCache的大小 &ndash;&gt;
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+
+        &lt;!&ndash; 配置监控统计拦截的filters wall防止sql注入&ndash;&gt;
+        <property name="filters" value="stat,log4j"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+    </bean>
+    &lt;!&ndash;数据源配置结束&ndash;&gt;
+
+    <bean id="taskEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="taskDataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="packagesToScan" value="com.appengine"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                &lt;!&ndash; 命名规则 My_NAME->MyName &ndash;&gt;
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    &lt;!&ndash; Spring Data Jpa配置 &ndash;&gt;
+    <jpa:repositories base-package="com.appengine.task"
+                      repository-impl-postfix="Impl"
+                      transaction-manager-ref="taskTransactionManager"
+                      entity-manager-factory-ref="taskEntityManagerFactory"/>
+
+    &lt;!&ndash; 使用annotation定义事务 &ndash;&gt;
+    <tx:annotation-driven transaction-manager="taskTransactionManager" proxy-target-class="true"/>
+
+    &lt;!&ndash; Jpa 事务配置 &ndash;&gt;
+    <bean id="taskTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="taskEntityManagerFactory"/>
+    </bean>-->
+
+</beans>

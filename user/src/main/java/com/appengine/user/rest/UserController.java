@@ -1,4 +1,4 @@
-package com.appengine.user.resource;
+package com.appengine.user.rest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/users")
-public class UserResource {
+public class UserController {
 
     @RequestMapping(value = "/show")
     public String ping() {

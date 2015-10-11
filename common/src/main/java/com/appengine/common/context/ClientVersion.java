@@ -8,6 +8,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.io.Serializable;
 
 /**
+ * 客户端版本号解析类
+ *
  * @author jolestar
  */
 public class ClientVersion implements Serializable {

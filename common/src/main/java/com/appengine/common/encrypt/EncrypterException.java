@@ -1,6 +1,8 @@
 package com.appengine.common.encrypt;
 
 /**
+ * 加密解密异常
+ *
  * @author jolestar
  *         Date: 10/15/13
  *         Time: 2:15 PM

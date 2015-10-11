@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath*:spring/common-redis.xml"/>
 
     <bean id="rateRedisFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${frame.ratelimit.redis.host}"

@@ -10,15 +10,10 @@
 						http://www.springframework.org/schema/data/jpa
 						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="mergeSql" value="true"/>
-        <!--慢记录-->
-        <property name="slowSqlMillis" value="500"/>
-        <property name="logSlowSql" value="true"/>
-    </bean>
+    <import resource="classpath*:spring/common-mysql.xml"/>
 
     <!-- 数据源配置, 使用的druid数据库连接池 -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+    <bean id="userDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="${user.jdbc.driver}"/>
         <property name="url" value="${user.jdbc.url}"/>
         <property name="username" value="${user.jdbc.username}"/>
@@ -61,8 +56,8 @@
     </bean>
     <!--数据源配置结束-->
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+    <bean id="userEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="userDataSource"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <property name="packagesToScan" value="com.appengine"/>
         <property name="jpaProperties">
@@ -73,23 +68,19 @@
             </props>
         </property>
     </bean>
-    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="generateDdl" value="true"/>
-        <property name="database" value="MYSQL"/>
-    </bean>
 
     <!-- Spring Data Jpa配置 -->
     <jpa:repositories base-package="com.appengine.user"
                       repository-impl-postfix="Impl"
-                      transaction-manager-ref="transactionManager"
-                      entity-manager-factory-ref="entityManagerFactory"/>
-    <!--JPA配置结束-->
+                      transaction-manager-ref="userTransactionManager"
+                      entity-manager-factory-ref="userEntityManagerFactory"/>
 
     <!-- 使用annotation定义事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="userTransactionManager" proxy-target-class="true"/>
+
     <!-- Jpa 事务配置 -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    <bean id="userTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="userEntityManagerFactory"/>
     </bean>
 
 </beans>

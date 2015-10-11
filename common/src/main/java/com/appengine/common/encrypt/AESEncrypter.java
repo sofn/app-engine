@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * AES工具类，提供加密解密、生成Key等方法
+ *
  * @author jolestar
  */
 public class AESEncrypter {

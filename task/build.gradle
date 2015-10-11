@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":frame")
+    compile project(":user")
+}

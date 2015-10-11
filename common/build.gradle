@@ -6,6 +6,8 @@ dependencies {
     compile "commons-io:commons-io:$commonsIOVersion"
 
     //DB
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-redis:$springBootVersion"
     compile "com.alibaba:druid:$druidVersion"
     compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
     compile 'com.h2database:h2:1.4.189'
@@ -17,7 +19,7 @@ dependencies {
     //log
     compile "org.codehaus.janino:janino:2.7.8"
 
-    //spring
+    //web
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 
     if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_7) >= 0) {
