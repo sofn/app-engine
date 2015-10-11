@@ -3,8 +3,8 @@
  */
 package com.juneix.frame.context;
 
-import com.junesix.common.context.ClientVersion;
-import com.junesix.common.context.ClientVersion.Version;
+import com.appengine.common.context.ClientVersion;
+import com.appengine.common.context.ClientVersion.Version;
 import org.junit.Assert;
 import org.junit.Test;
 

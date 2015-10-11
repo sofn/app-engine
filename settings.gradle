@@ -1,7 +1,7 @@
 rootProject.name = 'app-engine'
 
 include 'common'
-include 'properties'
+include 'configs'
 include 'frame'
 include 'deploy'
 include 'user'

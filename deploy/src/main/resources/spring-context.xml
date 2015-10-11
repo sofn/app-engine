@@ -7,16 +7,16 @@
 
     <context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>
 
-    <bean class="com.junesix.frame.filters.AuthResourceFilter">
+    <bean class="com.appengine.frame.filters.AuthResourceFilter">
         <property name="synchronizeOnSession" value="true"/>
         <property name="customArgumentResolvers">
             <list>
-                <bean class="com.junesix.frame.spring.context.RequestContextMethodArgumentResolver"/>
+                <bean class="com.appengine.frame.spring.context.RequestContextMethodArgumentResolver"/>
             </list>
         </property>
         <property name="responseBodyAdvice">
             <list>
-                <bean class="com.junesix.frame.spring.JsonResultValueHandler"/>
+                <bean class="com.appengine.frame.spring.JsonResultValueHandler"/>
             </list>
         </property>
         <property name="messageConverters">
@@ -30,6 +30,6 @@
 
     <import resource="classpath*:spring/*.xml"/>
 
-    <context:component-scan base-package="com.junesix"/>
+    <context:component-scan base-package="com.appengine"/>
 
 </beans>

@@ -1,6 +1,6 @@
 package com.juneix.auth;
 
-import com.junesix.auth.spi.MAuthSpi;
+import com.appengine.auth.spi.MAuthSpi;
 import org.junit.Test;
 
 /**

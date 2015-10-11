@@ -1,5 +1,4 @@
 apply plugin: 'idea'
-apply plugin: 'java'
 
 allprojects {
     group = "com.appengine"
@@ -60,7 +59,7 @@ subprojects {
     }
 
     checkstyle {
-        configFile = file("$rootDir/config/checkstyle.xml")
+        configFile = file("$rootDir/configs/checkstyle/checkstyle.xml")
         configProperties = ['projectDir':projectDir, 'rootDir':rootDir]
         toolVersion = '6.10.1'
     }

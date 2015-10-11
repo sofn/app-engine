@@ -1,7 +1,7 @@
 package com.juneix.frame.context;
 
-import com.junesix.frame.context.RequestContext;
-import com.junesix.frame.context.ThreadLocalContext;
+import com.appengine.frame.context.RequestContext;
+import com.appengine.frame.context.ThreadLocalContext;
 import org.junit.Assert;
 import org.junit.Test;
 

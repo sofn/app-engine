@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration error="true" scan="false" debug="true">
 
-    <contextName>JUNESIX-LOG</contextName>
+    <contextName>APP-ENGINE</contextName>
     <!--路径-->
     <property name="logback.logs.path" value="logs"/>
     <!--日志模块名-->
@@ -113,7 +113,7 @@
     <logger name="druid" level="OFF"/>
     <logger name="org.apache" level="OFF"/>
 
-    <logger name="com.junesix" level="DEBUG"/>
+    <logger name="com.appengine" level="DEBUG"/>
     <logger name="REQUEST" level="INFO" additivity="false">
         <appender-ref ref="requestfile"/>
     </logger>
