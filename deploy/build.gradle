@@ -19,9 +19,9 @@ dependencies {
     compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
     compile 'org.jolokia:jolokia-core:1.3.1' //JMX
 
-    compile project(":junesix-properties")
-    compile project(":junesix-frame")
-    compile project(":junesix-user")
+    compile project(":properties")
+    compile project(":frame")
+    compile project(":user")
 
 //    providedRuntime 'com.h2database:h2:1.4.189'
 }

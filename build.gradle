@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 
 allprojects {
-    group = "com.junesix"
+    group = "com.appengine"
     version = "0.1.RELEASE"
 }
 
