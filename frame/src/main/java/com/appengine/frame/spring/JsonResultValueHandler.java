@@ -30,6 +30,11 @@ public class JsonResultValueHandler implements ResponseBodyAdvice {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         //json保证apistatus在最前面
         JSONObject result = new JSONObject(true);
+
+        if (body == null) {
+            body = new JSONObject();
+        }
+
         if (StringUtils.equals(request.getURI().getPath(), ErrorHandlerResource.ERROR_PATH)) {
             result.put("apistatus", 0);
             body = JSON.parse((String) body);

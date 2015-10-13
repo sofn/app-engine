@@ -13,7 +13,7 @@ public class ReadWriteDataSourceRouter extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         RequestContext rc = ThreadLocalContext.getRequestContext();
-        return rc.isReadMasterDB() ? DataBaseType.Master : DataBaseType.Slave;
+        return rc.isReadMasterDB() || rc.isShouldReadMasterDB() ? DataBaseType.Master : DataBaseType.Slave;
     }
 
 

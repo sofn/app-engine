@@ -36,6 +36,7 @@ public class RequestContext implements Serializable, JSONAware {
     private transient HttpServletRequest originRequest;
     // 直接从主库中读取数据
     private boolean readMasterDB;
+    private boolean shouldReadMasterDB;
 
     public RequestContext(String requestId) {
         this.requestId = requestId;
@@ -118,6 +119,14 @@ public class RequestContext implements Serializable, JSONAware {
 
     public void setReadMasterDB(boolean readMasterDB) {
         this.readMasterDB = readMasterDB;
+    }
+
+    public boolean isShouldReadMasterDB() {
+        return shouldReadMasterDB;
+    }
+
+    public void setShouldReadMasterDB(boolean shouldReadMasterDB) {
+        this.shouldReadMasterDB = shouldReadMasterDB;
     }
 
     @Override
