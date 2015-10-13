@@ -4,7 +4,7 @@
 
 cname=engine-mysql
 
-docker rm -f ${cname}
+docker rm -f ${cname} 2> /dev/null
 docker run -d --name ${cname} -e MYSQL_ROOT_PASSWORD=123 -p 127.0.0.1:3306:3306 mysql
 sleep 10
 mysql -h127.0.0.1 -uroot -p123 -e "CREATE DATABASE IF NOT EXISTS user"

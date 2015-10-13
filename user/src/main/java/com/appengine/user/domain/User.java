@@ -1,26 +1,28 @@
 package com.appengine.user.domain;
 
-import com.appengine.common.domain.IdEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
+@Getter
+@EqualsAndHashCode(of = "id")
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
+@ToString
 @Table(name = "user")
-public class User extends IdEntity {
+public class User implements Serializable {
 
-    public String name;
+    @Id
+    @GeneratedValue
+    private Long id;
+    @NonNull
+    private String name;
+    @NonNull
+    private int age;
 
-    public User() {
-    }
-
-    public User(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 }

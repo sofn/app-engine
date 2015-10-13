@@ -1,86 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-       xsi:schemaLocation="http://www.springframework.org/schema/tx
-						http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
-						http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
-						http://www.springframework.org/schema/data/jpa
-						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="classpath*:spring/base-mysql.xml"/>
 
-    <!-- 数据源配置, 使用的druid数据库连接池 -->
-    <bean id="userDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+    <bean id="userDataSourceMaster" parent="baseDataSourceConfig">
         <property name="driverClassName" value="${user.jdbc.driver}"/>
         <property name="url" value="${user.jdbc.url}"/>
         <property name="username" value="${user.jdbc.username}"/>
         <property name="password" value="${user.jdbc.password}"/>
+    </bean>
 
-        <!-- 配置初始化大小连接 -->
-        <property name="initialSize" value="0"/>
-        <!-- 连接池最大连接 -->
-        <property name="maxActive" value="20"/>
-        <!-- 连接池空闲 -->
-        <property name="minIdle" value="0"/>
-        <property name="maxIdle" value="20" />
+    <bean id="userDataSourceSlave" parent="baseDataSourceConfig">
+        <property name="driverClassName" value="${user.jdbc.driver}"/>
+        <property name="url" value="${user.jdbc.url}"/>
+        <property name="username" value="${user.jdbc.username}"/>
+        <property name="password" value="${user.jdbc.password}"/>
+    </bean>
 
-
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="60000"/>
-
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
-
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="300000"/>
-
-        <property name="validationQuery" value="SELECT 1"/>
-        <property name="testWhileIdle" value="true"/>
-        <property name="testOnBorrow" value="false"/>
-        <property name="testOnReturn" value="false"/>
-
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-        <property name="poolPreparedStatements" value="true"/>
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
-
-        <!-- 配置监控统计拦截的filters wall防止sql注入-->
-        <property name="filters" value="stat,log4j"/>
-        <property name="proxyFilters">
-            <list>
-                <ref bean="stat-filter"/>
-            </list>
+    <bean id="userDataSource" class="com.appengine.frame.database.ReadWriteDataSourceRouter">
+        <property name="targetDataSources">
+            <map key-type="com.appengine.frame.database.DataBaseType" value-type="javax.sql.DataSource">
+                <entry key="Master" value-ref="userDataSourceMaster"/>
+                <entry key="Slave" value-ref="userDataSourceSlave"/>
+            </map>
         </property>
-    </bean>
-    <!--数据源配置结束-->
-
-    <bean id="userEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="userDataSource"/>
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
-        <property name="packagesToScan" value="com.appengine"/>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <!-- 命名规则 My_NAME->MyName -->
-                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
-            </props>
-        </property>
+        <property name="defaultTargetDataSource" ref="userDataSourceMaster"/>
     </bean>
 
-    <!-- Spring Data Jpa配置 -->
-    <jpa:repositories base-package="com.appengine.user"
-                      repository-impl-postfix="Impl"
-                      transaction-manager-ref="userTransactionManager"
-                      entity-manager-factory-ref="userEntityManagerFactory"/>
-
-    <!-- 使用annotation定义事务 -->
-    <tx:annotation-driven transaction-manager="userTransactionManager" proxy-target-class="true"/>
-
-    <!-- Jpa 事务配置 -->
-    <bean id="userTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="userEntityManagerFactory"/>
-    </bean>
 
 </beans>

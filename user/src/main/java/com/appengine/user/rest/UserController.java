@@ -1,10 +1,16 @@
 package com.appengine.user.rest;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableList;
-import com.appengine.common.utils.collection.GlobalCollectionUtils;
+import com.appengine.auth.annotation.ApiStatus;
+import com.appengine.auth.annotation.AuthType;
+import com.appengine.auth.annotation.BaseInfo;
+import com.appengine.user.domain.User;
+import com.appengine.user.service.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Authors: sofn
@@ -14,14 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-    @RequestMapping(value = "/show")
-    public String ping() {
-        String msg = GlobalCollectionUtils.argsJoiner2.join(ImmutableList.of("aaa", "bbb", "ccc", "ddd"));
+    @Resource
+    private UserService userService;
 
-        JSONObject result = new JSONObject();
-        result.put("apistatus", 1);
-        result.put("result", msg);
-
-        return result.toJSONString();
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @BaseInfo(desc = "注册用户", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
+    public boolean add(@RequestParam String name, @RequestParam int age) {
+        return userService.save(new User(name, age));
     }
+
+    @RequestMapping(value = "/show")
+    @BaseInfo(desc = "显示用户信息", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
+    public User ping(@RequestParam long id) {
+        return userService.get(id);
+    }
+
 }
