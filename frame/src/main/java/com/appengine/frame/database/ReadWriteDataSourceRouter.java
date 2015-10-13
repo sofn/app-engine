@@ -16,5 +16,4 @@ public class ReadWriteDataSourceRouter extends AbstractRoutingDataSource {
         return rc.isReadMasterDB() || rc.isShouldReadMasterDB() ? DataBaseType.Master : DataBaseType.Slave;
     }
 
-
 }

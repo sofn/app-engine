@@ -5,6 +5,7 @@ import com.appengine.frame.context.ThreadLocalContext;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import lombok.extern.java.Log;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -23,21 +24,17 @@ import java.util.Set;
 @Log
 public class DataBaseAdvisor {
 
-    private Set<String> writeMethodPrefixs = ImmutableSet.of("add", "insert", "delete", "remove", "save", "update", "change", "modify");
-    private Set<String> queryMethodPrefixs = ImmutableSet.of("query", "select", "get", "list");
-
-    public DataBaseAdvisor() {
-        System.out.println("DataBaseAdvisor");
-    }
+    private String[] writeMethodPrefixs = new String[]{"add", "insert", "delete", "remove", "save", "update", "change", "modify"};
+    private String[] queryMethodPrefixs = new String[]{"query", "select", "get", "list", "find","exists","count"};
 
     @Before("execution(* com.appengine..*Dao.*(..))")
     public void beforMethod(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         RequestContext rc = ThreadLocalContext.getRequestContext();
 
-        if (writeMethodPrefixs.contains(methodName)) {
+        if (StringUtils.startsWithAny(methodName, writeMethodPrefixs)) {
             rc.setShouldReadMasterDB(true);
-        } else if (queryMethodPrefixs.contains(methodName)) {
+        } else if (StringUtils.startsWithAny(methodName, queryMethodPrefixs)) {
             rc.setShouldReadMasterDB(false);
         } else {
             log.warning("cannot found handle db method for methodName is: " + methodName);

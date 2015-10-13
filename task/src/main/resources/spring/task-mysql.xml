@@ -6,11 +6,27 @@
 
     <import resource="classpath*:spring/base-mysql.xml"/>
 
-    <bean id="taskDataSource" parent="baseDataSourceConfig">
-        <property name="driverClassName" value="${task.jdbc.driver}"/>
-        <property name="url" value="${task.jdbc.url}"/>
-        <property name="username" value="${task.jdbc.taskname}"/>
-        <property name="password" value="${task.jdbc.password}"/>
+    <bean id="taskDataSourceMaster" parent="baseDataSourceConfig">
+        <property name="driverClassName" value="${task.jdbc.master.driver}"/>
+        <property name="url" value="${task.jdbc.master.url}"/>
+        <property name="username" value="${task.jdbc.master.taskname}"/>
+        <property name="password" value="${task.jdbc.master.password}"/>
+    </bean>
+    <bean id="taskDataSourceSlave" parent="baseDataSourceConfig">
+        <property name="driverClassName" value="${task.jdbc.slave.driver}"/>
+        <property name="url" value="${task.jdbc.slave.url}"/>
+        <property name="username" value="${task.jdbc.slave.taskname}"/>
+        <property name="password" value="${task.jdbc.slave.password}"/>
+    </bean>
+
+    <bean id="taskDataSource" class="com.appengine.frame.database.ReadWriteDataSourceRouter">
+        <property name="targetDataSources">
+            <map key-type="com.appengine.frame.database.DataBaseType" value-type="javax.sql.DataSource">
+                <entry key="Master" value-ref="taskDataSourceMaster"/>
+                <entry key="Slave" value-ref="taskDataSourceSlave"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="taskDataSourceMaster"/>
     </bean>
 
 </beans>

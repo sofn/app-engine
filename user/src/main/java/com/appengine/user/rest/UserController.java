@@ -31,7 +31,7 @@ public class UserController {
 
     @RequestMapping(value = "/show")
     @BaseInfo(desc = "显示用户信息", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
-    public User ping(@RequestParam long id) {
+    public User show(@RequestParam long id) {
         return userService.get(id);
     }
 
