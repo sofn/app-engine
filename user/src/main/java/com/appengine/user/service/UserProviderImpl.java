@@ -2,7 +2,10 @@ package com.appengine.user.service;
 
 import com.appengine.auth.model.AuthRequest;
 import com.appengine.auth.provider.UserProvider;
+import com.appengine.user.domain.User;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Authors: sofn
@@ -10,9 +13,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserProviderImpl implements UserProvider {
+    @Resource
+    private UserService userService;
+
     @Override
     public boolean isValidUser(long uid) {
-        return true;
+        return userService.get(uid) != null;
     }
 
     @Override
@@ -22,6 +28,7 @@ public class UserProviderImpl implements UserProvider {
 
     @Override
     public long authUser(String loginName, String password) {
-        return 1000;
+        User user = userService.login(loginName, password);
+        return user != null ? user.getId() : 0;
     }
 }

@@ -1,5 +1,6 @@
 package com.appengine.user.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -8,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+@Setter
 @Getter
 @EqualsAndHashCode(of = "id")
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
 @Table(name = "user")
@@ -20,9 +21,14 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @NonNull
-    private String name;
-    @NonNull
-    private int age;
+    private String username;
+    @JSONField(serialize = false)
+    private String password;
+    @JSONField(serialize = false)
+    private String salt;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

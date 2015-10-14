@@ -41,6 +41,11 @@ public class ExcepFactor implements Serializable {
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.SERVICE_UNAVAILABLE, 4,
             "system is busy please retry!", "系统繁忙，请重试!"
     );
+
+    public static final ExcepFactor E_DIGEST_ERROR = new ExcepFactor(
+            ERROR_LEVEL_SYSTEM, 0, HttpStatus.SERVICE_UNAVAILABLE, 5,
+            "digest error", "加解密失败"
+    );
     /**
      * 接口不存在
      */
@@ -179,6 +184,8 @@ public class ExcepFactor implements Serializable {
     public static final ExcepFactor E_EXCLUSIVE_PARAMS_ERROR = new ExcepFactor(
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.FORBIDDEN, 58,
             "exclusive params error.", "专属信息输入错误");
+
+
     private final HttpStatus httpStatus;
     private final int level;
     private final int serviceId;
