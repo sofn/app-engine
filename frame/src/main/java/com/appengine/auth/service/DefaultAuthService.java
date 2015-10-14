@@ -6,7 +6,9 @@ import com.appengine.auth.model.AuthExcepFactor;
 import com.appengine.auth.model.AuthException;
 import com.appengine.auth.model.AuthRequest;
 import com.appengine.auth.model.AuthResponse;
+import com.appengine.auth.provider.UserProvider;
 import com.appengine.auth.spi.AuthSpi;
+import com.appengine.auth.spi.BasicAuthSpi;
 import com.appengine.auth.spi.GuestAuthSpi;
 import com.appengine.auth.spi.NullAuthSpi;
 import com.appengine.common.context.ClientVersion;
@@ -21,6 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -36,6 +39,9 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
     private List<AuthSpi> authSpis = new ArrayList<>();
     private Map<String, AuthSpi> authSpiMap = new HashMap<>();
 
+    @Resource
+    private UserProvider userProvider;
+
     @Override
     public AuthResponse auth(AuthRequest request, Optional<BaseInfo> baseInfo) {
         AuthType type;
@@ -48,6 +54,10 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
         long uid = 0;
         try {
             uid = spi.auth(request);
+            if (uid > 0 && !StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME) && !userProvider.isValidUser(uid)) {
+                LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
+                uid = 0;
+            }
             if (uid <= 0 && type.authFailThrowException()) {
                 throw MatrixExceptionHelper.localMatrixException(AuthExcepFactor.E_USER_AUTHFAIL);
             }

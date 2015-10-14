@@ -24,7 +24,7 @@ public class UserService {
     private UserDao dao;
 
     public boolean save(User user) {
-        User existsUser = dao.findByUserName(user.getUsername());
+        User existsUser = dao.findByUsername(user.getUsername());
         if (existsUser != null) {
             throw MatrixExceptionHelper.localMatrixException(UserExcepFactor.ACCOUNT_EXISTS);
         }
@@ -42,7 +42,7 @@ public class UserService {
      * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
      */
     private void entryptPassword(User user) {
-        byte[] salt = Digests.generateSalt(1000);
+        byte[] salt = Digests.generateSalt(127);
         user.setSalt(Hex.encodeHexString(salt));
 
         byte[] hashPassword = Digests.sha1(user.getPassword().getBytes(), salt, HASH_INTERATIONS);
@@ -61,7 +61,7 @@ public class UserService {
     }
 
     public User login(String loginName, String password) {
-        User user = dao.findByUserName(loginName);
+        User user = dao.findByUsername(loginName);
         if (StringUtils.equals(entryptPassword(user.getSalt(), password), user.getPassword())) {
             return user;
         }

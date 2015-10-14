@@ -3,10 +3,7 @@ package com.appengine.user.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Setter

@@ -26,8 +26,8 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @BaseInfo(desc = "注册用户", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
-    public boolean add(@RequestParam String name, @RequestParam String password) {
-        return userService.save(new User(name, password));
+    public boolean add(@RequestParam String username, @RequestParam String password) {
+        return userService.save(new User(username, password));
     }
 
     @RequestMapping(value = "/show")
