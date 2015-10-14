@@ -1,7 +1,17 @@
 package com.appengine.task.rest;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.appengine.common.exception.EngineExceptionHelper;
+import com.appengine.frame.context.RequestContext;
+import com.appengine.task.domain.Task;
+import com.appengine.task.service.TaskService;
+import com.appengine.task.utils.TaskExcepFactor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Authors: sofn
@@ -10,5 +20,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/task")
 public class TaskController {
+    private static Logger logger = LoggerFactory.getLogger(TaskController.class);
 
+    @Resource
+    private TaskService taskService;
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<Task> list(RequestContext rc) {
+        return taskService.getAllTask(rc.getCurrentUid());
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Task get(@RequestParam("id") Long id) {
+        Task task = taskService.getTask(id);
+        if (task == null) {
+            String message = "任务不存在(id:" + id + ")";
+            logger.warn(message);
+            throw EngineExceptionHelper.localException(TaskExcepFactor.TASK_NOT_EXISTS);
+        }
+        return task;
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public long save(RequestContext rc,
+                     @RequestParam(required = false, defaultValue = "0") long id,
+                     @RequestParam String title,
+                     @RequestParam String desc
+    ) {
+        Task task = new Task(title, desc, rc.getCurrentUid());
+        // 保存任务
+        taskService.saveTask(task);
+        return task.getId();
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public boolean delete(@RequestParam("id") Long id) {
+        return taskService.deleteTask(id);
+    }
 }

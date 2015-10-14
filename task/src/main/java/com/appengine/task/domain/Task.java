@@ -1,29 +1,33 @@
 package com.appengine.task.domain;
 
-import com.appengine.common.domain.IdEntity;
-import com.appengine.user.domain.User;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Authors: sofn
  * Version: 1.0  Created at 2015-10-12 00:12.
  */
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
 @Entity
 @Table(name = "task")
-public class Task extends IdEntity {
+public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
     public String title;
     public String description;
+    @Column(name = "user_id", nullable = false)
+    public long userId;
 
-    @JoinColumn(name = "user_id")
-//    public User user;
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public Task(String title, String description, long userId) {
+        this.title = title;
+        this.description = description;
+        this.userId = userId;
     }
 }
