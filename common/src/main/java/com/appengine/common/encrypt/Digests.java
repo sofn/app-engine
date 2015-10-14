@@ -1,7 +1,7 @@
 package com.appengine.common.encrypt;
 
 import com.appengine.common.exception.ExcepFactor;
-import com.appengine.common.exception.MatrixExceptionHelper;
+import com.appengine.common.exception.EngineExceptionHelper;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class Digests {
             }
             return result;
         } catch (GeneralSecurityException e) {
-            throw MatrixExceptionHelper.localMatrixException(ExcepFactor.E_DIGEST_ERROR);
+            throw EngineExceptionHelper.localException(ExcepFactor.E_DIGEST_ERROR);
         }
 
     }
@@ -104,7 +104,7 @@ public class Digests {
 
             return messageDigest.digest();
         } catch (GeneralSecurityException e) {
-            throw MatrixExceptionHelper.localMatrixException(ExcepFactor.E_DIGEST_ERROR);
+            throw EngineExceptionHelper.localException(ExcepFactor.E_DIGEST_ERROR);
         }
     }
 

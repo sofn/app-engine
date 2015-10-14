@@ -68,7 +68,7 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         try {
             authResponse = authService.auth(authRequest, Optional.ofNullable(baseInfo));
         } catch (AuthException e) {
-            LOGGER.debug("auth failed! path: " + request.getRequestURI() + " appId: " + request.getHeader(AuthService.MATRIX_APPID_HEADER)
+            LOGGER.debug("auth failed! path: " + request.getRequestURI() + " appId: " + request.getHeader(AuthService.ENGINE_APPID_HEADER)
                     + " version: " + ClientVersion.valueOf(request.getHeader(ClientVersion.VERSION_HEADER)));
             throw e;
         }

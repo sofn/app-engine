@@ -61,7 +61,7 @@ public class HelpResourceTest {
         map.add("msg", msg);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Matrix-UID", 1000 + "");
+        headers.add("X-Engine-UID", 1000 + "");
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);

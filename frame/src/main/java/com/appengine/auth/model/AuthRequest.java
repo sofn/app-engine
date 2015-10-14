@@ -16,9 +16,8 @@ import java.util.*;
 public class AuthRequest {
 
     public static final String MULTIPART = "multipart/";
-    public static final String ORGINAL_REQUEST_URL = "orginal_request_url";
-    public static final String FROM_HEADER = "X-Matrix-From"; //用于判断内网外网（Nginx配置添加Header）
-    public static final String SSL_HEADER = "X-Matrix-SSL";
+    public static final String FROM_HEADER = "X-Engine-From"; //用于判断内网外网（Nginx配置添加Header）
+    public static final String SSL_HEADER = "X-Engine-SSL";
     private HttpServletRequest request;
     private List<KeyValue<String, String>> cacheCookies;
 

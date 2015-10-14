@@ -12,7 +12,7 @@ import com.appengine.auth.spi.BasicAuthSpi;
 import com.appengine.auth.spi.GuestAuthSpi;
 import com.appengine.auth.spi.NullAuthSpi;
 import com.appengine.common.context.ClientVersion;
-import com.appengine.common.exception.MatrixExceptionHelper;
+import com.appengine.common.exception.EngineExceptionHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -54,12 +54,15 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
         long uid = 0;
         try {
             uid = spi.auth(request);
-            if (uid > 0 && !StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME) && !userProvider.isValidUser(uid)) {
-                LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
-                uid = 0;
-            }
-            if (uid <= 0 && type.authFailThrowException()) {
-                throw MatrixExceptionHelper.localMatrixException(AuthExcepFactor.E_USER_AUTHFAIL);
+            if (type.authFailThrowException()) {
+                if (uid <= 0) {
+                    throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
+                }
+
+                if (!StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME) && !userProvider.isValidUser(uid)) {
+                    LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
+                    throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
+                }
             }
         } catch (AuthException e) {
             if (type.authFailThrowException() && (type != AuthType.OUTER || request.getFrom() != AuthRequest.RequestFrom.INNER)) {
@@ -68,13 +71,13 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
         }
 
         spi.afterAuth(uid, request);
-        String remoteIp = request.getHeader(MATRIX_REMOTEIP_HEADER);
+        String remoteIp = request.getHeader(ENGINE_REMOTEIP_HEADER);
         if (remoteIp == null) {
             remoteIp = request.getRemoteIp();
         }
 
         String authType = spi.getName();
-        int appId = NumberUtils.toInt(request.getHeader(MATRIX_APPID_HEADER));
+        int appId = NumberUtils.toInt(request.getHeader(ENGINE_APPID_HEADER));
         ClientVersion clientVersion = ClientVersion.valueOf(request.getHeader(ClientVersion.VERSION_HEADER));
 
         AuthResponse response = new AuthResponse((String) request.getAttribute("platform"), uid,

@@ -5,16 +5,13 @@ package com.appengine.auth.model;
 
 
 import com.appengine.common.exception.ExcepFactor;
-import com.appengine.common.exception.MatrixException;
+import com.appengine.common.exception.EngineException;
 
 /**
  * @author jolestar@gmail.com
  */
-public class AuthException extends MatrixException {
+public class AuthException extends EngineException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 7420542113978073952L;
 
     public AuthException(ExcepFactor factor, Object[] args) {

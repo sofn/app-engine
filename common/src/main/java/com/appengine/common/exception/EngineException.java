@@ -11,60 +11,56 @@ import java.util.Map;
 /**
  * @author jolestar@gmail.com
  */
-public class MatrixException extends RuntimeException {
+public class EngineException extends RuntimeException {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(MatrixException.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(EngineException.class);
     public static final String DEFAULT_ENCODING = "UTF-8";
 
-    private final Map<String, Object> parameters = new HashMap<String, Object>();
+    private final Map<String, Object> parameters = new HashMap<>();
     private ExcepFactor factor;
     private static final String ERROR_FORMAT = "{\"error\":\"%s\",\"error_zh_CN\":\"%s\",\"error_code\":%s,\"request\":\"%s\"}";
-    // TODO 多国语错误提示
     private String errorMsgCn;
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6705744099814945437L;
 
-    protected MatrixException(ExcepFactor factor) {
+    protected EngineException(ExcepFactor factor) {
         this(factor, factor.getErrorMsg(), factor.getErrorMsgCn());
     }
 
-    protected MatrixException(ExcepFactor factor, Object message, String errorMsgCn) {
+    protected EngineException(ExcepFactor factor, Object message, String errorMsgCn) {
         super(message == null ? factor.getErrorMsg() : message.toString());
         this.factor = factor;
         this.errorMsgCn = errorMsgCn;
     }
 
-    protected MatrixException(ExcepFactor factor, Throwable exception, String errorMsgCn) {
+    protected EngineException(ExcepFactor factor, Throwable exception, String errorMsgCn) {
         super(exception);
         this.factor = factor;
         this.errorMsgCn = errorMsgCn;
     }
 
-    protected MatrixException(ExcepFactor factor, Object[] args) {
+    protected EngineException(ExcepFactor factor, Object[] args) {
         this(factor, factor.getErrorMsg(args), factor.getErrorMsgCn(args));
     }
 
-    protected MatrixException(ExcepFactor factor, Object[] errorArgs, Object[] errorCnArgs) {
+    protected EngineException(ExcepFactor factor, Object[] errorArgs, Object[] errorCnArgs) {
         this(factor, factor.getErrorMsg(errorArgs), factor.getErrorMsgCn(errorCnArgs));
     }
 
     // FIXME 默认异常不应该输出详细错误信息？
-    protected MatrixException(Exception e) {
+    protected EngineException(Exception e) {
         this(ExcepFactor.E_DEFAULT, e.getMessage());
     }
 
-    protected MatrixException(String message) {
+    protected EngineException(String message) {
         this(ExcepFactor.E_DEFAULT, message);
     }
 
-    protected MatrixException(ExcepFactor factor, Object message) {
+    protected EngineException(ExcepFactor factor, Object message) {
         this(factor, message, factor.getErrorMsgCn());
     }
 
-    protected MatrixException(ExcepFactor factor, Throwable exception) {
+    protected EngineException(ExcepFactor factor, Throwable exception) {
         this(factor, exception, factor.getErrorMsgCn());
     }
 

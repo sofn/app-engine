@@ -5,7 +5,7 @@ import com.appengine.auth.model.AuthException;
 import com.appengine.auth.model.AuthRequest;
 import com.appengine.common.encrypt.AESEncrypter;
 import com.appengine.common.encrypt.EncrypterException;
-import com.appengine.common.exception.MatrixException;
+import com.appengine.common.exception.EngineException;
 import com.appengine.frame.utils.log.ApiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -60,7 +60,7 @@ public class CookieAuthSpi extends AbstractAuthSpi {
                 throw new AuthException(AuthExcepFactor.E_USER_AUTHFAIL, "invalid uid.");
             }
             return uid;
-        } catch (MatrixException e) {
+        } catch (EngineException e) {
             ApiLogger.error("cauth " + e.getMessage() + ", cookieStr:" + cookie);
             throw e;
         } catch (EncrypterException e) {

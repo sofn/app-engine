@@ -2,8 +2,8 @@ package com.appengine.frame.help.resources;
 
 import com.appengine.frame.filters.GlobalExceptionHandler;
 import com.appengine.common.exception.ExcepFactor;
-import com.appengine.common.exception.MatrixException;
-import com.appengine.common.exception.MatrixExceptionHelper;
+import com.appengine.common.exception.EngineException;
+import com.appengine.common.exception.EngineExceptionHelper;
 import com.appengine.frame.utils.log.ApiLogger;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,21 +35,21 @@ public class ErrorHandlerResource implements ErrorController {
         int status = (int) request.getAttribute("javax.servlet.error.status_code");
 
         Exception exception = (Exception) request.getAttribute(GlobalExceptionHandler.GlobalExceptionAttribute);
-        MatrixException apiException;
-        if (exception != null && exception instanceof MatrixException) {
-            apiException = (MatrixException) exception;
+        EngineException apiException;
+        if (exception != null && exception instanceof EngineException) {
+            apiException = (EngineException) exception;
         } else if (status == 405) {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_METHOD_ERROR);
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_METHOD_ERROR);
         } else if (status == 404) {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_API_NOT_EXIST);
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_API_NOT_EXIST);
         } else if (status == 415) {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_UNSUPPORT_MEDIATYPE_ERROR, new Object[]{"unknow"});
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_UNSUPPORT_MEDIATYPE_ERROR, new Object[]{"unknow"});
         } else if (status >= 400 && status < 500) {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_ILLEGAL_REQUEST, errorMsg);
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_ILLEGAL_REQUEST, errorMsg);
         } else if (status == 503) {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_SERVICE_UNAVAILABLE);
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_SERVICE_UNAVAILABLE);
         } else {
-            apiException = MatrixExceptionHelper.localMatrixException(ExcepFactor.E_DEFAULT);
+            apiException = EngineExceptionHelper.localException(ExcepFactor.E_DEFAULT);
             ApiLogger.error(errorMsg, exception);
         }
         return apiException.formatException(path);

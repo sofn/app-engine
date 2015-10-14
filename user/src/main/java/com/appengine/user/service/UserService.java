@@ -1,7 +1,7 @@
 package com.appengine.user.service;
 
 import com.appengine.common.encrypt.Digests;
-import com.appengine.common.exception.MatrixExceptionHelper;
+import com.appengine.common.exception.EngineExceptionHelper;
 import com.appengine.user.dao.UserDao;
 import com.appengine.user.domain.User;
 import com.appengine.user.utils.UserExcepFactor;
@@ -26,7 +26,7 @@ public class UserService {
     public boolean save(User user) {
         User existsUser = dao.findByUsername(user.getUsername());
         if (existsUser != null) {
-            throw MatrixExceptionHelper.localMatrixException(UserExcepFactor.ACCOUNT_EXISTS);
+            throw EngineExceptionHelper.localException(UserExcepFactor.ACCOUNT_EXISTS);
         }
 
         entryptPassword(user);
