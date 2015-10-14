@@ -6,6 +6,7 @@ app-engine 是一个分布式的App后台快速开发框架,包含了基本的�
 2. Gradle
 3. Java8
 4. Logback
+5. Lombok
 
 ### 功能列表： 
 1. 认证方式： Basic、 Cookie、Header、内外网
