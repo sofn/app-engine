@@ -45,6 +45,7 @@ app-engine 是一个分布式的App后台快速开发框架,包含了基本的�
 * dump信息： http://localhost:7002/dump
 * 环境信息： http://localhost:7002/env
 * 性能监控： http://localhost:8080/javasimon
+* 数据库监控： http://localhost:8080/druid
 * Tomcat监控： http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080
 
 #### TODO
