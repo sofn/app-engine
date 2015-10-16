@@ -54,15 +54,14 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
         long uid = 0;
         try {
             uid = spi.auth(request);
-            if (type.authFailThrowException()) {
-                if (uid <= 0) {
-                    throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
-                }
+            if (!StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME) && !userProvider.isValidUser(uid)) {
+                uid = 0;
+                LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
+                throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
+            }
 
-                if (!StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME) && !userProvider.isValidUser(uid)) {
-                    LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
-                    throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
-                }
+            if (uid <= 0 && type.authFailThrowException()) {
+                throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
             }
         } catch (AuthException e) {
             if (type.authFailThrowException() && (type != AuthType.OUTER || request.getFrom() != AuthRequest.RequestFrom.INNER)) {
