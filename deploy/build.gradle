@@ -19,6 +19,12 @@ dependencies {
     compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
     compile 'org.jolokia:jolokia-core:1.3.1' //JMX
 
+    //web
+    compile 'org.sitemesh:sitemesh:3.0.1'
+    compile 'org.webjars:bootstrap:3.3.5'
+    compile 'org.webjars:jquery:2.1.4'
+    providedRuntime "javax.servlet:jstl:1.2"
+
     compile project(":configs")
     compile project(":frame")
     compile project(":user")
