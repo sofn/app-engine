@@ -18,25 +18,25 @@ app-engine 是一个分布式的App后台快速开发框架,包含了基本的�
 
 #### 环境配置
 区分有三种环境dev、test、prod，不同环境会加载不同的配置文件
-1、gradle启动同时要加参数 -Pprofile=dev
+1.gradle启动同时要加参数 -Pprofile=dev
 
 #### 数据库配置 
-1.如果安装了docker，直接执行 deploy/bin/脚本
-2.手动安装
-  mysql: ip:127.0.0.1 port:3306 username:root  password:123
-  redis: ip:127.0.0.1 port:6379 password:无
+1. 如果安装了docker，直接执行 deploy/bin/脚本
+2. 手动安装:  
+    mysql: ip:127.0.0.1 port:3306 username:root  password:123  
+    redis: ip:127.0.0.1 port:6379 password:无
 
 #### 可执行jar包
 运行 gradle bootRepackage 会自动打可执行war包，目录：deploy/build/libs/deploy-0.1.RELEASE.jar
 
 #### 运行项目方式
-1、执行 gradle run
-2、执行运行Application
-3、执行 ./gradlew run 不用安装gradle
+1. 执行 gradle run
+2. 执行运行Application
+3. 执行 ./gradlew run 不用安装gradle
 
 #### checkstyle findbugs
-1、指定 gradle check 
-2、在build/reports目录会生成相关报告文件
+1. 指定 gradle check 
+2. 在build/reports目录会生成相关报告文件
 
 #### 监控
 * 健康检查： http://localhost:7002/health
