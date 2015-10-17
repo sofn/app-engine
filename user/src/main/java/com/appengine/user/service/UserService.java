@@ -31,7 +31,7 @@ public class UserService {
 
         entryptPassword(user);
         user = dao.save(user);
-        return user.getId() > 0;
+        return user.getUid() > 0;
     }
 
     public User get(long id) {

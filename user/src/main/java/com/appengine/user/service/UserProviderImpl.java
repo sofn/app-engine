@@ -29,6 +29,6 @@ public class UserProviderImpl implements UserProvider {
     @Override
     public long authUser(String loginName, String password) {
         User user = userService.login(loginName, password);
-        return user != null ? user.getId() : 0;
+        return user != null ? user.getUid() : 0;
     }
 }

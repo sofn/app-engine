@@ -2,18 +2,13 @@ package com.appengine.frame.database;
 
 import com.appengine.frame.context.RequestContext;
 import com.appengine.frame.context.ThreadLocalContext;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 /**
  * @author sofn
@@ -21,11 +16,12 @@ import java.util.Set;
  */
 @Aspect
 @Service
-@Log
 public class DataBaseAdvisor {
 
+    private static final Logger log = LoggerFactory.getLogger(DataBaseAdvisor.class);
+
     private String[] writeMethodPrefixs = new String[]{"add", "insert", "delete", "remove", "save", "update", "change", "modify"};
-    private String[] queryMethodPrefixs = new String[]{"query", "select", "get", "list", "find","exists","count"};
+    private String[] queryMethodPrefixs = new String[]{"query", "select", "get", "list", "find", "exists", "count"};
 
     @Before("execution(* com.appengine..*Dao.*(..))")
     public void beforMethod(JoinPoint joinPoint) {
@@ -37,7 +33,7 @@ public class DataBaseAdvisor {
         } else if (StringUtils.startsWithAny(methodName, queryMethodPrefixs)) {
             rc.setShouldReadMasterDB(false);
         } else {
-            log.warning("cannot found handle db method for methodName is: " + methodName);
+            log.warn("cannot found handle db method for methodName is: " + methodName);
             rc.setShouldReadMasterDB(true);
         }
     }

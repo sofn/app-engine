@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Setter
 @Getter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "uid")
 @Entity
 @NoArgsConstructor
 @ToString
@@ -17,7 +17,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long uid;
     private String username;
     @JSONField(serialize = false)
     private String password;
