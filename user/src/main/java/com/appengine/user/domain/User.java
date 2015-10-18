@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
     private String username;
     @JSONField(serialize = false)

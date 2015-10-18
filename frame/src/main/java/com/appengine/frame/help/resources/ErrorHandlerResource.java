@@ -5,11 +5,15 @@ import com.appengine.common.exception.ExcepFactor;
 import com.appengine.common.exception.EngineException;
 import com.appengine.common.exception.EngineExceptionHelper;
 import com.appengine.frame.utils.log.ApiLogger;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 404处理
@@ -32,6 +36,7 @@ public class ErrorHandlerResource implements ErrorController {
     public String error(HttpServletRequest request) {
         String path = (String) request.getAttribute("javax.servlet.error.request_uri");
         String errorMsg = (String) request.getAttribute("javax.servlet.error.message");
+        MediaType mediaType = (MediaType) request.getAttribute("org.springframework.web.servlet.View.selectedContentType");
         int status = (int) request.getAttribute("javax.servlet.error.status_code");
 
         Exception exception = (Exception) request.getAttribute(GlobalExceptionHandler.GlobalExceptionAttribute);
@@ -52,6 +57,18 @@ public class ErrorHandlerResource implements ErrorController {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_DEFAULT);
             ApiLogger.error(errorMsg, exception);
         }
-        return apiException.formatException(path);
+        if (MediaType.TEXT_HTML.equals(mediaType)) {
+            return "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "<head>\n" +
+                    "    <title>500 - System error</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<h2>500 -  System error.</h2>\n" +
+                    "</body>\n" +
+                    "</html>";
+        } else {
+            return apiException.formatException(path);
+        }
     }
 }

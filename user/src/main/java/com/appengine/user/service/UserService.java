@@ -62,7 +62,7 @@ public class UserService {
 
     public User login(String loginName, String password) {
         User user = dao.findByUsername(loginName);
-        if (StringUtils.equals(entryptPassword(user.getSalt(), password), user.getPassword())) {
+        if (user != null && StringUtils.equals(entryptPassword(user.getSalt(), password), user.getPassword())) {
             return user;
         }
         return null;

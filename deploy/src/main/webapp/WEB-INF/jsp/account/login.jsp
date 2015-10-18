@@ -1,4 +1,4 @@
-<%@ page import="com.appengine.user.web.WebLoginController" %>
+<%@ page import="com.appengine.user.web.WebUserController" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
@@ -11,7 +11,7 @@
 <body>
 <form id="loginForm" action="${ctx}/web/login" method="post" class="form-horizontal">
     <%
-        String error = (String) request.getAttribute(WebLoginController.LOGIN_ERROR_KEY);
+        String error = (String) request.getAttribute(WebUserController.LOGIN_ERROR_KEY);
         if (error != null) {
     %>
     <div class="alert alert-error input-medium controls">
@@ -40,9 +40,9 @@
         <div class="controls">
             <label class="checkbox" for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/>
                 记住我</label>
-            <input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/> <a class="btn"
-                                                                                         href="${ctx}/register">注册</a>
-            <span class="help-block">(管理员: <b>admin/admin</b>, 普通用户: <b>user/user</b>)</span>
+            <br/>
+            <input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/>
+            <a class="btn" href="${ctx}/web/register">注册</a>
         </div>
     </div>
 </form>
