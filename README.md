@@ -29,6 +29,10 @@ app-engine 是一个分布式的App后台快速开发框架,包含了基本的�
 #### 可执行jar包
 运行 gradle bootRepackage 会自动打可执行war包，目录：deploy/build/libs/deploy-0.1.RELEASE.jar
 
+#### 发布jar/war包到私有仓库
+1. 修改build.gradle里uploadArchives的私有仓库地址、用户名、密码
+2. 执行 ./gradlew uploadArchives 命令
+
 #### 运行项目方式
 1. 执行 gradle run
 2. 执行运行Application

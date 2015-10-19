@@ -8,6 +8,7 @@ allprojects {
 subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
+    apply plugin: 'maven'
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
     apply plugin: 'jacoco'
@@ -86,6 +87,27 @@ subprojects {
         }
     }
 
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: 'http://your.repository.path/') {
+                    authentication(userName: "username", password: "password")
+                }
+                pom.groupId = project.group
+                pom.artifactId = project.name
+                pom.version = project.version
+            }
+        }
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+    //添加source jar
+    artifacts {
+        archives sourcesJar
+    }
 }
 
 //执行gradle wrapper自动生成gradlew脚本及配置
