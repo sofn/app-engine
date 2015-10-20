@@ -48,17 +48,6 @@ subprojects {
         testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     }
 
-    ext {
-        profile = project['profile']
-    }
-    sourceSets {
-        main {
-            resources {
-                srcDirs = ["src/main/resources/", "src/main/resources_${profile}"]
-            }
-        }
-    }
-
     checkstyle {
         configFile = file("$rootDir/configs/checkstyle/checkstyle.xml")
         configProperties = ['projectDir': projectDir, 'rootDir': rootDir]
@@ -107,6 +96,20 @@ subprojects {
     //添加source jar
     artifacts {
         archives sourcesJar
+    }
+}
+
+//环境变量只对配置文件有效
+project(":configs") {
+    ext {
+        profile = project['profile']
+    }
+    sourceSets {
+        main {
+            resources {
+                srcDirs = ["src/main/resources/", "src/main/resources_${profile}"]
+            }
+        }
     }
 }
 

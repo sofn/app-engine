@@ -1,12 +1,9 @@
-import groovy.sql.Sql
-
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-//        classpath 'com.h2database:h2:1.4.189'
     }
 }
 
@@ -29,37 +26,4 @@ dependencies {
     compile project(":frame")
     compile project(":user")
     compile project(":task")
-
-//    providedRuntime 'com.h2database:h2:1.4.189'
-}
-
-if ("${profile}" == "dev") {
-    task initH2DB << {
-        def loader = GroovyObject.class.classLoader
-        loader.loadClass("org.h2.Driver")
-//        configurations.providedRuntime.each { File file ->
-//            loader.addURL(file.toURL())
-//        }
-
-        def sql = Sql.newInstance(
-                'jdbc:h2:file:~/.h2/appengine;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;',
-                'sa',
-                "",
-                "org.h2.Driver"
-        )
-
-        try {
-            def sql_files = ["schema.sql", "data.sql"]
-            for (def f : sql_files) {
-                def file = new File("build/resources/main/h2/" + f)
-                logger.info file.getPath()
-                file.text.split(";").each {
-                    logger.info it
-                    sql.execute(it)
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-    }
 }

@@ -9,13 +9,13 @@
     <bean id="taskDataSourceMaster" parent="baseDataSourceConfig">
         <property name="driverClassName" value="${task.jdbc.master.driver}"/>
         <property name="url" value="${task.jdbc.master.url}"/>
-        <property name="username" value="${task.jdbc.master.taskname}"/>
+        <property name="username" value="${task.jdbc.master.username}"/>
         <property name="password" value="${task.jdbc.master.password}"/>
     </bean>
     <bean id="taskDataSourceSlave" parent="baseDataSourceConfig">
         <property name="driverClassName" value="${task.jdbc.slave.driver}"/>
         <property name="url" value="${task.jdbc.slave.url}"/>
-        <property name="username" value="${task.jdbc.slave.taskname}"/>
+        <property name="username" value="${task.jdbc.slave.username}"/>
         <property name="password" value="${task.jdbc.slave.password}"/>
     </bean>
 
