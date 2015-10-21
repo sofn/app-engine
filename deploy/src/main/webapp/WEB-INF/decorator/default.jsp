@@ -7,6 +7,7 @@
 <html>
 <head>
     <title>QuickStart示例:<sitemesh:write property='title'/></title>
+    <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta http-equiv="Cache-Control" content="no-store"/>
     <meta http-equiv="Pragma" content="no-cache"/>
@@ -15,12 +16,7 @@
     <link type="image/x-icon" href="${ctx}/static/images/favicon.ico" rel="shortcut icon">
     <link href="${ctx}/webjars/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/default.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/jquery-validation/1.14.0/validate.css" type="text/css" rel="stylesheet"/>
     <script src="${ctx}/webjars/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
-    <script src="${ctx}/static/jquery-validation/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="${ctx}/static/jquery-validation/1.14.0/messages_bs_zh.js" type="text/javascript"></script>
-
-
     <sitemesh:write property='head'/>
 </head>
 

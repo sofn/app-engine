@@ -1,8 +1,12 @@
 package com.appengine.user.rest;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.appengine.auth.annotation.ApiStatus;
 import com.appengine.auth.annotation.AuthType;
 import com.appengine.auth.annotation.BaseInfo;
+import com.appengine.auth.spi.CookieAuthSpi;
+import com.appengine.auth.spi.MAuthSpi;
 import com.appengine.frame.context.RequestContext;
 import com.appengine.user.domain.User;
 import com.appengine.user.service.UserService;
@@ -12,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Authors: sofn
@@ -24,10 +32,32 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @BaseInfo(desc = "注册用户", status = ApiStatus.PUBLIC, needAuth = AuthType.OPTION)
-    public boolean add(@RequestParam String username, @RequestParam String password) {
+    @BaseInfo(desc = "注册用户", needAuth = AuthType.OPTION)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public boolean register(@RequestParam String username, @RequestParam String password) {
         return userService.save(new User(username, password));
+    }
+
+    @BaseInfo(desc = "登陆", needAuth = AuthType.OPTION)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public JSONObject login(
+            HttpServletResponse response,
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam(required = false, defaultValue = "false") boolean cookie
+    ) {
+        User user = userService.login(username, password);
+        JSONObject result = (JSONObject) JSON.toJSON(user);
+        if (cookie) {
+            String cookieValue = CookieAuthSpi.generateCookie(user.getUid());
+            Cookie authCookie = new Cookie(CookieAuthSpi.COOKIE_NAME, cookieValue);
+            authCookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(1));
+            response.addCookie(authCookie);
+            result.put("AUTH_COOKIE", cookieValue);
+        } else {
+            result.put("mauth", MAuthSpi.generateMauth(user.getUid()));
+        }
+        return result;
     }
 
     @RequestMapping(value = "/show")

@@ -1,26 +1,17 @@
-<%@ page import="com.appengine.user.web.WebUserController" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <html>
-<title>用户注册</title>
-
+<head>
+    <link href="${ctx}/static/jquery-validation/1.14.0/validate.css" type="text/css" rel="stylesheet"/>
+    <script src="${ctx}/static/jquery-validation/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="${ctx}/static/jquery-validation/1.14.0/messages_bs_zh.js" type="text/javascript"></script>
+    <title>用户注册</title>
+</head>
 <body>
-<form id="inputForm" action="${ctx}/web/register" method="post" class="form-horizontal">
-    <%
-        String error = (String) request.getAttribute(WebUserController.REGISTER_ERROR_KEY);
-        if (error != null) {
-    %>
-    <div class="alert alert-error input-medium controls">
-        <button class="close" data-dismiss="alert">×</button>
-        <% if (error.equals("exists")) { %>
-        账号已存在，请更改后重试.
-        <% } else { %>
-        注册失败，请重试.
-        <% } %>
-    </div>
-    <% } %>
+<form id="inputForm" class="form-horizontal">
+    <div id="msg"></div>
     <fieldset>
         <legend>
             <small>用户注册</small>
@@ -29,7 +20,7 @@
             <label for="username" class="control-label">用户名:</label>
 
             <div class="controls">
-                <input type="text" id="username" name="username" value="${username}" class="input-large required"/>
+                <input type="text" id="username" name="username" class="input-large required"/>
             </div>
         </div>
         <div class="control-group">
@@ -57,10 +48,42 @@
 </form>
 <script>
     $(document).ready(function () {
+        document.cookie = "AUTH_COOKIE=";
         //聚焦第一个输入框
         $("#username").focus();
         //为inputForm注册validate函数
-        $("#inputForm").validate();
+        $("#inputForm").validate({
+            submitHandler: function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                $.ajax({
+                    //提交数据的类型 POST GET
+                    type: "POST",
+                    //提交的网址
+                    url: "${ctx}/users/register",
+                    //提交的数据
+                    data: {"username": username, "password": password},
+                    //返回数据的格式
+                    datatype: "json",
+                    //成功返回之后调用的函数
+                    success: function () {
+                        $("#msg").attr("class", "text-warning").html("注册成功,即将跳转");
+                        setInterval(function () {
+                            location.href = "${ctx}/web/login";
+                        }, 3000);
+                    },
+                    //调用出错执行的函数
+                    error: function (data) {
+                        var errorMsg = "网络错误请重试";
+                        var json = data.responseJSON;
+                        if (json && json.result) {
+                            errorMsg = json.result.error_zh_CN;
+                        }
+                        $("#msg").attr("class", "text-warning alert alert-error").html(errorMsg);
+                    }
+                });
+            }
+        });
     });
 </script>
 </body>

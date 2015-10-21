@@ -1,5 +1,6 @@
 package com.appengine.user.service;
 
+import com.appengine.auth.model.AuthExcepFactor;
 import com.appengine.common.encrypt.Digests;
 import com.appengine.common.exception.EngineExceptionHelper;
 import com.appengine.user.dao.UserDao;
@@ -65,6 +66,6 @@ public class UserService {
         if (user != null && StringUtils.equals(entryptPassword(user.getSalt(), password), user.getPassword())) {
             return user;
         }
-        return null;
+        throw EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_PASSWORD_ERROR);
     }
 }
