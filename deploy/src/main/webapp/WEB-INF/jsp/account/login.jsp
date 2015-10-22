@@ -6,6 +6,7 @@
     <link href="${ctx}/static/jquery-validation/1.14.0/validate.css" type="text/css" rel="stylesheet"/>
     <script src="${ctx}/static/jquery-validation/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
     <script src="${ctx}/static/jquery-validation/1.14.0/messages_bs_zh.js" type="text/javascript"></script>
+    <script src="${ctx}/static/jquery-cookie/1.4.1/jquery.cookie.min.js" type="text/javascript"></script>
     <title>登录页</title>
 </head>
 
@@ -38,7 +39,7 @@
 
 <script>
     $(document).ready(function () {
-        document.cookie = "AUTH_COOKIE=";
+        $.cookie('AUTH_COOKIE', null, {expires: -1, path: '/'});
         //聚焦第一个输入框
         $("#username").focus();
         //为inputForm注册validate函数
@@ -59,7 +60,7 @@
                     //成功返回之后调用的函数
                     success: function (data) {
                         if (data && data.result) {
-                            document.cookie = "AUTH_COOKIE=" + data.result.AUTH_COOKIE;
+                            $.cookie('AUTH_COOKIE', data.result.cookie, {expires: 1, path: '/'});
                         }
                         location.href = "${ctx}/web/task";
                     },

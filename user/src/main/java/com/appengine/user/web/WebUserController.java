@@ -2,15 +2,12 @@ package com.appengine.user.web;
 
 import com.appengine.auth.annotation.AuthType;
 import com.appengine.auth.annotation.BaseInfo;
-import com.appengine.user.domain.User;
 import com.appengine.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Authors: sofn

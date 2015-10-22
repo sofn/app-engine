@@ -6,6 +6,8 @@ import com.appengine.common.exception.EngineException;
 import com.appengine.common.exception.EngineExceptionHelper;
 import com.appengine.frame.utils.log.ApiLogger;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 public class ErrorHandlerResource implements ErrorController {
+    private static final Logger log = LoggerFactory.getLogger(ErrorHandlerResource.class);
 
     public static final String ERROR_PATH = "/error";
 
@@ -41,11 +44,13 @@ public class ErrorHandlerResource implements ErrorController {
 
         Exception exception = (Exception) request.getAttribute(GlobalExceptionHandler.GlobalExceptionAttribute);
         EngineException apiException;
+        String pageError = "500 - System error.";
         if (exception != null && exception instanceof EngineException) {
             apiException = (EngineException) exception;
         } else if (status == 405) {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_METHOD_ERROR);
         } else if (status == 404) {
+            pageError = "404 - Page not Found: " + errorMsg;
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_API_NOT_EXIST);
         } else if (status == 415) {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_UNSUPPORT_MEDIATYPE_ERROR, new Object[]{"unknow"});
@@ -55,16 +60,17 @@ public class ErrorHandlerResource implements ErrorController {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_SERVICE_UNAVAILABLE);
         } else {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_DEFAULT);
-            ApiLogger.error(errorMsg, exception);
+            log.error(errorMsg, exception);
         }
+        log.error(errorMsg, apiException);
         if (MediaType.TEXT_HTML.equals(mediaType)) {
             return "<!DOCTYPE html>\n" +
                     "<html>\n" +
                     "<head>\n" +
-                    "    <title>500 - System error</title>\n" +
+                    "    <title>" + pageError + "</title>\n" +
                     "</head>\n" +
                     "<body>\n" +
-                    "<h2>500 -  System error.</h2>\n" +
+                    "<h2>" + pageError + "</h2>\n" +
                     "</body>\n" +
                     "</html>";
         } else {

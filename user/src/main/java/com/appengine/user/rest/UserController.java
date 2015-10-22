@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +52,7 @@ public class UserController {
             Cookie authCookie = new Cookie(CookieAuthSpi.COOKIE_NAME, cookieValue);
             authCookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(1));
             response.addCookie(authCookie);
-            result.put("AUTH_COOKIE", cookieValue);
+            result.put("cookie", cookieValue);
         } else {
             result.put("mauth", MAuthSpi.generateMauth(user.getUid()));
         }
