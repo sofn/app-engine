@@ -5,35 +5,43 @@
     <title>app-engine</title>
 </head>
 <body>
-<p>Access below management endpoint:
+<p>Demo示例-任务管理
+<ul>
+    <li><a href="http://localhost:8080/web/login">http://localhost:8080/web/login</a></li>
+</ul>
+</p>
+
+<p>Spring Boot自带监控:
 <ul>
     <li><a href="http://localhost:7002/health">http://localhost:7002/health</a></li>
     <li><a href="http://localhost:7002/info">http://localhost:7002/info</a></li>
     <li><a href="http://localhost:7002/dump">http://localhost:7002/dump</a></li>
     <li><a href="http://localhost:7002/metrics">http://localhost:7002/metrics</a></li>
     <li><a href="http://localhost:7002/env">http://localhost:7002/env</a></li>
-    <li>shutdown(disable by default, POST method)</li></ul>
-</p>
-
-<p>JMX expose as Restful by jolokia. e.g. Tomcat's MBean:
-<ul>
-    <li><a href="http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080">http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080</a></li>
+    <li>shutdown(disable by default, POST method)</li>
 </ul>
 </p>
 
-<p>H2 Console in development profile:
+<p>Tomcat's MBean 监控:
+<ul>
+    <li><a href="http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080">http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080</a>
+    </li>
+</ul>
+</p>
+
+<p>H2 Console:
 <ul>
     <li><a href="http://localhost:8080/h2">http://localhost:8080/h2/</a></li>
 </ul>
 </p>
 
-<p>javasimon profile:
+<p>javasimon 性能监控:
 <ul>
     <li><a href="http://localhost:8080/javasimon">http://localhost:8080/javasimon</a></li>
 </ul>
 </p>
 
-<p>druid profile:
+<p>Druid 数据监控:
 <ul>
     <li><a href="http://localhost:8080/druid">http://localhost:8080/druid</a></li>
 </ul>

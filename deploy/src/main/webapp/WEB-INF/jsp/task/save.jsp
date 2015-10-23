@@ -11,6 +11,8 @@
 
 <body>
 <form id="inputForm" class="form-horizontal">
+    <input type="hidden" id="task_id" name="title" value="${task.id}"/>
+
     <div id="msg"></div>
     <fieldset>
         <legend>
@@ -20,14 +22,16 @@
             <label for="task_title" class="control-label">任务名称:</label>
 
             <div class="controls">
-                <input type="text" id="task_title" name="title" class="input-large required" minlength="3"/>
+                <input type="text" id="task_title" name="title" value="${task.title}" class="input-large required"
+                       minlength="3"/>
             </div>
         </div>
         <div class="control-group">
             <label for="description" class="control-label">任务描述:</label>
 
             <div class="controls">
-                <textarea id="description" name="description" class="input-large required"></textarea>
+                <textarea id="description" name="description"
+                          class="input-large required">${task.description}</textarea>
             </div>
         </div>
         <div class="form-actions">
@@ -43,6 +47,7 @@
         //为inputForm注册validate函数
         $("#inputForm").validate({
             submitHandler: function () {
+                var id = $("#task_id").val() || 0;
                 var title = $("#task_title").val();
                 var desc = $("#description").val();
                 $.ajax({
@@ -51,14 +56,14 @@
                     //提交的网址
                     url: "${ctx}/task/save",
                     //提交的数据
-                    data: {"title": title, "desc": desc},
+                    data: {id: id, title: title, desc: desc},
                     cache: false,
                     crossDomain: true,
                     dataType: 'json',
                     xhrFields: {
                         withCredentials: true
                     },
-                    success: function (data) {
+                    success: function () {
                         $("#msg").attr("class", "text-warning alert alert-error").html("创建成功");
                         setInterval(function () {
                             location.href = "${ctx}/web/task";

@@ -22,12 +22,12 @@ public class Task {
     public Long id;
     public String title;
     public String description;
-    @Column(name = "user_id", nullable = false)
-    public long userId;
+    @Column(name = "uid", nullable = false)
+    public long uid;
 
-    public Task(String title, String description, long userId) {
+    public Task(String title, String description, long uid) {
         this.title = title;
         this.description = description;
-        this.userId = userId;
+        this.uid = uid;
     }
 }

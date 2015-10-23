@@ -43,6 +43,9 @@ public class ErrorHandlerResource implements ErrorController {
         int status = (int) request.getAttribute("javax.servlet.error.status_code");
 
         Exception exception = (Exception) request.getAttribute(GlobalExceptionHandler.GlobalExceptionAttribute);
+        if (exception == null) {
+            exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+        }
         EngineException apiException;
         String pageError = "500 - System error.";
         if (exception != null && exception instanceof EngineException) {
@@ -62,7 +65,6 @@ public class ErrorHandlerResource implements ErrorController {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_DEFAULT);
             log.error(errorMsg, exception);
         }
-        log.error(errorMsg, apiException);
         if (MediaType.TEXT_HTML.equals(mediaType)) {
             return "<!DOCTYPE html>\n" +
                     "<html>\n" +

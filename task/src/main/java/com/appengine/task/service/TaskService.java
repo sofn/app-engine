@@ -3,6 +3,8 @@ package com.appengine.task.service;
 import com.appengine.task.dao.TaskDao;
 import com.appengine.task.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +34,8 @@ public class TaskService {
         return true;
     }
 
-    public List<Task> getAllTask(long uid) {
-        return taskDao.findAllByUserId(uid);
+    public Page<Task> getTasksByPage(long uid, PageRequest request) {
+        return taskDao.findByUid(uid, request);
     }
 
     @Autowired
