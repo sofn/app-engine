@@ -244,6 +244,7 @@ public class RequestLogRecord {
                     String key = e.getKey();
                     String[] values = e.getValue();
                     for (String value : values) {
+                        value = passwordEscape(key, value);
                         paramBuf.append(key).append("=").append(value);
                         paramBuf.append("&");
                     }
@@ -257,6 +258,13 @@ public class RequestLogRecord {
             }
         }
         return parameterString;
+    }
+
+    private String passwordEscape(String key, String value) {
+        if (StringUtils.equals("password", key) || StringUtils.equals("old_password", key)) {
+            return "***";
+        }
+        return value;
     }
 
     public String getRequestId() {
