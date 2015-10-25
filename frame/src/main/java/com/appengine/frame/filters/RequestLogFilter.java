@@ -22,6 +22,12 @@ public class RequestLogFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+        if (StringUtils.startsWith(path, "/webjars") || StringUtils.startsWith(path, "/static")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         RequestContext context = ThreadLocalContext.getRequestContext();
 
         response = new ResponseWrapper(response);
