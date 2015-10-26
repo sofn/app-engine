@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface RateLimit {
 
+    boolean internalIgnore() default true; //内网默认不拦截
+
     RateLimitTypeConfig[] value();
 
 }

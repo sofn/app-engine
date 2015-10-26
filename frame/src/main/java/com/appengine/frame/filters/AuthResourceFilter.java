@@ -81,7 +81,7 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         context.setAttribute("auth_type", authResponse.getAuthedBy());
         context.setClientVersion(authResponse.getClientVersion());
 
-        if (rateLimit != null) {
+        if (rateLimit != null && (authRequest.getFrom() != AuthRequest.RequestFrom.INNER || !rateLimit.internalIgnore())) {
             rateLimitAuthService.auth(context, rateLimit);
         }
 
