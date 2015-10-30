@@ -7,6 +7,7 @@ import com.appengine.frame.context.ThreadLocalContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -49,7 +50,9 @@ public class RequestLogFilter extends OncePerRequestFilter {
             if (!StringUtils.contains(response.getContentType(), "application/json")) {
                 record.setWriteBody(false);
             }
+            MDC.put("CUSTOM_LOG", "request");
             logger.info(record.toString());
+            MDC.remove("CUSTOM_LOG");
             ThreadLocalContext.clear();
         }
     }

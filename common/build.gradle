@@ -17,9 +17,6 @@ dependencies {
     compile 'org.javatuples:javatuples:1.2'
     compile 'org.projectlombok:lombok:1.16.6'
 
-    //log
-    compile "org.codehaus.janino:janino:2.7.8"
-
     //web
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
