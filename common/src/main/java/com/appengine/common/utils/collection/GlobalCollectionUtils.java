@@ -2,7 +2,14 @@ package com.appengine.common.utils.collection;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Authors: sofn
@@ -12,6 +19,8 @@ public class GlobalCollectionUtils {
     public static Joiner.MapJoiner mapJoiner = Joiner.on(',').withKeyValueSeparator("=");
     public static Joiner argsJoiner = Joiner.on('_');
     public static Joiner argsJoiner2 = Joiner.on(',');
+    public static Splitter listSplitter = Splitter.on(',').trimResults().omitEmptyStrings();
+    public static Splitter lineSplitter = Splitter.onPattern("\r?\n").trimResults().omitEmptyStrings();
 
 
     public static final Function<String, Long> stringToLongFunction = new Function<String, Long>() {
@@ -42,4 +51,26 @@ public class GlobalCollectionUtils {
             return input != null ? input.toString() : "";
         }
     };
+
+    public static List<String> strListSplitter(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return Collections.emptyList();
+        }
+        return Lists.newArrayList(listSplitter.split(str));
+    }
+
+    public static List<Long> longListSplitter(String str) {
+        return Lists.newArrayList(Collections2.transform(strListSplitter(str), stringToLongFunction));
+    }
+
+    public static List<Integer> intListSplitter(String str) {
+        return Lists.newArrayList(Collections2.transform(strListSplitter(str), stringToIntFunction));
+    }
+
+    public static List<String> strLineSplitter(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return Collections.emptyList();
+        }
+        return Lists.newArrayList(lineSplitter.split(str));
+    }
 }

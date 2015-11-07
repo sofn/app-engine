@@ -1,0 +1,16 @@
+server:
+    port: 8080
+spring:
+    main:
+        show-banner: false
+    jpa:
+        hibernate:
+            naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+    datasource:
+        initialize: true
+        sqlScriptEncoding: UTF-8
+    view:
+        prefix: /WEB-INF/jsp/
+        suffix: .jsp
+    profiles:
+        active: prod

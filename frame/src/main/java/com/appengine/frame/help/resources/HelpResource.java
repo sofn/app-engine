@@ -2,7 +2,7 @@ package com.appengine.frame.help.resources;
 
 import com.alibaba.fastjson.JSONObject;
 import com.appengine.auth.annotation.*;
-import com.appengine.common.config.DefaultConfigLoader;
+import com.appengine.common.config.DefaultProfileLoader;
 import com.appengine.frame.context.RequestContext;
 import org.apache.commons.lang3.RandomUtils;
 import org.javasimon.aop.Monitored;
@@ -44,7 +44,7 @@ public class HelpResource {
 
     @RequestMapping(value = "/echo", method = RequestMethod.POST)
     public JSONObject echo(@RequestParam String msg) {
-        if (DefaultConfigLoader.getInstance().isDevEnv()) {
+        if (!DefaultProfileLoader.isProd()) {
             try {
                 Thread.sleep(RandomUtils.nextInt(1, 100));
             } catch (InterruptedException e) {

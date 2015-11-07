@@ -1,6 +1,6 @@
 package com.appengine.deploy;
 
-import com.appengine.common.config.DefaultConfigLoader;
+import com.appengine.common.config.DefaultProfileLoader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class Application {
 
     public static void main(String[] args) {
-        DefaultConfigLoader.getInstance().getEnv();
+        DefaultProfileLoader.getInstance().getEnv();
         SpringApplication.run(Application.class, args);
     }
 

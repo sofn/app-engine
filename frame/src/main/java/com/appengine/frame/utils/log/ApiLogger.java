@@ -1,8 +1,8 @@
 package com.appengine.frame.utils.log;
 
 import com.alibaba.fastjson.JSONObject;
+import com.appengine.common.config.DefaultProfileLoader;
 import com.appengine.frame.context.ThreadLocalContext;
-import com.appengine.common.config.DefaultConfigLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +25,11 @@ public class ApiLogger {
     private static Logger fireLog = LoggerFactory.getLogger("fire");
 
     public static boolean isTraceEnabled() {
-        return log.isTraceEnabled() && !DefaultConfigLoader.getInstance().isProdEnv();
+        return log.isTraceEnabled() && !DefaultProfileLoader.isProd();
     }
 
     public static boolean isDebugEnabled() {
-        return log.isDebugEnabled() && !DefaultConfigLoader.getInstance().isProdEnv();
+        return log.isDebugEnabled() && !DefaultProfileLoader.isProd();
     }
 
     public static void trace(Object msg) {
@@ -41,7 +41,7 @@ public class ApiLogger {
     }
 
     public static void debug(Object msg) {
-        if (log.isDebugEnabled() && !DefaultConfigLoader.getInstance().isProdEnv()) {
+        if (log.isDebugEnabled() && !DefaultProfileLoader.isProd()) {
             log.debug(formatMsg(msg));
         }
     }
@@ -59,7 +59,7 @@ public class ApiLogger {
             return;
         }
         //非生产环境打印debug日志
-        if (log.isDebugEnabled() && !DefaultConfigLoader.getInstance().isProdEnv()) {
+        if (log.isDebugEnabled() && !DefaultProfileLoader.isProd()) {
             log.debug(formatMsg(tag, msg));
         }
     }
