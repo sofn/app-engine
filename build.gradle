@@ -39,6 +39,8 @@ subprojects {
         module {
             downloadJavadoc = false
             downloadSources = false
+            inheritOutputDirs = false
+            outputDir = file("$buildDir/classes/main/")
         }
     }
 
