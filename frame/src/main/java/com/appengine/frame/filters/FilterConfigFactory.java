@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import java.util.EnumSet;
 
 /**
  * Authors: sofn
@@ -20,6 +22,8 @@ public class FilterConfigFactory extends WebMvcConfigurerAdapter {
         Filter headerFilter = new RequestLogFilter();
         registration.setFilter(headerFilter);
         registration.setOrder(Integer.MAX_VALUE);
+        //拦截错误转发
+        registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
         return registration;
     }
 

@@ -1,28 +1,27 @@
 package com.appengine.frame.filters;
 
-import com.appengine.frame.utils.RequestLogRecord;
-import com.appengine.frame.utils.ResponseWrapper;
 import com.appengine.frame.context.RequestContext;
 import com.appengine.frame.context.ThreadLocalContext;
+import com.appengine.frame.utils.RequestLogRecord;
+import com.appengine.frame.utils.ResponseWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RequestLogFilter extends OncePerRequestFilter {
+public class RequestLogFilter implements Filter {
 
-    protected static final Logger logger = LoggerFactory.getLogger("REQUEST");
+    protected static final Logger logger = LoggerFactory.getLogger(RequestLogFilter.class);
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI();
         if (StringUtils.startsWith(path, "/webjars") || StringUtils.startsWith(path, "/static")) {
             filterChain.doFilter(request, response);
@@ -30,34 +29,41 @@ public class RequestLogFilter extends OncePerRequestFilter {
         }
 
         RequestContext context = ThreadLocalContext.getRequestContext();
+        MDC.put("requestId", context.getRequestId());
 
         response = new ResponseWrapper(response);
         long startTime = System.currentTimeMillis();
         try {
             filterChain.doFilter(request, response);
         } finally {
-            long endTime = System.currentTimeMillis();
-            RequestLogRecord record = new RequestLogRecord();
-            record.setRequestId(context.getRequestId());
-            record.setIp(request.getRemoteHost());
-            record.setUseTime(endTime - startTime);
-            record.setApi(request.getRequestURI());
-            record.setMethod(request.getMethod());
-            record.setParameters(request.getParameterMap());
-            record.setResponseStatus(response.getStatus());
-            record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
-            //text/html不打印body
-            if (!StringUtils.contains(response.getContentType(), "application/json")) {
-                record.setWriteBody(false);
+            if (StringUtils.equals("/error", request.getRequestURI()) || request.getAttribute("org.springframework.web.servlet.DispatcherServlet.EXCEPTION") == null) {
+                long endTime = System.currentTimeMillis();
+                RequestLogRecord record = new RequestLogRecord();
+                record.setRequestId(context.getRequestId());
+                record.setIp(request.getRemoteHost());
+                record.setUseTime(endTime - startTime);
+                record.setApi(context.getOriginRequest().getRequestURI());
+                record.setMethod(request.getMethod());
+                record.setParameters(request.getParameterMap());
+                record.setResponseStatus(response.getStatus());
+                record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
+                //text/html不打印body
+                if (!StringUtils.contains(response.getContentType(), "application/json")) {
+                    record.setWriteBody(false);
+                }
+                MDC.put("CUSTOM_LOG", "request");
+                logger.info(record.toString());
+                MDC.remove("CUSTOM_LOG");
+                ThreadLocalContext.clear();
             }
-            MDC.put("CUSTOM_LOG", "request");
-            logger.info(record.toString());
-            MDC.remove("CUSTOM_LOG");
-            ThreadLocalContext.clear();
         }
     }
 
-    private boolean isMultipart(final HttpServletRequest request) {
-        return request.getContentType() != null && request.getContentType().startsWith("multipart/form-data");
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
     }
 }
