@@ -19,19 +19,19 @@ subprojects {
     buildscript {
         repositories {
             mavenLocal()
-            maven { url "http://maven.oschina.net/content/groups/public/" }
+//            maven { url "http://maven.oschina.net/content/groups/public/" }
+            mavenCentral()
             maven { url "http://repo.spring.io/milestone" }
             maven { url 'http://repo.spring.io/libs-release' }
-            mavenCentral()
         }
     }
 
     repositories {
         mavenLocal()
-        maven { url "http://maven.oschina.net/content/groups/public/" }
+//        maven { url "http://maven.oschina.net/content/groups/public/" }
+        mavenCentral()
         maven { url "http://repo.spring.io/milestone" }
         maven { url 'http://repo.spring.io/libs-release' }
-        mavenCentral()
     }
 
     //idea插件会默认下载source和doc文件
@@ -117,5 +117,5 @@ project(":configs") {
 
 //执行gradle wrapper自动生成gradlew脚本及配置
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.7'
+    gradleVersion = '2.9'
 }
