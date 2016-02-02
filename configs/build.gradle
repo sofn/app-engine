@@ -3,3 +3,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-redis:$springBootVersion"
     compile "com.alibaba:druid:$druidVersion"
 }
+
+//环境变量只对配置文件有效
+ext {
+    profile = project['profile']
+}
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources/", "src/main/resources_${profile}"]
+        }
+    }
+}

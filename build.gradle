@@ -101,20 +101,6 @@ subprojects {
     }
 }
 
-//环境变量只对配置文件有效
-project(":configs") {
-    ext {
-        profile = project['profile']
-    }
-    sourceSets {
-        main {
-            resources {
-                srcDirs = ["src/main/resources/", "src/main/resources_${profile}"]
-            }
-        }
-    }
-}
-
 //执行gradle wrapper自动生成gradlew脚本及配置
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
