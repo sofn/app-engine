@@ -26,9 +26,10 @@ public class GuestAuthSpi extends AbstractAuthSpi {
     @Override
     public long auth(AuthRequest request) throws AuthException {
         ClientVersion version = ClientVersion.valueOf(request.getHeader(ClientVersion.VERSION_HEADER));
-        if (version.sdkVersion.equals(ClientVersion.Version.NULL)
+        if ((version.sdkVersion.equals(ClientVersion.Version.NULL)
                 || version.clientVersion.equals(ClientVersion.Version.NULL)
-                || version.udid.equals(ClientVersion.DEFAULT_UNKNOW)) {
+                || version.udid.equals(ClientVersion.DEFAULT_UNKNOW))
+                && request.getFrom() != AuthRequest.RequestFrom.INNER) {
             throw new AuthException(AuthExcepFactor.E_ILLEGAL_GUEST);
         }
         return 0;
