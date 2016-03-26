@@ -46,6 +46,7 @@ public class RequestLogFilter implements Filter {
                 record.setMethod(request.getMethod());
                 record.setParameters(request.getParameterMap());
                 record.setResponseStatus(response.getStatus());
+                record.setClientVersion(context.getClientVersion());
                 record.setResponse(new String(((ResponseWrapper) response).toByteArray(), response.getCharacterEncoding()));
                 //text/html不打印body
                 if (!StringUtils.contains(response.getContentType(), "application/json")) {
