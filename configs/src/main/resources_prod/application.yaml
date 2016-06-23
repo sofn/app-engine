@@ -4,15 +4,16 @@ management:
     port: 7002
 spring:
     main:
-        show-banner: false
+        banner-mode: off
     jpa:
         hibernate:
             naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
     datasource:
         initialize: true
         sqlScriptEncoding: UTF-8
-    view:
-        prefix: /WEB-INF/jsp/
-        suffix: .jsp
+    mvc:
+        view:
+            prefix: /WEB-INF/jsp/
+            suffix: .jsp
     profiles:
         active: prod
