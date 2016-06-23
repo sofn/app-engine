@@ -1,5 +1,6 @@
 package com.appengine.frame.filters;
 
+import com.appengine.common.exception.EngineException;
 import com.appengine.frame.context.RequestContext;
 import com.appengine.frame.context.ThreadLocalContext;
 import com.appengine.frame.utils.RequestLogRecord;
@@ -23,7 +24,8 @@ public class RequestLogFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI();
-        if (StringUtils.startsWith(path, "/webjars") || StringUtils.startsWith(path, "/static")) {
+        if (StringUtils.startsWithAny(path, "/webjars", "/static", "/js", "/css", "/libs", "/WEB-INF")
+                || StringUtils.endsWithAny(path, ".html", ".js", ".css", ".png", ".jpg", "gif", ".ico")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -35,14 +37,28 @@ public class RequestLogFilter implements Filter {
         long startTime = System.currentTimeMillis();
         try {
             filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            //此处拦截也必须抛出，否则不执行ErrorHandlerResource
+            if (e instanceof EngineException) {
+                logger.error("EngineException error", e.getMessage() + " " + ((EngineException) e).getErrorMsgCn());
+            } else if (e.getCause() instanceof EngineException) {
+                logger.error("EngineException error", e.getCause().getMessage() + " " + ((EngineException) e.getCause()).getErrorMsgCn());
+            } else {
+                logger.error("filterChain.doFilter error", e);
+            }
+            throw e;
         } finally {
-            if (StringUtils.equals("/error", request.getRequestURI()) || request.getAttribute("org.springframework.web.servlet.DispatcherServlet.EXCEPTION") == null) {
+            //如果是错误页面 或 没有错误的第一次执行
+            if (StringUtils.equals("/error", path) || request.getAttribute("org.springframework.boot.autoconfigure.web.DefaultErrorAttributes.ERROR") == null) {
                 long endTime = System.currentTimeMillis();
                 RequestLogRecord record = new RequestLogRecord();
                 record.setRequestId(context.getRequestId());
                 record.setIp(request.getRemoteHost());
+                record.setUid(context.getCurrentUid());
+                record.setSource(context.getAppId() + "");
                 record.setUseTime(endTime - startTime);
-                record.setApi(context.getOriginRequest().getRequestURI());
+                Object requestUri = request.getAttribute("javax.servlet.error.request_uri");
+                record.setApi(requestUri != null ? (String) requestUri : path);
                 record.setMethod(request.getMethod());
                 record.setParameters(request.getParameterMap());
                 record.setResponseStatus(response.getStatus());

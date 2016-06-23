@@ -173,10 +173,10 @@ public class RequestLogRecord {
     }
 
     public long getResponseSize() {
-        if (responseSize <= 0) {
-            responseSize = this.response.getBytes().length;
+        if (this.responseSize <= 0 && StringUtils.isNotBlank(this.response)) {
+            this.responseSize = this.response.getBytes().length;
         }
-        return responseSize;
+        return this.responseSize;
     }
 
     public void setResponseSize(long responseSize) {
