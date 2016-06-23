@@ -1,5 +1,7 @@
 server:
     port: 8080
+management:
+    port: 7002
 spring:
     main:
         show-banner: false
