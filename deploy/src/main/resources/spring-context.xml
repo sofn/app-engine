@@ -14,11 +14,6 @@
                 <bean class="com.appengine.frame.spring.context.RequestContextMethodArgumentResolver"/>
             </list>
         </property>
-        <property name="responseBodyAdvice">
-            <list>
-                <bean class="com.appengine.frame.spring.JsonResultValueHandler"/>
-            </list>
-        </property>
         <property name="messageConverters">
             <list>
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
