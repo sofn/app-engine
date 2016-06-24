@@ -30,8 +30,14 @@ public class WebTaskController {
     }
 
     @RequestMapping(value = "save", method = RequestMethod.GET)
-    public String save(@RequestParam long id, Model model) {
-        Task task = taskService.getTask(id);
+    public String save(
+            @RequestParam(required = false, defaultValue = "0") long id,
+            Model model
+    ) {
+        Task task = null;
+        if (id > 0) {
+            task = taskService.getTask(id);
+        }
         model.addAttribute("task", task);
         return "task/save";
     }
