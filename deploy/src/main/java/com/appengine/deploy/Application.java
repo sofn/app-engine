@@ -9,12 +9,14 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author sofn
  * @version 1.0 Created at: 2015-04-29 16:17
  */
 @Configuration
+@EnableSwagger2
 //多数据源不能自动配置
 //@EnableAutoConfiguration
 @ImportResource("classpath:spring-context.xml")

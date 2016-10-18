@@ -11,4 +11,5 @@
     <mapping path="/h2/*" exclue="true"/>
     <mapping path="/javasimon/*" exclue="true"/>
     <mapping path="/druid/*" exclue="true"/>
+    <mapping path="/swagger*" exclue="true"/>
 </sitemesh>

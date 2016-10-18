@@ -45,7 +45,8 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
     @Override
     protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
                                           HandlerMethod handlerMethod) throws Exception {
-        if (StringUtils.equals(request.getRequestURI(), ErrorHandlerResource.ERROR_PATH)) {
+        if (StringUtils.equals(request.getRequestURI(), ErrorHandlerResource.ERROR_PATH)
+                || StringUtils.startsWith(request.getRequestURI(), "/swagger-resources")) {
             return super.handleInternal(request, response, handlerMethod);
         }
 
