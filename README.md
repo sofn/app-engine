@@ -57,6 +57,9 @@ app-engine 是一个分布式的App服务端快速开发框架,包含了基本�
 > * 数据库监控： http://localhost:8080/druid
 > * Tomcat监控： http://localhost:7002/jolokia/read/Tomcat:type=Connector,port=8080
 
+#### 接口文档
+> * swagger: http://localhost:8080/swagger-ui.html
+
 #### TODO
 > * 完善用户模块
 > * 完善注释
