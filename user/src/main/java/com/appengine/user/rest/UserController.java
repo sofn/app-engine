@@ -10,6 +10,7 @@ import com.appengine.auth.spi.MAuthSpi;
 import com.appengine.frame.context.RequestContext;
 import com.appengine.user.domain.User;
 import com.appengine.user.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,7 @@ public class UserController {
 
     @BaseInfo(desc = "登陆", needAuth = AuthType.OPTION)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "测试接口1", notes = "简单接口描述 userName必填", code = 200, produces = "application/json")
     public JSONObject login(
             HttpServletResponse response,
             @RequestParam String username,
@@ -61,6 +63,7 @@ public class UserController {
 
     @RequestMapping(value = "/show")
     @BaseInfo(desc = "显示用户信息", status = ApiStatus.PUBLIC, needAuth = AuthType.REQUIRED)
+    @ApiOperation(value = "测试接口2", notes = "简单接口描述", code = 200, produces = "application/json")
     public User show(RequestContext rc, @RequestParam(required = false, defaultValue = "0") long uid) {
         if (uid <= 0) {
             uid = rc.getCurrentUid();

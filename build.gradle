@@ -19,7 +19,7 @@ subprojects {
     buildscript {
         repositories {
             mavenLocal()
-//            maven { url "http://maven.oschina.net/content/groups/public/" }
+            maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
             mavenCentral()
             maven { url "http://repo.spring.io/milestone" }
             maven { url 'http://repo.spring.io/libs-release' }
@@ -28,7 +28,7 @@ subprojects {
 
     repositories {
         mavenLocal()
-//        maven { url "http://maven.oschina.net/content/groups/public/" }
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         mavenCentral()
         maven { url "http://repo.spring.io/milestone" }
         maven { url 'http://repo.spring.io/libs-release' }

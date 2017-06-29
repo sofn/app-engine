@@ -15,6 +15,7 @@ import com.appengine.frame.help.resources.ErrorHandlerResource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
@@ -41,12 +42,14 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
     private CounterService counterService;
     @Resource
     private RateLimitAuthService rateLimitAuthService;
+    @Value("${profile}")
+    private String profile;
 
     @Override
     protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
                                           HandlerMethod handlerMethod) throws Exception {
         if (StringUtils.equals(request.getRequestURI(), ErrorHandlerResource.ERROR_PATH)
-                || StringUtils.startsWith(request.getRequestURI(), "/swagger-resources")) {
+                || !StringUtils.equals(profile, "prod")) {
             return super.handleInternal(request, response, handlerMethod);
         }
 

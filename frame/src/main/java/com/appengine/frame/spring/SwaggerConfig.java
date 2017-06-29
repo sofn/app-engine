@@ -1,17 +1,16 @@
 package com.appengine.frame.spring;
 
-import com.appengine.frame.spring.context.SwaggerIgnore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import static com.google.common.base.Predicates.not;
-import static com.google.common.base.Predicates.or;
-import static springfox.documentation.builders.PathSelectors.regex;
-import static springfox.documentation.builders.RequestHandlerSelectors.withClassAnnotation;
+import java.util.Collections;
 
 /**
  * @author sofn
@@ -21,28 +20,28 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
 public class SwaggerConfig {
     @Bean
     public Docket merchantStoreApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("internal-api")
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("internal-api")
                 .genericModelSubstitutes(DeferredResult.class)
                 .useDefaultResponseMessages(false)
                 .forCodeGeneration(true)
                 .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
-                .select().apis(not(withClassAnnotation(SwaggerIgnore.class))) //SwaggerIngore的注解的controller将会被忽略
-                .paths(or(regex("/users/.*")))
-                .paths(or(regex("/task/.*")))
+                .select()
+                .apis(RequestHandlerSelectors.any()) // 对所有api进行监控
+                .paths(PathSelectors.any()) // 对所有路径进行监控
                 .build()
                 .apiInfo(testApiInfo());
     }
 
     private ApiInfo testApiInfo() {
-        ApiInfo apiInfo = new ApiInfo("标题文档",//大标题
-                "文档的详细说",//小标题
-                "0.1",//版本
+        return new ApiInfo("APP-ENGINE接口文档",
+                "文档说明",
+                "0.1",
                 "NO terms of service",
-                "razorer@razorer.com",//作者
-                "The Apache License, Version 2.0",//链接显示文字
-                "www.razorer.com"//网站链接
+                new Contact("sofn", "https://github.com/sofn", "lesofn@gmail.com"),
+                "The Apache License, Version 2.0",
+                "https://www.apache.org/licenses/LICENSE-2.0.html",
+                Collections.emptyList()
         );
-
-        return apiInfo;
     }
 }
