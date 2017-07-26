@@ -7,5 +7,6 @@
 </head>
 <body>
 <sitemesh:write property='body'/>
+
 </body>
 </html>

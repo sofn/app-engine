@@ -1,21 +1,21 @@
 dependencies {
     //common
-    compile "commons-codec:commons-codec:1.10"
+    compile "commons-codec:commons-codec:$commonsCodecVersion"
     compile "com.google.guava:guava:$guavaVersion"
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
     compile "commons-io:commons-io:$commonsIOVersion"
 
     //DB
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-    compile "org.springframework.boot:spring-boot-starter-redis:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion"
     compile "com.alibaba:druid:$druidVersion"
     compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
     compile 'com.h2database:h2:1.4.189'
 
     //util
     compile "com.alibaba:fastjson:$fastjsonVersion"
-    compile 'org.javatuples:javatuples:1.2'
-    compile 'org.projectlombok:lombok:1.16.6'
+    compile "org.javatuples:javatuples:$javatuplesVersion"
+    compile "org.projectlombok:lombok:$lombokVersion"
 
     //web
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"

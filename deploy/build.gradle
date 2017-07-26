@@ -1,12 +1,10 @@
-apply plugin: 'spring-boot'
-apply plugin: 'war'
-
 buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-        classpath("org.springframework:springloaded:${springLoadedVersion}")
     }
 }
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
 
 //构建可执行jar/war包
 configurations {
@@ -25,15 +23,17 @@ ext {
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.18"
-    compile 'org.jolokia:jolokia-core:1.3.1' //JMX
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion"
+    providedRuntime "org.apache.tomcat.embed:tomcat-embed-jasper:$tomcatVersion"
+    compile "org.jolokia:jolokia-core:$jolokiaVersion" //JMX
 
     //web
-    compile 'org.sitemesh:sitemesh:3.0.1'
-    compile 'org.webjars:bootstrap:3.3.5'
-    compile 'org.webjars:jquery:2.1.4'
-    providedRuntime "javax.servlet:jstl:1.2"
+    compile "org.sitemesh:sitemesh:$sitemeshVersion"
+    compile "org.webjars:bootstrap:$webBootstrapVersion"
+    compile "org.webjars:jquery:$webJqueryVersion"
+    providedRuntime "javax.servlet:jstl:$jstlVersion"
 
+    compile project(":common")
     compile project(":configs")
     compile project(":frame")
     compile project(":user")

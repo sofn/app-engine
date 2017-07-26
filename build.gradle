@@ -45,8 +45,7 @@ subprojects {
     }
 
     dependencies {
-        testCompile "junit:junit:4.11"
-        testCompile 'org.assertj:assertj-core:3.2.0'
+        testCompile "org.assertj:assertj-core:$assertjVersion"
         testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     }
 
@@ -103,5 +102,5 @@ subprojects {
 
 //执行gradle wrapper自动生成gradlew脚本及配置
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.9'
+    gradleVersion = '4.0.1'
 }

@@ -3,13 +3,17 @@ package com.appengine.auth.spi;
 import com.appengine.auth.model.AuthExcepFactor;
 import com.appengine.auth.model.AuthException;
 import com.appengine.auth.model.AuthRequest;
+import com.appengine.auth.provider.DefaultUserProvider;
 import com.appengine.auth.provider.UserProvider;
+import com.appengine.auth.service.DefaultAuthService;
+import com.appengine.frame.spring.ApplicationContextHolder;
 import com.appengine.frame.utils.log.ApiLogger;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author jolestar@gmail.com
@@ -18,9 +22,6 @@ import javax.annotation.Resource;
 public class BasicAuthSpi extends AbstractAuthSpi {
 
     public static final String SPI_NAME = "basic";
-
-    @Resource
-    private UserProvider userProvider;
 
     @Override
     public String getName() {
@@ -64,7 +65,12 @@ public class BasicAuthSpi extends AbstractAuthSpi {
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             throw new AuthException(AuthExcepFactor.E_USER_AUTHFAIL);
         }
-        long uid = this.userProvider.authUser(username, password);
+
+        long uid = 0;
+        Optional<UserProvider> provider = DefaultAuthService.getUserProvider();
+        if (provider.isPresent()) {
+            uid = provider.get().authUser(username, password);
+        }
         if (uid <= 0) {
             throw new AuthException(AuthExcepFactor.E_AUTH_PASSWORD_ERROR, "username or password error");
         }

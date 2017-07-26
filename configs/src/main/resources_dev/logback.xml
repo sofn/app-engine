@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration error="true" scan="true" scanPeriod="2 seconds" debug="true">
+<configuration error="true" scan="false" scanPeriod="2 seconds" debug="true">
 
     <contextName>APP-ENGINE</contextName>
     <!--路径-->

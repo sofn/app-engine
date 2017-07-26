@@ -3,7 +3,6 @@ package com.appengine.frame.spring;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
-import com.appengine.frame.help.resources.ErrorHandlerResource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
@@ -38,7 +37,7 @@ public class JsonResultValueHandler implements ResponseBodyAdvice<Object> {
             body = new JSONObject();
         }
 
-        if (StringUtils.equals(((ServletServerHttpRequest) request).getServletRequest().getServletPath(), ErrorHandlerResource.ERROR_PATH)) {
+        if (StringUtils.equals(((ServletServerHttpRequest) request).getServletRequest().getServletPath(), "/error")) {
             result.put("apistatus", 0);
             if (body instanceof String) {
                 body = JSON.parse((String) body);

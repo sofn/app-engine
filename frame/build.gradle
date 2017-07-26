@@ -6,6 +6,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
 
     //monitor
-    compile 'org.javasimon:javasimon-spring:4.1.0'
-    compile 'org.javasimon:javasimon-console-embed:4.1.0'
+    compile "org.javasimon:javasimon-spring:$javasimonVersion"
+    compile "org.javasimon:javasimon-console-embed:$javasimonVersion"
 }

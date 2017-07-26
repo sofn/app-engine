@@ -6,6 +6,7 @@ import com.appengine.auth.model.AuthExcepFactor;
 import com.appengine.auth.model.AuthException;
 import com.appengine.auth.model.AuthRequest;
 import com.appengine.auth.model.AuthResponse;
+import com.appengine.auth.provider.DefaultUserProvider;
 import com.appengine.auth.provider.UserProvider;
 import com.appengine.auth.spi.AuthSpi;
 import com.appengine.auth.spi.BasicAuthSpi;
@@ -13,6 +14,7 @@ import com.appengine.auth.spi.GuestAuthSpi;
 import com.appengine.auth.spi.NullAuthSpi;
 import com.appengine.common.context.ClientVersion;
 import com.appengine.common.exception.EngineExceptionHelper;
+import com.appengine.frame.spring.ApplicationContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -23,7 +25,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -39,9 +40,6 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
     private List<AuthSpi> authSpis = new ArrayList<>();
     private Map<String, AuthSpi> authSpiMap = new HashMap<>();
 
-    @Resource
-    private UserProvider userProvider;
-
     @Override
     public AuthResponse auth(AuthRequest request, Optional<BaseInfo> baseInfo) {
         AuthType type;
@@ -54,9 +52,10 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
         long uid = 0;
         try {
             uid = spi.auth(request);
+            Optional<UserProvider> provider = getUserProvider();
             if (!StringUtils.equals(spi.getName(), BasicAuthSpi.SPI_NAME)
                     && !StringUtils.equals(spi.getName(), GuestAuthSpi.SPI_NAME)
-                    && !userProvider.isValidUser(uid)) {
+                    && (provider.isPresent() && !provider.get().isValidUser(uid))) {
                 uid = 0;
                 LOGGER.warn("auth passed,but uid not found: " + uid + " authType: " + spi.getName());
                 throw EngineExceptionHelper.localException(AuthExcepFactor.E_USER_AUTHFAIL);
@@ -136,5 +135,17 @@ public class DefaultAuthService implements AuthService, ApplicationContextAware,
     @SuppressWarnings("unchecked")
     public <T extends AuthSpi> T getAuthSpi(String name) {
         return (T) this.authSpiMap.get(name.toLowerCase());
+    }
+
+    public static Optional<UserProvider> getUserProvider() {
+        List<UserProvider> beans = ApplicationContextHolder.getBeans(UserProvider.class);
+        if (beans.size() == 1) {
+            return Optional.ofNullable(beans.get(0));
+        } else if (beans.size() > 1) {
+            return beans.stream().filter(b -> !(b instanceof DefaultUserProvider)).findFirst();
+        } else {
+            return Optional.empty();
+        }
+
     }
 }

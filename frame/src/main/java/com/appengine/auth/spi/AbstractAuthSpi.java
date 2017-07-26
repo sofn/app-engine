@@ -11,9 +11,6 @@ import javax.annotation.Resource;
  */
 public abstract class AbstractAuthSpi implements AuthSpi {
 
-    @Resource
-    protected UserProvider userProvider;
-
     @Override
     public boolean canAuth(AuthRequest request) {
         try {

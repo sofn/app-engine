@@ -3,8 +3,6 @@ server:
 management:
     port: 7002
 spring:
-    main:
-        banner-mode: off
     jpa:
         hibernate:
             naming_strategy: org.hibernate.cfg.EJB3NamingStrategy

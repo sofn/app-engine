@@ -1,21 +1,18 @@
-package com.appengine.frame.help.resources;
+package com.appengine.deploy.error;
 
-import com.appengine.frame.filters.GlobalExceptionHandler;
-import com.appengine.common.exception.ExcepFactor;
 import com.appengine.common.exception.EngineException;
 import com.appengine.common.exception.EngineExceptionHelper;
-import com.appengine.frame.utils.log.ApiLogger;
+import com.appengine.common.exception.ExcepFactor;
+import com.appengine.common.utils.GlobalConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 404处理
@@ -65,7 +62,7 @@ public class ErrorHandlerResource implements ErrorController {
             apiException = EngineExceptionHelper.localException(ExcepFactor.E_DEFAULT);
             log.error(errorMsg, exception);
         }
-        if (MediaType.TEXT_HTML.equals(mediaType)) {
+        if (MediaType.TEXT_HTML.equals(mediaType) || StringUtils.endsWithAny(path, GlobalConstants.staticResourceArray)) {
             return "<!DOCTYPE html>\n" +
                     "<html>\n" +
                     "<head>\n" +

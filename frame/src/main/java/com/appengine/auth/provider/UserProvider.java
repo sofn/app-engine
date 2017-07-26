@@ -4,7 +4,7 @@ package com.appengine.auth.provider;
 import com.appengine.auth.model.AuthRequest;
 
 /**
- * @author jolestar@gmail.com
+ * @author sofn
  */
 public interface UserProvider {
 
@@ -14,7 +14,7 @@ public interface UserProvider {
      * @param uid
      * @return
      */
-    public boolean isValidUser(long uid);
+    boolean isValidUser(long uid);
 
     /**
      * 该用户是否有权限访问
@@ -32,6 +32,6 @@ public interface UserProvider {
      * @param password      不能为空
      * @return uid
      */
-    public long authUser(String loginName, String password);
+    long authUser(String loginName, String password);
 
 }

@@ -1,6 +1,7 @@
 package com.appengine.frame.filters;
 
 import com.appengine.common.exception.EngineException;
+import com.appengine.common.utils.GlobalConstants;
 import com.appengine.frame.context.RequestContext;
 import com.appengine.frame.context.ThreadLocalContext;
 import com.appengine.frame.utils.RequestLogRecord;
@@ -25,7 +26,7 @@ public class RequestLogFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI();
         if (StringUtils.startsWithAny(path, "/webjars", "/static", "/js", "/css", "/libs", "/WEB-INF")
-                || StringUtils.endsWithAny(path, ".html", ".js", ".css", ".png", ".jpg", "gif", ".ico")) {
+                || StringUtils.endsWithAny(path, GlobalConstants.staticResourceArray)) {
             filterChain.doFilter(request, response);
             return;
         }

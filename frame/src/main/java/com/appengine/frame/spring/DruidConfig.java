@@ -1,7 +1,7 @@
 package com.appengine.frame.spring;
 
 import com.alibaba.druid.support.http.StatViewServlet;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.ServletContext;
