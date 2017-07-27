@@ -3,7 +3,7 @@
 
     <contextName>APP-ENGINE</contextName>
     <!--路径-->
-    <property name="logback.logs.path" value="../logs"/>
+    <property name="logback.logs.path" value="logs"/>
     <!--日志模块名-->
     <property name="logback.logs.module.name" value="default"/>
 

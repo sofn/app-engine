@@ -25,6 +25,7 @@ docker {
 
 task buildDocker(type: Docker, dependsOn: build) {
     applicationName = jar.baseName
+    version = "${profile}-${project.version}"
     push = false
     doFirst {
         copy {
@@ -34,7 +35,7 @@ task buildDocker(type: Docker, dependsOn: build) {
     }
     addFile("${project.name}-${project.version}.war", "/opt")
     workingDir("/opt")
-    entryPoint(["/usr/bin/java", "-jar", "${project.name}-${project.version}.war"])
+    entryPoint(["/usr/bin/java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "${project.name}-${project.version}.war"])
 }
 
 //只对gradle spring-boot:run 有效
