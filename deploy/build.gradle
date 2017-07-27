@@ -1,10 +1,12 @@
 buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
 apply plugin: 'war'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
 
 //构建可执行jar/war包
 configurations {
@@ -14,6 +16,25 @@ configurations {
 //fully executable applications for Unix systems
 springBoot {
     executable = true
+}
+
+docker {
+    baseImage "openjdk:8"
+    maintainer 'appEngine "lesofn@gmail.com"'
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    applicationName = jar.baseName
+    push = false
+    doFirst {
+        copy {
+            from war
+            into stageDir
+        }
+    }
+    addFile("${project.name}-${project.version}.war", "/opt")
+    workingDir("/opt")
+    entryPoint(["/usr/bin/java", "-jar", "${project.name}-${project.version}.war"])
 }
 
 //只对gradle spring-boot:run 有效
