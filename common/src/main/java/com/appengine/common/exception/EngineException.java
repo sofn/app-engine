@@ -1,6 +1,5 @@
 package com.appengine.common.exception;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class EngineException extends RuntimeException {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(EngineException.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineException.class);
 
     private final Map<String, Object> parameters = new HashMap<>();
     private ExcepFactor factor;
@@ -96,11 +95,9 @@ public class EngineException extends RuntimeException {
 
     public String formatException(String path) {
         if (path == null) {
-            throw new IllegalArgumentException(
-                    " path argument is null");
+            throw new IllegalArgumentException("path argument is null");
         }
-        ExcepFactor factor = this.getFactor();
-        return String.format(ERROR_FORMAT, StringEscapeUtils.escapeEcmaScript(this.getMessage()), StringEscapeUtils.escapeEcmaScript(this.getErrorMsgCn()), factor.getErrorCode(), path);
+        return String.format(ERROR_FORMAT, this.getMessage(), this.getErrorMsgCn(), this.getFactor().getErrorCode(), path);
     }
 
     public void formatException(String path, Writer writer) {
